@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.example.archivai.presentation.auth.ui.LoginScreen
 import com.example.archivai.presentation.ui.theme.ArchivAITheme
 
 @SuppressLint("CustomSplashScreen")
@@ -14,7 +15,7 @@ class SplashActivity : ComponentActivity() {
 
         setContent {
             ArchivAITheme {
-                SplashScreen()
+                LoginScreen()
 
             }
 

@@ -21,9 +21,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ArchivAITheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 
-                }
+
+
             }
         }
     }

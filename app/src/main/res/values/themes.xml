@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ArchivAI" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.MyApp.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/archive_ai_logo</item> <!-- Use your PNG here -->
+        <item name="windowSplashScreenAnimationDuration">1000</item> <!-- Animation duration in ms -->
+
+    </style>
+
+
+</resources>

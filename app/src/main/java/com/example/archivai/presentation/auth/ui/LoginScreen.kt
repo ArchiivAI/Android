@@ -49,6 +49,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.archivai.R
 import com.example.archivai.presentation.ui.theme.play_fair_font
 

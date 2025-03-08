@@ -62,16 +62,17 @@ fun SplashScreen() {
                 Arrangement.Center,
                 Alignment.CenterHorizontally
             ) {
+                Image(
+                    painter = painterResource(R.drawable.archive_ai_logo_splash),
+                    contentDescription = "App logo", modifier = Modifier.size(150.dp)
+                )
                 Text(
                     text = "Welcome to ArchivAI !",
                     fontSize = 24.sp, color = Color.White,
                     fontFamily = play_fair_font, fontStyle = FontStyle.Normal
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                Image(
-                    painter = painterResource(R.drawable.archive_ai_logo),
-                    contentDescription = "App logo", modifier = Modifier.size(150.dp)
-                )
+
 
 
             }

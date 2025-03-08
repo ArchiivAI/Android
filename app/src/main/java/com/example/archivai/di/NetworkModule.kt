@@ -1,5 +1,6 @@
 package com.example.archivai.di
 
+import com.example.archivai.data.auth.AuthApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +38,11 @@ object NetworkModule {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
+
+    @Provides
+    @Singleton
+    fun provideAuthApiService(retrofit: Retrofit) : AuthApiService =
+        retrofit.create(AuthApiService::class.java)
 
 
 

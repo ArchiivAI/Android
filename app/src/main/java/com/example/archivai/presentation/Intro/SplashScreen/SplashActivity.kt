@@ -1,11 +1,10 @@
 package com.example.archivai.presentation.Intro.SplashScreen
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.archivai.presentation.auth.ui.LoginScreen
+import com.example.archivai.presentation.auth.ui.screens.LoginScreen
 import com.example.archivai.presentation.ui.theme.ArchivAITheme
 import dagger.hilt.android.AndroidEntryPoint
 

@@ -51,6 +51,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.archivai.R
+import com.example.archivai.presentation.auth.ui.composables.ImageContainer
+import com.example.archivai.presentation.auth.ui.composables.RectangleButton
+import com.example.archivai.presentation.auth.ui.composables.Spacer10
+import com.example.archivai.presentation.auth.ui.composables.Spacer16
+import com.example.archivai.presentation.auth.ui.composables.Spacer24
+import com.example.archivai.presentation.auth.ui.composables.Spacer32
+import com.example.archivai.presentation.auth.ui.composables.TopText
 import com.example.archivai.presentation.ui.theme.play_fair_font
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -67,10 +74,9 @@ fun LoginScreen() {
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-        Text(text = "Welcome To ArchivAI", fontSize = 32.sp , color = Color(0XFF132863) , fontFamily = play_fair_font , fontWeight = FontWeight.Normal)
-        Spacer(modifier = Modifier.size(32.dp))
-        Image(painter = painterResource(R.drawable.archive_ai_logo), contentDescription = null
-        , modifier = Modifier.size(240.dp))
+        TopText("Welcome To ArchivAI")
+        Spacer32()
+        ImageContainer(R.drawable.archive_ai_logo)
 
 OutlinedTextField(
     value = email,
@@ -83,7 +89,7 @@ OutlinedTextField(
 
 
 )
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer16()
 OutlinedTextField(
     value = password,
     onValueChange = {password = it},
@@ -102,7 +108,7 @@ OutlinedTextField(
     },
     visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
     )
-        Spacer(modifier = Modifier.size(10.dp))
+        Spacer10()
         Row(modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp ),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -125,15 +131,9 @@ OutlinedTextField(
 
 
         }
-        Spacer(modifier = Modifier.size(32.dp))
-        Button(onClick = {},
-            modifier = Modifier.fillMaxWidth().height(48.dp).padding(start=24.dp,end =24.dp),
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0XFF132863))
-        ) {
-            Text(text = "Log in",fontSize= 18.sp, color = Color.White)
-
-        }
-        Spacer(modifier = Modifier.size(24.dp))
+        Spacer32()
+        RectangleButton("Login")
+        Spacer24()
         Row (verticalAlignment = Alignment.CenterVertically){
             Text(text = "Don't have an account?", fontSize = 16.sp, fontFamily = play_fair_font , fontWeight = FontWeight.Normal , color = Color.DarkGray )
             TextButton(onClick = {}) {

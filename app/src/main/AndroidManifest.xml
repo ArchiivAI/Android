@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ArchivAI"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.Intro.SplashScreen.SplashActivity"
+            android:name=".auth.presentation.Intro.SplashScreen.SplashActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ArchivAI">
@@ -23,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.MainActivity" android:exported="false"/>
+        <activity android:name="com.example.MainActivity" android:exported="false"/>
 
 
     </application>

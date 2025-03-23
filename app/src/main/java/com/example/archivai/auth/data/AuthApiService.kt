@@ -16,20 +16,20 @@ interface AuthApiService {
 
 
     @Headers("Content-Type: application/json","accept: */*")
-    @POST
+    @POST("/api/Auth/login")
     suspend fun login(@Body loginRequest: LoginRequest) : LoginResponse
 
     @Headers("Content-Type: application/json","accept: */*")
-    @POST
+    @POST("/api/Auth/verify-otp")
     suspend fun verifyOtp(@Body otpVerifyRequest: OtpVerifyRequest) : OtpVerifyRequestConfirmation
 
     @Headers("Content-Type: application/json","accept: */*")
-    @POST
+    @POST("/api/Auth/send-change-Password-mail")
     suspend fun sendChangePasswordEmail(@Body sendChangePasswordMailRequest: SendChangePasswordMailRequest) : SendChangePasswordMailResponse
 
 
     @Headers("Content-Type: application/json","accept: */*")
-    @POST
+    @POST("/api/Auth/change-password")
     suspend fun changePassword(@Body changePasswordRequest: ChangePasswordRequest) : ChangePasswordResponse
 
 

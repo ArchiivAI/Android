@@ -34,14 +34,15 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit =Retrofit.Builder()
-        .baseUrl("https://archivai-backend.azurewebsites.net/")
+        .baseUrl("https://archivai-backend.azurewebsites.net")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit) : AuthApiService =
+    fun
+            provideAuthApiService(retrofit: Retrofit) : AuthApiService =
         retrofit.create(AuthApiService::class.java)
 
 

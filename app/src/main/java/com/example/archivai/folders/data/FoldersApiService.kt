@@ -63,7 +63,7 @@ interface FoldersApiService {
 
     //create Folder in Folder
     @Headers("accept: */*" , "Content-Type: application/json")
-    @POST("/api/Folders")
+    @POST("/api/Folders/SubFolder")
     suspend fun createSubFolder(
         @Body request: CreateSubFolderRequest,
         @Header("Authorization") token : String,

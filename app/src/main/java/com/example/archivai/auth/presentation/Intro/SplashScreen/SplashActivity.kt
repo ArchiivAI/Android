@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import com.example.archivai.presentation.auth.ui.screens.LoginScreen
+import com.example.archivai.auth.presentation.ui.screens.LoginScreen
+
 import com.example.ui.theme.ArchivAITheme
 import dagger.hilt.android.AndroidEntryPoint
 

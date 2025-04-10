@@ -14,14 +14,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.archivai.R
-import com.example.archivai.presentation.auth.ui.composables.EmailContainer
-import com.example.archivai.presentation.auth.ui.composables.ImageContainer
-import com.example.archivai.presentation.auth.ui.composables.RectangleButton
-import com.example.archivai.presentation.auth.ui.composables.Spacer10
-import com.example.archivai.presentation.auth.ui.composables.Spacer16
-import com.example.archivai.presentation.auth.ui.composables.Spacer32
-import com.example.archivai.presentation.auth.ui.composables.Spacer64
-import com.example.archivai.presentation.auth.ui.composables.TopText
+import com.example.archivai.auth.presentation.ui.composables.EmailContainer
+import com.example.archivai.auth.presentation.ui.composables.ImageContainer
+import com.example.archivai.auth.presentation.ui.composables.RectangleButton
+import com.example.archivai.auth.presentation.ui.composables.Spacer10
+import com.example.archivai.auth.presentation.ui.composables.Spacer16
+import com.example.archivai.auth.presentation.ui.composables.Spacer32
+import com.example.archivai.auth.presentation.ui.composables.Spacer64
+import com.example.archivai.auth.presentation.ui.composables.TopText
+
 import com.example.ui.theme.play_fair_font
 
 @Composable

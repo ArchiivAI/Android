@@ -21,7 +21,9 @@ interface AuthApiService {
 
     @Headers("Content-Type: application/json","accept: */*")
     @POST("/api/Auth/verify-otp")
-    suspend fun verifyOtp(@Body otpVerifyRequest: OtpVerifyRequest) : OtpVerifyRequestConfirmation
+    suspend fun verifyOtp(
+        @Body otpVerifyRequest: OtpVerifyRequest
+    ) : OtpVerifyRequestConfirmation
 
     @Headers("Content-Type: application/json","accept: */*")
     @POST("/api/Auth/send-change-Password-mail")

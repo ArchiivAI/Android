@@ -29,9 +29,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.archivai.R
-import com.example.archivai.presentation.auth.ui.composables.ImageContainer
-import com.example.archivai.presentation.auth.ui.composables.Spacer50
-import com.example.archivai.presentation.auth.ui.composables.TopText
+import com.example.archivai.auth.presentation.ui.composables.ImageContainer
+import com.example.archivai.auth.presentation.ui.composables.Spacer50
+import com.example.archivai.auth.presentation.ui.composables.TopText
+
 import com.example.ui.theme.play_fair_font
 
 @OptIn(ExperimentalMaterial3Api::class)

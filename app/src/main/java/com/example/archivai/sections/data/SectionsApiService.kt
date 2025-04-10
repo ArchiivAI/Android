@@ -4,7 +4,7 @@ import com.example.archivai.sections.data.models.createSection.CreateSectionRequ
 import com.example.archivai.sections.data.models.createSection.CreateSectionResponse
 import com.example.archivai.sections.data.models.deleteSection.DeleteSectionResponse
 import com.example.archivai.sections.data.models.getSectionDetails.GetSectionDetailsResponse
-import com.example.archivai.sections.data.models.getSections.Section
+import com.example.archivai.sections.data.models.Section
 import com.example.archivai.sections.data.models.renameSection.RenameRequest
 import com.example.archivai.sections.data.models.renameSection.RenameSectionResponse
 import retrofit2.http.Body

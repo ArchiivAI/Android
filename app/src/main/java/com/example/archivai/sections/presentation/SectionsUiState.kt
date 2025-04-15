@@ -10,7 +10,8 @@ data class SectionsUiState (
     val showEditPermissionsDialog : Boolean = false,
     val isGridView : Boolean = false,
     val showFabOptions : Boolean = false,
-    val showErrorMessage : String? = null
+    val showErrorMessage : String? = null,
+    val selectedIndex  : Int = 1
 
 
 

@@ -73,7 +73,7 @@ fun OnBoardingScreen2(navController : NavController) {
             Spacer(modifier = Modifier.size(65.dp))
 
             Image(
-                painter = painterResource(R.drawable.chatgpt_robot_holding_loupe),
+                painter = painterResource(R.drawable.onb2),
                 contentDescription = null, modifier = Modifier.size(200.dp)
             )
             Spacer(modifier = Modifier.size(96.dp))

@@ -73,7 +73,7 @@ fun OnBoardingScreen3(navController : NavController) {
             Spacer(modifier = Modifier.size(65.dp))
 
             Image(
-                painter = painterResource(R.drawable.shield_with_lock),
+                painter = painterResource(R.drawable.onb3),
                 contentDescription = null, modifier = Modifier.size(200.dp)
             )
             Spacer(modifier = Modifier.size(96.dp))
@@ -106,7 +106,7 @@ fun OnBoardingScreen3(navController : NavController) {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = { navController.navigate(NavRoutes.SectionsScreen.route) },
+                onClick = { navController.navigate(NavRoutes.Sections.route) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ArchivAI</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_sections">Sections</string>
+    <string name="nav_roles">Roles</string>
+    <string name="nav_employees">Employees</string>
 </resources>

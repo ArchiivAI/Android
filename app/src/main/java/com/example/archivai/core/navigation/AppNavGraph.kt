@@ -39,7 +39,7 @@ fun AppNavGraph(navController: NavHostController) {
             OnBoardingScreen3(navController)
         }
 
-        composable (route = NavRoutes.SectionsScreen.route){
+        composable (route = NavRoutes.Sections.route){
             SectionsScreen()
         }
 

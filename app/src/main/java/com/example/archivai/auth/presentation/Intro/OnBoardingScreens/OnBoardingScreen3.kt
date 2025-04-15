@@ -32,11 +32,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.core.navigation.NavRoutes
+import com.example.archivai.sections.presentation.SectionsScreen
 import com.example.ui.theme.play_fair_font
 
 @Composable
-fun OnBoardingScreen3() {
+fun OnBoardingScreen3(navController : NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(R.drawable.dashboard),
@@ -102,7 +106,7 @@ fun OnBoardingScreen3() {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = { },
+                onClick = { navController.navigate(NavRoutes.SectionsScreen.route) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),
@@ -130,6 +134,6 @@ fun OnBoardingScreen3() {
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingScreen3Preview (modifier: Modifier = Modifier) {
-    OnBoardingScreen3()
+    OnBoardingScreen3(rememberNavController())
 
 }

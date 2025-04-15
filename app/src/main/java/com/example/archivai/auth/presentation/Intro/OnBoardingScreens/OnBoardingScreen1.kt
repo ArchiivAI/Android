@@ -29,11 +29,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.core.navigation.NavRoutes
 import com.example.ui.theme.play_fair_font
+import com.example.ui.theme.rubik_regular
 
 @Composable
-fun OnBoardingScreen1() {
+fun OnBoardingScreen1(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(R.drawable.dashboard),
@@ -74,7 +78,7 @@ fun OnBoardingScreen1() {
 
                 fontStyle = FontStyle.Normal,
                 fontWeight = FontWeight.Normal,
-                fontFamily = play_fair_font
+                fontFamily = rubik_regular
 
             )
             Spacer(modifier = Modifier.size(48.dp))
@@ -92,7 +96,7 @@ fun OnBoardingScreen1() {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = {   },
+                onClick = {  navController.navigate(NavRoutes.OnBoarding2.route) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),
@@ -102,7 +106,7 @@ fun OnBoardingScreen1() {
                 Text(
                     "Next", color = Color(0XFF132863),
                     fontSize = 16.sp,
-                    fontFamily = FontFamily.SansSerif,
+                    fontFamily = rubik_regular,
                     fontWeight = FontWeight.Bold,
                     fontStyle = FontStyle.Normal
                 )
@@ -126,5 +130,5 @@ fun OnBoardingScreen1() {
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingScreen1Preview(modifier: Modifier = Modifier) {
-    OnBoardingScreen1()
+    OnBoardingScreen1(rememberNavController())
 }

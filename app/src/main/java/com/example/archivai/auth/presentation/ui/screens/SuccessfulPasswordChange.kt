@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.auth.presentation.ui.composables.ImageContainer
 import com.example.archivai.auth.presentation.ui.composables.RectangleButton
@@ -23,7 +25,7 @@ import com.example.archivai.auth.presentation.ui.composables.Spacer72
 import com.example.ui.theme.play_fair_font
 
 @Composable
-fun SuccessfulPasswordChange() {
+fun SuccessfulPasswordChange(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -56,5 +58,5 @@ fun SuccessfulPasswordChange() {
 @Preview(showBackground = true)
 @Composable
 fun SuccessfulPasswordChangePreview(modifier: Modifier = Modifier) {
-    SuccessfulPasswordChange()
+    SuccessfulPasswordChange(rememberNavController())
 }

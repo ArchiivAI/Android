@@ -70,20 +70,6 @@ interface SectionsApiService {
 
 
 
-    //get section permissions by user
-
-    suspend fun getSectionPermissionsByUser(
-
-
-    )
-
-    //view section's permitted employee
-
-    suspend fun viewPermittedEmployeesForSection(
-
-
-
-    )
 
 
 

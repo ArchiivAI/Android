@@ -2,6 +2,7 @@ package com.example.archivai.sections.di
 
 import com.example.archivai.sections.data.SectionsApiService
 import com.example.archivai.sections.data.repository.SectionsRepositoryImpl
+import com.example.archivai.sections.domain.SectionsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +23,7 @@ object SectionsModule {
 
     @Provides
     @Singleton
-    fun provideSectionsRepository(sectionsApiService: SectionsApiService) =
+    fun provideSectionsRepository(sectionsApiService: SectionsApiService) : SectionsRepository =
         SectionsRepositoryImpl(sectionsApiService)
 
 }

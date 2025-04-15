@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.auth.presentation.ui.composables.ImageContainer
 import com.example.archivai.auth.presentation.ui.composables.RectangleButton
@@ -49,7 +51,7 @@ import com.example.ui.theme.play_fair_font
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -158,6 +160,6 @@ OutlinedTextField(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview(modifier: Modifier = Modifier) {
-    LoginScreen()
+    LoginScreen(rememberNavController())
 
 }

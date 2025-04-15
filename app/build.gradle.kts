@@ -64,6 +64,7 @@ dependencies {
     implementation("androidx.core:core-splashscreen:1.0.0")
     //navigation
     implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
     //material icons
     implementation ("androidx.compose.material:material-icons-extended")
     implementation(platform("androidx.compose:compose-bom:2024.04.01"))

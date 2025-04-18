@@ -46,6 +46,7 @@ import com.example.archivai.auth.presentation.ui.composables.Spacer16
 import com.example.archivai.auth.presentation.ui.composables.Spacer24
 import com.example.archivai.auth.presentation.ui.composables.Spacer32
 import com.example.archivai.auth.presentation.ui.composables.TopText
+import com.example.archivai.core.navigation.NavRoutes
 
 import com.example.ui.theme.play_fair_font
 
@@ -121,7 +122,7 @@ OutlinedTextField(
 
         }
         Spacer32()
-        RectangleButton("Login")
+        RectangleButton("Login", onClick = {navController.navigate(NavRoutes.Sections.route)})
         Spacer24()
         Row (verticalAlignment = Alignment.CenterVertically){
             Text(text = "Don't have an account?", fontSize = 16.sp, fontFamily = play_fair_font , fontWeight = FontWeight.Normal , color = Color.DarkGray )

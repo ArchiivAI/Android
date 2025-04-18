@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RectangleButton(text : String) {
-    Button(onClick = {},
+fun RectangleButton(text : String,onClick : ()-> Unit) {
+    Button(onClick = onClick,
         modifier = Modifier.fillMaxWidth().height(48.dp).padding(start=24.dp,end =24.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0XFF132863))
     ) {

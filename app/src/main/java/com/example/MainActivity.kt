@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.archivai.Main
 
 import com.example.archivai.auth.presentation.Intro.OnBoardingScreens.OnBoardingScreen1
 import com.example.archivai.auth.presentation.Intro.SplashScreen.SplashScreen
@@ -29,9 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ArchivAITheme {
-                val navController = rememberNavController()
-                AppNavGraph(navController = navController)
-
+                Main()
 
 
 

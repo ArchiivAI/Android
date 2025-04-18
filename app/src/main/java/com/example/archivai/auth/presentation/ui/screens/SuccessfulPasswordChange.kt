@@ -47,7 +47,7 @@ fun SuccessfulPasswordChange(navController: NavController) {
         )
         Spacer32()
         Spacer10()
-        RectangleButton("Go to Home")
+        RectangleButton("Go to Home",{})
 
 
 

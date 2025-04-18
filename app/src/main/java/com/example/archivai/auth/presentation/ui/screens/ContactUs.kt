@@ -38,7 +38,7 @@ fun ContactUsScreen(navController: NavController) {
         Spacer16()
 
         Spacer64()
-        RectangleButton("Send")
+        RectangleButton("Send",{})
 
 
 

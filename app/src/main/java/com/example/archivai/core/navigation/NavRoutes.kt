@@ -6,6 +6,7 @@ sealed class NavRoutes(val route : String) {
     object OnBoarding1 : NavRoutes("onBoarding1")
     object OnBoarding2 : NavRoutes("onBoarding2")
     object OnBoarding3 : NavRoutes("onBoarding3")
+    object Login : NavRoutes("login")
     object Sections : NavRoutes("sections")
     object Employees : NavRoutes("employees")
     object Roles : NavRoutes("roles")

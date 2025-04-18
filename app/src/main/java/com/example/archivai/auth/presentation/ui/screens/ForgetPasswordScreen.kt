@@ -55,7 +55,7 @@ fun ForgetPasswordScreen(navController: NavController) {
 
         )
         Spacer64()
-        RectangleButton("Send")
+        RectangleButton("Send",{})
 
 
 

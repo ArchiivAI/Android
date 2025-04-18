@@ -106,7 +106,7 @@ fun OnBoardingScreen3(navController : NavController) {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = { navController.navigate(NavRoutes.Sections.route) },
+                onClick = { navController.navigate(NavRoutes.Login.route) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),

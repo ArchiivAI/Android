@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archivai.R
 import com.example.archivai.sections.presentation.components.CustomFloatingActionButton
-import com.example.archivai.sections.presentation.components.FabBottomSheet
 import com.example.archivai.sections.presentation.components.MainBottomBar
 import com.example.archivai.sections.presentation.components.SectionCard
 import com.example.archivai.sections.presentation.components.bottomNavItems

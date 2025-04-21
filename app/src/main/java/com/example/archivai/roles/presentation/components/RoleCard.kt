@@ -57,7 +57,7 @@ fun RoleCard(id : Int) {
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "ID $id",
+                        text = "ID : $id",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )

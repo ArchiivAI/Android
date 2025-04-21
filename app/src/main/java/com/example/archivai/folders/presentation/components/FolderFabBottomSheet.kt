@@ -48,7 +48,7 @@ fun FolderFabBottomSheet(
                 iconRes = R.drawable.upload_file,
                 text = "Upload File",
                 textColor = AppColor,
-                onClick = onAddFileWithAIClick
+                onClick = onUploadFileClick
             )
             Spacer(modifier = Modifier.height(16.dp))
 

@@ -28,11 +28,11 @@ import com.example.ui.theme.rubik_semibold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FabBottomSheet(
+fun FolderFabBottomSheet(
     onDismiss: () -> Unit,
-    onScanClick: () -> Unit,
+    onUploadFileClick: () -> Unit,
     onAddFileWithAIClick: () -> Unit,
-    onCreateSectionClick: () -> Unit,
+    onCreateFolderClick: () -> Unit,
 ) {
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
@@ -44,6 +44,14 @@ fun FabBottomSheet(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
+            BottomSheetItem(
+                iconRes = R.drawable.upload_file,
+                text = "Upload File",
+                textColor = AppColor,
+                onClick = onAddFileWithAIClick
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+
 
             // Add File With AI Option
             BottomSheetItem(
@@ -56,48 +64,21 @@ fun FabBottomSheet(
 
             // Create Section Option
             BottomSheetItem(
-                iconRes = R.drawable.section_icon,
-                text = "Create Section",
+                iconRes = R.drawable.folder_icon,
+                text = "Create Folder",
                 textColor = AppColor,
-                onClick = onCreateSectionClick
+                onClick = onCreateFolderClick
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
 
-@Composable
-fun BottomSheetItem(
-    iconRes: Int,
-    text: String,
-    textColor: Color,
-    onClick: () -> Unit
-) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            painter = painterResource(id = iconRes),
-            contentDescription = text,
-            tint = textColor,
-            modifier = Modifier.padding(end = 16.dp)
-        )
-        Text(
-            text = text,
-            color = textColor,
-            fontSize = 16.sp,
-            fontFamily = rubik_regular
-        )
-    }
-}
+
 
 @Preview(showBackground = true)
 @Composable
-fun FabBottomSheetPreview() {
+fun FolderFabBottomSheetPreview() {
     Column(
         modifier = Modifier
             .fillMaxWidth()

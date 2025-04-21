@@ -1,4 +1,4 @@
-package com.example.archivai.sections.presentation.components
+package com.example.archivai.folders.presentation.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -17,24 +17,31 @@ import com.example.ui.theme.AppColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SectionPermissionDialog(
+fun FolderPermissionDialog(
     onDismissRequest: () -> Unit,
     onApply: () -> Unit
 ) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         // State for dropdown selection
-        var selectedOption by remember { mutableStateOf("Employee") }
-        val options = listOf("Employee", "Role")
+        var selectedOption by remember { mutableStateOf("EMPLOYEE") }
+        val options = listOf("EMPLOYEE", "ROLE")
         var expanded by remember { mutableStateOf(false) }
 
         // State for text field
         var employeeRoleText by remember { mutableStateOf("") }
 
-        // State for checkboxes
-        var viewSection by remember { mutableStateOf(true) }
-        var editSection by remember { mutableStateOf(true) }
-        var createUploadFolders by remember { mutableStateOf(false) }
-        var deleteFolders by remember { mutableStateOf(true) }
+        // State for folder checkboxes
+        var viewFolder by remember { mutableStateOf(false) }
+        var editFolder by remember { mutableStateOf(false) }
+        var deleteFolder by remember { mutableStateOf(false) }
+        var createUploadSubFolders by remember { mutableStateOf(false) }
+        var deleteSubFolders by remember { mutableStateOf(false) }
+        var uploadFiles by remember { mutableStateOf(false) }
+
+        // State for files checkboxes
+        var viewFiles by remember { mutableStateOf(true) }
+        var deleteFiles by remember { mutableStateOf(true) }
+        var editFiles by remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -44,7 +51,7 @@ fun SectionPermissionDialog(
         ) {
             // Dropdown for Employee/Role
             Text(
-                text = "Choose",
+                text = "CHOOSE",
                 fontSize = 14.sp,
                 color = AppColor,
                 modifier = Modifier.padding(bottom = 8.dp)
@@ -108,9 +115,9 @@ fun SectionPermissionDialog(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Section Name and Checkboxes
+            // Folder Name and Checkboxes
             Text(
-                text = "SECTION NAME",
+                text = "FOLDER NAME",
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
@@ -119,46 +126,112 @@ fun SectionPermissionDialog(
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
-                    checked = viewSection,
-                    onCheckedChange = { viewSection = it },
+                    checked = viewFolder,
+                    onCheckedChange = { viewFolder = it },
                     colors = CheckboxDefaults.colors(
                         checkedColor = AppColor
                     )
                 )
-                Text(text = "View Section", fontSize = 14.sp, color = Color.Black)
+                Text(text = "View Folder", fontSize = 14.sp, color = Color.Black)
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
-                    checked = editSection,
-                    onCheckedChange = { editSection = it },
+                    checked = editFolder,
+                    onCheckedChange = { editFolder = it },
                     colors = CheckboxDefaults.colors(
                         checkedColor = AppColor
                     )
                 )
-                Text(text = "Edit Section", fontSize = 14.sp, color = Color.Black)
+                Text(text = "Edit Folder", fontSize = 14.sp, color = Color.Black)
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
-                    checked = createUploadFolders,
-                    onCheckedChange = { createUploadFolders = it },
+                    checked = deleteFolder,
+                    onCheckedChange = { deleteFolder = it },
                     colors = CheckboxDefaults.colors(
                         checkedColor = AppColor
                     )
                 )
-                Text(text = "Create/Upload Folders", fontSize = 14.sp, color = Color.Black)
+                Text(text = "Delete Folder", fontSize = 14.sp, color = Color.Black)
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(
-                    checked = deleteFolders,
-                    onCheckedChange = { deleteFolders = it },
+                    checked = createUploadSubFolders,
+                    onCheckedChange = { createUploadSubFolders = it },
                     colors = CheckboxDefaults.colors(
                         checkedColor = AppColor
                     )
                 )
-                Text(text = "Delete Folders", fontSize = 14.sp, color = Color.Black)
+                Text(text = "Create /Upload Sub Folders", fontSize = 14.sp, color = Color.Black)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = deleteSubFolders,
+                    onCheckedChange = { deleteSubFolders = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = AppColor
+                    )
+                )
+                Text(text = "Delete Sub Folders", fontSize = 14.sp, color = Color.Black)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = uploadFiles,
+                    onCheckedChange = { uploadFiles = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = AppColor
+                    )
+                )
+                Text(text = "Upload Files", fontSize = 14.sp, color = Color.Black)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Files Section and Checkboxes
+            Text(
+                text = "FILES",
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black,
+                modifier = Modifier.padding(bottom = 8.dp)
+            )
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = viewFiles,
+                    onCheckedChange = { viewFiles = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = AppColor
+                    )
+                )
+                Text(text = "View Files", fontSize = 14.sp, color = Color.Black)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = deleteFiles,
+                    onCheckedChange = { deleteFiles = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = AppColor
+                    )
+                )
+                Text(text = "Delete Files", fontSize = 14.sp, color = Color.Black)
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(
+                    checked = editFiles,
+                    onCheckedChange = { editFiles = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = AppColor
+                    )
+                )
+                Text(text = "Edit Files", fontSize = 14.sp, color = Color.Black)
             }
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -198,8 +271,8 @@ fun SectionPermissionDialog(
 
 @Preview(showBackground = true)
 @Composable
-fun SectionPermissionDialogPreview() {
-    SectionPermissionDialog(
+fun FolderPermissionDialogPreview() {
+    FolderPermissionDialog(
         onDismissRequest = {},
         onApply = {}
     )

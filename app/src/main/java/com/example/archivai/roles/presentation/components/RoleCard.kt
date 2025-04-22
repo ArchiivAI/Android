@@ -32,13 +32,14 @@ import androidx.compose.ui.unit.dp
 import com.example.ui.theme.AppColor
 
 @Composable
-fun RoleCard(id : Int) {
+fun RoleCard(id : Int , name : String) {
     Card(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(4.dp)
+        elevation = CardDefaults.cardElevation(4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Row(
             modifier = Modifier
@@ -86,6 +87,6 @@ fun RoleCard(id : Int) {
 @Composable
 fun RoleCardPreview() {
     MaterialTheme {
-        RoleCard(id = 225)
+        RoleCard(name = "HR",id = 225)
     }
 }

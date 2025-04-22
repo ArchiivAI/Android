@@ -59,7 +59,7 @@ fun FolderSettingsBottomSheet(
 
             // View Permitted Employees
             SettingsBottomSheetItem(
-                iconRes = R.drawable.permited_employees_icon,
+                iconRes = R.drawable.view,
                 text = "View Permitted Employees",
                 textColor = AppColor,
                 onClick = onViewPermittedPermissions

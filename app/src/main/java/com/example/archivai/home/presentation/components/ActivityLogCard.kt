@@ -22,7 +22,7 @@ import com.example.ui.theme.rubik_regular
 import com.example.ui.theme.rubik_semibold
 
 @Composable
-fun ActivityLogCard() {
+fun ActivityLogCard(name : String , body : String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,9 +45,9 @@ fun ActivityLogCard() {
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontFamily = rubik_semibold)) {
-                        append("Ahmed ")
+                        append(name)
                     }
-                    append("add 4 files in folder (folder name) lorem ipsum dolor set amet")
+                    append(body)
                 },
                 fontSize = 14.sp,
                 fontFamily = rubik_regular,
@@ -69,5 +69,5 @@ fun ActivityLogCard() {
 @Preview(showBackground = true)
 @Composable
 fun ActivityLogCardPreview() {
-    ActivityLogCard()
+    ActivityLogCard("","")
 }

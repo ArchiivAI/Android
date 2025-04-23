@@ -13,6 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.ui.theme.rubik_bold
+import com.example.ui.theme.rubik_regular
 
 data class StorageBreakdown(
     val totalUsed: Float, // e.g., 120 GB
@@ -36,7 +38,8 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
             text = "${breakdown.totalUsed.toInt()} GB of ${breakdown.totalCapacity.toInt()} GB Used",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            color = Color.White,
+            fontFamily = rubik_bold
         )
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -107,7 +110,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                         .background(Color(0xFF4CAF50))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Word", fontSize = 12.sp, color = Color.White)
+                Text(text = "Word", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
             // Image
@@ -119,7 +122,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                         .background(Color(0xFFAB47BC))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Image", fontSize = 12.sp, color = Color.White)
+                Text(text = "Image", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
             // Excel
@@ -131,7 +134,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                         .background(Color(0xFF26C6DA))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "Excel", fontSize = 12.sp, color = Color.White)
+                Text(text = "Excel", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
             // PDF
@@ -143,7 +146,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                         .background(Color(0xFFF06292))
                 )
                 Spacer(modifier = Modifier.width(4.dp))
-                Text(text = "PDF", fontSize = 12.sp, color = Color.White)
+                Text(text = "PDF", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
         }
     }

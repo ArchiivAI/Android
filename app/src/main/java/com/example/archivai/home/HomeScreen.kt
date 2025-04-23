@@ -15,9 +15,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,13 +28,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.archivai.R
-import com.example.archivai.home.presentation.components.ActivityLogCard
-import com.example.archivai.home.presentation.components.TopAppBar
+import com.example.archivai.activity_log.presentation.components.ActivityLogCard
+import com.example.archivai.home.presentation.components.HomeTopAppBar
+
 import com.example.archivai.sections.presentation.components.SectionCard
 import com.example.ui.theme.AppColor
 
 
-data class ActivityLogEntry(val name: String, val body: String)
+
 data class SectionEntry(val sectionName: String, val noOfFolders: Int)
 
 @Composable
@@ -49,7 +47,7 @@ fun HomeScreen() {
     ) {
 
         Column {
-            TopAppBar("Ahmed")
+            HomeTopAppBar("Ahmed")
 
 
             Column(

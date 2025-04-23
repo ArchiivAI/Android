@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.example.archivai.R
 
 @Composable
-fun TopAppBar(userName: String, onSearchClick: () -> Unit = {}, onProfileClick: () -> Unit = {}) {
+fun HomeTopAppBar(userName: String, onSearchClick: () -> Unit = {}, onProfileClick: () -> Unit = {}) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -68,6 +68,6 @@ fun TopAppBar(userName: String, onSearchClick: () -> Unit = {}, onProfileClick: 
 
 @Preview(showBackground = true)
 @Composable
-private fun TopAppBarPreview() {
-    TopAppBar("Ahmed")
+private fun HomeTopAppBarPreview() {
+    HomeTopAppBar("Ahmed")
 }

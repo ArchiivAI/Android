@@ -1,7 +1,8 @@
-package com.example.archivai.home.presentation.components
+package com.example.archivai.activity_log.presentation.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -27,13 +28,19 @@ fun ActivityLogCard(name : String , body : String) {
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White, shape = RoundedCornerShape(8.dp))
-            .padding(16.dp),
+            .padding(4.dp)
+            .border(
+                width = 1.dp,
+                color = Color(0xFFE0E0E0), // Light gray outline
+                shape = RoundedCornerShape(8.dp)
+            ).padding(12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Avatar placeholder
         Image(
             painter = painterResource(R.drawable.image_placeholder),
-            contentDescription = ""
+            contentDescription = "",
+            modifier = Modifier.size(40.dp)
 
         )
 
@@ -47,7 +54,7 @@ fun ActivityLogCard(name : String , body : String) {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold, fontFamily = rubik_semibold)) {
                         append(name)
                     }
-                    append(body)
+                    append(" $body")
                 },
                 fontSize = 14.sp,
                 fontFamily = rubik_regular,

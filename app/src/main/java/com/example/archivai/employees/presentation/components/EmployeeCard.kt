@@ -31,8 +31,7 @@ import com.example.ui.theme.rubik_regular
 fun EmployeeCard(
     name: String,
     email: String,
-    role: String,
-    id: String,
+    id: Int,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -121,8 +120,7 @@ fun EmployeeCardPreview() {
     EmployeeCard(
         name = "Ahmed Ali",
         email = "ahmedali11@archival.com",
-        role = "view all",
-        id = "202344798",
+        id = 202344798,
         modifier = Modifier.padding(16.dp)
     )
 }

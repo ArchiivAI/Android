@@ -24,6 +24,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.MainActivity
 import com.example.ui.theme.play_fair_font
@@ -31,7 +33,7 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         delay(2000)
@@ -63,7 +65,7 @@ fun SplashScreen() {
                 Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(R.drawable.archive_ai_logo_splash),
+                    painter = painterResource(R.drawable.archive_ai_logo),
                     contentDescription = "App logo", modifier = Modifier.size(150.dp)
                 )
                 Text(
@@ -83,5 +85,5 @@ fun SplashScreen() {
 @Composable
 fun SplashScreenPreview (modifier: Modifier = Modifier) {
 
-    SplashScreen()
+    SplashScreen(rememberNavController())
 }

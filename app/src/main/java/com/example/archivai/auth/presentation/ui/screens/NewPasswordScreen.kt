@@ -28,6 +28,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.auth.presentation.ui.composables.ImageContainer
 import com.example.archivai.auth.presentation.ui.composables.Spacer50
@@ -37,7 +39,7 @@ import com.example.ui.theme.play_fair_font
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewPasswordScreen() {
+fun NewPasswordScreen(navController: NavController) {
 
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -100,6 +102,6 @@ OutlinedTextField(
 
 @Preview(showBackground = true)
 @Composable
-fun NewPasswordScreenPreview(modifier: Modifier = Modifier) {
-
+fun NewPasswordScreenPreview() {
+NewPasswordScreen(rememberNavController())
 }

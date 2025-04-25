@@ -34,7 +34,66 @@ val Typography = Typography(
     )
     */
 )
+
+
 val play_fair_font = FontFamily(
     Font(R.font.playfair_extrabold , FontWeight.Normal)
 
+)
+val rubik_regular = FontFamily(
+    Font(R.font.rubik_regular, FontWeight.Normal)
+)
+
+val rubik_bold = FontFamily(
+    Font(R.font.rubik_bold, FontWeight.Bold)
+)
+
+val rubik_medium = FontFamily(
+    Font(R.font.rubik_medium, FontWeight.Medium)
+)
+
+val rubik_light = FontFamily(
+    Font(R.font.rubik_light, FontWeight.Light)
+)
+
+val rubik_semibold = FontFamily(
+    Font(R.font.rubik_semibold, FontWeight.SemiBold)
+)
+
+val rubik_extrabold = FontFamily(
+    Font(R.font.rubik_extra_bold, FontWeight.ExtraBold)
+)
+
+val rubik_black = FontFamily(
+    Font(R.font.rubik_black, FontWeight.Black)
+)
+
+// Add italic variants if you have them
+val rubik_italic = FontFamily(
+    Font(R.font.rubik_italic, FontWeight.Normal)
+)
+
+val rubik_bold_italic = FontFamily(
+    Font(R.font.rubik_bold_italic, FontWeight.Bold)
+)
+
+val rubik_medium_italic = FontFamily(
+    Font(R.font.rubik_mediumitalic, FontWeight.Medium)
+)
+val RubikTypography = Typography(
+    titleLarge = TextStyle(
+        fontFamily = rubik_bold,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp, // Match FolderCard
+        lineHeight = 20.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelSmall = TextStyle(
+        fontFamily = rubik_medium,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp, // Match FolderCard
+        lineHeight = 18.sp,
+        letterSpacing = 0.5.sp
+    )
+    // Add other styles as needed
 )

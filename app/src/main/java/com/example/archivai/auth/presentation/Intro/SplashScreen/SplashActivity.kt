@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.auth.presentation.ui.screens.LoginScreen
 
 import com.example.ui.theme.ArchivAITheme
@@ -17,7 +18,7 @@ class SplashActivity : ComponentActivity() {
 
         setContent {
             ArchivAITheme {
-                LoginScreen()
+                LoginScreen(rememberNavController())
 
             }
 

@@ -33,11 +33,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.core.navigation.NavRoutes
 import com.example.ui.theme.play_fair_font
 
 @Composable
-fun OnBoardingScreen2() {
+fun OnBoardingScreen2(navController : NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(R.drawable.dashboard),
@@ -70,7 +73,7 @@ fun OnBoardingScreen2() {
             Spacer(modifier = Modifier.size(65.dp))
 
             Image(
-                painter = painterResource(R.drawable.chatgpt_robot_holding_loupe),
+                painter = painterResource(R.drawable.onb2),
                 contentDescription = null, modifier = Modifier.size(200.dp)
             )
             Spacer(modifier = Modifier.size(96.dp))
@@ -103,7 +106,7 @@ fun OnBoardingScreen2() {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = { },
+                onClick = {navController.navigate(NavRoutes.OnBoarding3.route) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),
@@ -134,5 +137,5 @@ fun OnBoardingScreen2() {
 @Preview(showBackground = true)
 @Composable
 fun OnBoardingScreen2Preview(modifier: Modifier = Modifier) {
-    OnBoardingScreen2()
+    OnBoardingScreen2(rememberNavController())
 }

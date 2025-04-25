@@ -36,6 +36,8 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.auth.presentation.ui.composables.ImageContainer
 import com.example.archivai.auth.presentation.ui.composables.RectangleButton
@@ -44,12 +46,13 @@ import com.example.archivai.auth.presentation.ui.composables.Spacer16
 import com.example.archivai.auth.presentation.ui.composables.Spacer24
 import com.example.archivai.auth.presentation.ui.composables.Spacer32
 import com.example.archivai.auth.presentation.ui.composables.TopText
+import com.example.archivai.core.navigation.NavRoutes
 
 import com.example.ui.theme.play_fair_font
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
@@ -119,7 +122,7 @@ OutlinedTextField(
 
         }
         Spacer32()
-        RectangleButton("Login")
+        RectangleButton("Login", onClick = {navController.navigate(NavRoutes.Sections.route)})
         Spacer24()
         Row (verticalAlignment = Alignment.CenterVertically){
             Text(text = "Don't have an account?", fontSize = 16.sp, fontFamily = play_fair_font , fontWeight = FontWeight.Normal , color = Color.DarkGray )
@@ -158,6 +161,6 @@ OutlinedTextField(
 @Preview(showBackground = true)
 @Composable
 fun LoginScreenPreview(modifier: Modifier = Modifier) {
-    LoginScreen()
+    LoginScreen(rememberNavController())
 
 }

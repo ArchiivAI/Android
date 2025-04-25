@@ -1,4 +1,4 @@
-package com.example.archivai.sections.data.models.getSections
+package com.example.archivai.sections.data.models
 
 data class Section(
     val id : Int ,

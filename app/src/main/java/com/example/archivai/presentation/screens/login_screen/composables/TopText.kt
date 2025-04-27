@@ -6,13 +6,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.archivai.presentation.theme.play_fair_font
+import com.example.archivai.presentation.theme.rubik_semibold
 
 @Composable
 fun TopText(text : String) {
     Text(text = text,
-        fontSize = 32.sp ,
+        fontSize = 20.sp ,
         color = Color(0XFF132863) ,
-        fontFamily = play_fair_font ,
+        fontFamily = rubik_semibold,
         fontWeight = FontWeight.Normal)
 
 }

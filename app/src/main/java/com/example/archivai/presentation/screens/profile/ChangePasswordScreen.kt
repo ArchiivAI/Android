@@ -1,7 +1,7 @@
-package com.example.archivai.presentation.screens.forget_password.new_password
+package com.example.archivai.presentation.screens.profile
+
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -47,19 +47,18 @@ import com.example.archivai.presentation.screens.login_screen.composables.Spacer
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer50
 import com.example.archivai.presentation.screens.login_screen.composables.TopText
 import com.example.archivai.presentation.theme.AppColor
-
-import com.example.archivai.presentation.theme.play_fair_font
 import com.example.archivai.presentation.theme.rubik_medium
 import com.example.archivai.presentation.theme.rubik_regular
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewPasswordScreen(navController: NavController) {
+fun ChangePasswordScreen(navController: NavController) {
 
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(vertical = 30.dp),
 
         horizontalAlignment = Alignment.CenterHorizontally
@@ -79,12 +78,49 @@ fun NewPasswordScreen(navController: NavController) {
                     .size(20.dp)
             )
             Spacer(modifier = Modifier.width(16.dp))
-            TopText("Create New Password")
+            TopText("Change Password")
         }
 
         Spacer50()
         ImageContainer(R.drawable.small_chatbot_with_locked_padlock)
         Spacer50()
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = {
+                Text(
+                    text = "Old Password",
+                    color = Color(0xFF132863),
+                    fontFamily = rubik_regular,
+                    fontWeight = FontWeight.Normal
+                )
+            },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = null,
+                    tint = Color(0XFF132863)
+                )
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp),
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF132863),
+                unfocusedBorderColor = Color(0xFF132863)
+            ),
+            trailingIcon = {
+                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                    Icon(
+                        imageVector = if (passwordVisible)
+                            Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
+                        contentDescription = null
+                    )
+                }
+            },
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        )
+        Spacer16()
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
@@ -121,6 +157,7 @@ fun NewPasswordScreen(navController: NavController) {
             },
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         )
+
         Spacer16()
         OutlinedTextField(
             value = password,
@@ -172,13 +209,12 @@ fun NewPasswordScreen(navController: NavController) {
             )
         ) {
             Text(
-                text = "Create",
+                text = "Change",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 fontFamily = rubik_medium
             )
         }
-
 
 
     }
@@ -188,5 +224,5 @@ fun NewPasswordScreen(navController: NavController) {
 @Preview(showBackground = true)
 @Composable
 fun NewPasswordScreenPreview() {
-    NewPasswordScreen(rememberNavController())
+    ChangePasswordScreen(rememberNavController())
 }

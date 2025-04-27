@@ -60,7 +60,7 @@ fun AddNewRoleScreen(navController: NavController) {
                     painterResource(R.drawable.arrow_icon),
                     contentDescription = "back icon",
                     modifier = Modifier
-                        .clickable {}
+                        .clickable {navController.popBackStack()}
                         .align(Alignment.CenterVertically)
                         .padding(6.dp)
                 )

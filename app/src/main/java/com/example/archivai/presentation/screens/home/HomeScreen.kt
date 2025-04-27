@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.activity_log.components.ActivityLogCard
 import com.example.archivai.presentation.screens.home.components.HomeTopAppBar
 
@@ -95,7 +96,7 @@ fun HomeScreen(navController: NavController) {
                         fontSize = 14.sp,
                         color = AppColor,
                         textDecoration = TextDecoration.Underline,
-                        modifier = Modifier.clickable { /* Handle click */ }
+                        modifier = Modifier.clickable { navController.navigate(Screens.ActivityLog) }
                     )
                 }
 

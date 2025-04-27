@@ -1,4 +1,4 @@
-package com.example.archivai.core
+package com.example.archivai.common
 
 sealed class Resource <T> (val data : T?=null,val message :String? = null){
     class Success<T> (data :T) : Resource<T> (data)

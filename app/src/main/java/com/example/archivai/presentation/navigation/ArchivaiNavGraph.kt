@@ -23,7 +23,7 @@ import com.example.archivai.presentation.screens.sections.sectionsScreenRoute
 @Composable
 fun ArchivaiNavGraph(navController: NavHostController) {
 
-    NavHost(navController, startDestination = Screens.Home){
+    NavHost(navController, startDestination = Screens.OnBoarding){
         contactUsScreenRoute(navController)
         activityLogScreenRoute(navController)
         employeesScreenRoute(navController)

@@ -32,7 +32,7 @@ import com.example.archivai.R
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.MainBottomBar
 import com.example.archivai.presentation.screens.sections.components.SectionCard
-import com.example.archivai.presentation.screens.sections.components.bottomNavItems
+
 
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
@@ -91,20 +91,6 @@ fun SectionsScreen(navController: NavController) {
                     }
 
                 }
-                MainBottomBar(
-                    bottomNavItems, 1, onItemSelected = { /*index ->
-                        selectedIndex.value = index
-                        when (index) {
-                            0 -> navController.navigate("home")
-                            1 -> navController.navigate("sections")
-                            2 -> navController.navigate("roles")
-                            3 -> navController.navigate("employees")
-                        }
-                    */
-                    }, contentColor = AppColor,
-                    backgroundColor = AppColor.copy(alpha = 0.1f)
-
-                )
 
 
             }

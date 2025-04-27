@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
-import com.example.archivai.core.navigation.NavRoutes
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
@@ -94,7 +94,7 @@ fun OnBoardingScreen(navController: NavController) {
             }
             Spacer(modifier = Modifier.size(96.dp))
             Button(
-                onClick = {  navController.navigate(NavRoutes.OnBoarding2.route) },
+                onClick = {  navController.navigate(Screens.Login) },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
                     .height(48.dp),

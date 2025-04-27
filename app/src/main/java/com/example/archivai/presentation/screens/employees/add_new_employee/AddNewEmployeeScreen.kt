@@ -67,7 +67,7 @@ fun AddNewEmployeeScreen(navController: NavController) {
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
-                    text = "Create New Role",
+                    text = "Add New Employee",
                     fontFamily = rubik_semibold,
                     fontSize = 20.sp,
                     color = AppColor,

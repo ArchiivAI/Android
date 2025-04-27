@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.employees.components.EmployeeCard
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
@@ -67,7 +68,7 @@ fun EmployeeScreen(navController: NavController) {
                     contentDescription = "add icon",
                     modifier = Modifier
                         .size(20.dp)
-                        .clickable {},
+                        .clickable {navController.navigate(Screens.AddNewEmployee)},
                     tint = AppColor
                 )
 

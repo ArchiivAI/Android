@@ -65,7 +65,7 @@ fun SplashScreen(navController: NavController) {
                 Alignment.CenterHorizontally
             ) {
                 Image(
-                    painter = painterResource(R.drawable.archive_ai_logo),
+                    painter = painterResource(R.drawable.archive_ai_logo_splash),
                     contentDescription = "App logo", modifier = Modifier.size(150.dp)
                 )
                 Text(

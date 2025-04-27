@@ -5,9 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.rememberNavController
-import com.example.archivai.presentation.screens.OnBoardingScreens.OnBoardingScreen
-import com.example.archivai.presentation.screens.login_screen.LoginScreen
-
+import com.example.archivai.presentation.screens.OnBoardingScreens.OnBoardingScreens
 import com.example.archivai.presentation.theme.ArchivAITheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +17,7 @@ class SplashActivity : ComponentActivity() {
 
         setContent {
             ArchivAITheme {
-                OnBoardingScreen(rememberNavController())
+                OnBoardingScreens(rememberNavController())
 
             }
 

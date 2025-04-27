@@ -61,7 +61,6 @@ fun NewPasswordScreen(navController: NavController) {
     Column(
         modifier = Modifier.fillMaxSize()
             .padding(vertical = 30.dp),
-
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {

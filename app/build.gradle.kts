@@ -102,6 +102,9 @@ dependencies {
     //animated navigation bar
     implementation("com.exyte:animated-navigation-bar:1.0.0")
 
+    //pager
+    implementation ("androidx.compose.foundation:foundation:1.5.0")
+
 
 }
 kapt {

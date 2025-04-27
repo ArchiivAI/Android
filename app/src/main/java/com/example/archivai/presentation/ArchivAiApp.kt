@@ -127,7 +127,7 @@ fun ArchivAiApp() {
         Box(
             Modifier.fillMaxSize()
                 .background(Color.White)
-                .padding(horizontal = 10.dp, vertical = 30.dp)
+               // .padding(horizontal = 10.dp, vertical = 30.dp)
         ) {
 
             ArchivaiNavGraph(navController)

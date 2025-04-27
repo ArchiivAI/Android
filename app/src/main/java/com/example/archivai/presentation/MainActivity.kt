@@ -17,9 +17,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArchivAITheme {
                 ArchivAiApp()
-
-
-
             }
         }
     }

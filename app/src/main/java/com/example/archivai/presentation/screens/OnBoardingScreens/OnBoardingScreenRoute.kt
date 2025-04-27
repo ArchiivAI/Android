@@ -10,7 +10,7 @@ import com.example.archivai.presentation.screens.folders.FoldersScreen
 fun NavGraphBuilder.onBoardingScreenRoute(navController: NavController){
 
     composable <Screens.OnBoarding> {
-        OnBoardingScreen(navController)
+        OnBoardingScreens(navController)
     }
 
 }

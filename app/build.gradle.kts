@@ -4,6 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+
+    kotlin("plugin.serialization") version "2.1.20"
+
+
 }
 
 android {
@@ -63,7 +67,7 @@ dependencies {
     //Spalsh Screen
     implementation("androidx.core:core-splashscreen:1.0.0")
     //navigation
-    implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.navigation:navigation-compose:2.8.5")
     implementation("com.google.accompanist:accompanist-navigation-animation:0.32.0")
     //material icons
     implementation ("androidx.compose.material:material-icons-extended")
@@ -84,11 +88,21 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.51.1")
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
     //Hilt Navigation Compose
-    implementation ("androidx.hilt:hilt-navigation-compose:1.1.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
     //coil
     implementation("io.coil-kt.coil3:coil:3.0.4")
     implementation("io.coil-kt.coil3:coil-compose:3.1.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.1.0")
+
+
+    //serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+
+
+    //animated navigation bar
+    implementation("com.exyte:animated-navigation-bar:1.0.0")
+
+
 }
 kapt {
     correctErrorTypes = true

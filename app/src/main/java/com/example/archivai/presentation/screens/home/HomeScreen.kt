@@ -51,7 +51,8 @@ fun HomeScreen(navController: NavController) {
 
         Column (
             modifier = Modifier.fillMaxSize()
-                .padding(top = 48.dp, start = 10.dp, end = 10.dp,bottom = 72.dp)
+                .padding(vertical = 24.dp, horizontal = 24.dp)
+
 
         ){
             HomeTopAppBar("Ahmed")

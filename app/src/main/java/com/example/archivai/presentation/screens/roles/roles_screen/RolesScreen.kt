@@ -55,6 +55,8 @@ fun RolesScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .padding(vertical = 24.dp, horizontal = 24.dp)
+
 
 
         ) {

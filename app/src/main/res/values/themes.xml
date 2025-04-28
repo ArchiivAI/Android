@@ -9,5 +9,12 @@
 
     </style>
 
+<style name="Theme.ArchivAI.Splash" parent="Theme.SplashScreen">
+        <!-- You can customize your splash background -->
+       <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+
+
 
 </resources>

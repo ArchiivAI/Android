@@ -50,8 +50,8 @@ fun EmployeeScreen(navController: NavController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 48.dp, start = 24.dp, end = 24.dp)
-                .padding(bottom = 72.dp)
+                .padding(vertical = 24.dp, horizontal = 24.dp)
+
         ) {
             Row(modifier = Modifier
                 .fillMaxWidth()

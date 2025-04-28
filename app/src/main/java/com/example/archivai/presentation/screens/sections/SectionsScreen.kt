@@ -56,8 +56,7 @@ fun SectionsScreen(navController: NavController) {
         Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
             Column(
                 modifier = Modifier.fillMaxSize()
-                    .padding(top = 48.dp, start = 24.dp, end = 24.dp)
-                    .padding(bottom = 72.dp)
+                    .padding(vertical = 48.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth().height(32.dp)) {
                     Text(

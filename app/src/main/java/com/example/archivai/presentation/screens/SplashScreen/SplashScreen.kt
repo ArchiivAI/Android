@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.MainActivity
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.theme.play_fair_font
 import kotlinx.coroutines.delay
 
@@ -37,7 +38,9 @@ fun SplashScreen(navController: NavController) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         delay(2000)
-        context.startActivity(Intent(context, MainActivity::class.java))
+        navController.navigate(Screens.OnBoarding){
+            popUpTo(Screens.Splash){inclusive =true}
+        }
 
     }
     Box(

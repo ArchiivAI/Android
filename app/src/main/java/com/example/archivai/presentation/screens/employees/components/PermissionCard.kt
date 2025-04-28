@@ -1,6 +1,5 @@
 package com.example.archivai.presentation.screens.employees.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -27,9 +26,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
-fun RoleCard(
+fun PermissionCard(
     folderName: String = "Folder Name",
     onDeleteClick: () -> Unit = {}
 ) {
@@ -69,6 +69,7 @@ fun RoleCard(
                     Text(
                         text = selectedRole,
                         color = Color(0xFF0B2453),
+                        fontFamily = rubik_regular,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -126,8 +127,8 @@ fun RoleCard(
 
 @Preview(showBackground = true)
 @Composable
-fun RoleCardPreview() {
-    RoleCard(
+fun PermissionCardPreview() {
+    PermissionCard(
         folderName = "Documents",
         onDeleteClick = {}
     )

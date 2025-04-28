@@ -32,7 +32,7 @@ import com.example.archivai.presentation.theme.rubik_semibold
 
 @Composable
 fun EmployeeScreen(navController: NavController) {
-    data class EmployeeItem( val name: String,val email: String,val id: Int , )
+    data class EmployeeItem( val name: String,val email: String,val id: Int  )
 
     val sampleEmployees = listOf(
         EmployeeItem("amr ","ame@gmail.com",1),

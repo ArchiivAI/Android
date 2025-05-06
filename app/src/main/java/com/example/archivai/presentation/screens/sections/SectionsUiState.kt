@@ -1,7 +1,5 @@
 package com.example.archivai.presentation.screens.sections
 
-import com.example.archivai.data.source.remote.responseModels.sections.SectionResponseModel
-
 data class SectionsUiState (
     val isLoading : Boolean = false,
     val sections : List<SectionResponseModel> =emptyList(),
@@ -11,7 +9,8 @@ data class SectionsUiState (
     val isGridView : Boolean = false,
     val showFabOptions : Boolean = false,
     val showErrorMessage : String? = null,
-    val selectedIndex  : Int = 1
+    val selectedIndex  : Int = 1,
+    val showBottomSheet : Boolean = false
 
 
 

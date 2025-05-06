@@ -6,25 +6,19 @@ import com.example.archivai.data.source.remote.responseModels.sections.CreateSec
 import com.example.archivai.data.source.remote.responseModels.sections.DeleteSectionResponseModel
 import com.example.archivai.data.source.remote.responseModels.sections.GetSectionDetailsResponseModel
 import com.example.archivai.data.source.remote.responseModels.sections.RenameSectionResponseModel
-import com.example.archivai.data.source.remote.responseModels.sections.SectionResponseModel
+import com.example.archivai.domain.entities.Section
 
 interface SectionsRepository {
 
-    suspend fun getSections(token : String , page : Int) : List<SectionResponseModel>
+    suspend fun getSections(): List<Section>
 
-    suspend fun renameSection(token : String, sectionId: Int , request: RenameRequestModel) : RenameSectionResponseModel
+    suspend fun renameSection(sectionId: Int, newName : String) : Section
 
-    suspend fun deleteSection(token : String , sectionId: Int) : DeleteSectionResponseModel
+    suspend fun deleteSection(sectionId: Int)
 
-    suspend fun postSection(token: String , request: CreateSectionRequestModel) : CreateSectionResponseModel
+    suspend fun createSection(name : String): Section
 
-    suspend fun getSectionDetails(token: String , sectionId: Int) : GetSectionDetailsResponseModel
-
-
-
-
-
-
+    suspend fun getSectionDetails(sectionId: Int): Section
 
 
 }

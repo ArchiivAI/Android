@@ -18,6 +18,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,12 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.MainBottomBar
+import com.example.archivai.presentation.screens.sections.components.RenameSectionDialog
 import com.example.archivai.presentation.screens.sections.components.SectionCard
+import com.example.archivai.presentation.screens.sections.components.SettingsBottomSheet
 
 
 import com.example.archivai.presentation.theme.AppColor
@@ -51,67 +59,94 @@ val sampleSections = listOf(
 )
 
 @Composable
-fun SectionsScreen(navController: NavController) {
+fun SectionsScreen(navController: NavController , viewModel: SectionsViewModel = hiltViewModel()) {
 
-        Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-                    .padding(vertical = 48.dp)
-            ) {
-                Row(modifier = Modifier.fillMaxWidth().height(32.dp)) {
-                    Text(
-                        text = "Sections",
-                        fontFamily = rubik_semibold,
-                        fontSize = 20.sp,
-                        color = AppColor
-                    )
-                    Spacer(modifier = Modifier.weight(1F))
-                    Icon(
-                        painterResource(R.drawable.search_icon),
-                        contentDescription = "search icon",
-                        modifier = Modifier.size(32.dp).clickable {},
-                        tint = AppColor
-                    )
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Icon(
-                        painterResource(R.drawable.list_view_icon),
-                        contentDescription = "search icon",
-                        modifier = Modifier.size(32.dp).clickable {},
-                        tint = AppColor
-                    )
+    val state by viewModel.uiState.collectAsState()
 
-                }
-                LazyColumn(
-                    modifier = Modifier.padding(top = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    items(sampleSections) { section ->
-                        SectionCard(section.name, section.folderCount)
-                    }
+    var selectedSection by remember { mutableStateOf<SectionItem?>(null) }
 
-                }
 
+    Box(modifier = Modifier.fillMaxSize().background(Color.White)) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .padding(vertical = 48.dp)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth().height(32.dp)) {
+                Text(
+                    text = "Sections",
+                    fontFamily = rubik_semibold,
+                    fontSize = 20.sp,
+                    color = AppColor
+                )
+                Spacer(modifier = Modifier.weight(1F))
+                Icon(
+                    painterResource(R.drawable.search_icon),
+                    contentDescription = "search icon",
+                    modifier = Modifier.size(32.dp).clickable {},
+                    tint = AppColor
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Icon(
+                    painterResource(R.drawable.list_view_icon),
+                    contentDescription = "search icon",
+                    modifier = Modifier.size(32.dp).clickable {},
+                    tint = AppColor
+                )
 
             }
-            CustomFloatingActionButton(
-                onClick = {
+            LazyColumn(
+                modifier = Modifier.padding(top = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                items(sampleSections) { section ->
+                    SectionCard(section.name, section.folderCount, onMoreOptionsClick = {
+                        selectedSection = section
+                        state.copy(showBottomSheet = true)
+                    })
+                }
 
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .padding(16.dp)
-                    .padding(bottom = 56.dp)
-
-            )
-
-
+            }
 
 
 
         }
+        CustomFloatingActionButton(
+            onClick = {
+
+            },
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+                .padding(bottom = 56.dp)
+
+        )
+        // Show bottom sheet
+        if (state.showBottomSheet && selectedSection != null) {
+            SettingsBottomSheet(
+                onDismiss = { state.copy(showBottomSheet = false) },
+                onEditPermissions = { /* handle with selectedSection */ },
+                onRename = { state.copy(showRenameDialog = true) },
+                onDelete = { /* handle with selectedSection */ },
+                onViewPermittedPermissions = { /* handle with selectedSection */ }
+            )
+
+
+        }
+        if (state.showRenameDialog && selectedSection != null) {
+            RenameSectionDialog(
+                initialName = selectedSection!!.name,
+                onDismiss = {
+
+                },
+                onConfirm = { newName ->
+
+                }
+            )
+        }
 
 
     }
+}
 
 
 

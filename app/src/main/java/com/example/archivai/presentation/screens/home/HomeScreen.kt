@@ -147,7 +147,10 @@ fun HomeScreen(navController: NavController) {
                     ) { section ->
                         SectionCard(
                             sectionName = section.sectionName,
-                            noOfFolders = section.noOfFolders
+                            noOfFolders = section.noOfFolders,
+                            onMoreOptionsClick = {
+
+                            }
                         )
                     }
                 }

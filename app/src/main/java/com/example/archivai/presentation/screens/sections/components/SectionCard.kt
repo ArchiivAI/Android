@@ -29,7 +29,7 @@ import com.example.archivai.presentation.theme.rubik_bold
 import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
-fun SectionCard(sectionName : String,noOfFolders : Int) {
+fun SectionCard(sectionName : String,noOfFolders : Int , onMoreOptionsClick : () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,7 +80,7 @@ fun SectionCard(sectionName : String,noOfFolders : Int) {
                         painter = painterResource(R.drawable.more_options_icon),
                         contentDescription = "More Options",
                         modifier = Modifier.size(20.dp).
-                        clickable {},
+                        clickable { onMoreOptionsClick() },
                         tint = Color.Black
                     )
 
@@ -95,5 +95,5 @@ fun SectionCard(sectionName : String,noOfFolders : Int) {
 @Preview(showBackground = true)
 @Composable
 fun SectionCardPreview(modifier: Modifier = Modifier) {
-    SectionCard("Calma", 21)
+    SectionCard("Calma", 21 ,{})
 }

@@ -35,8 +35,8 @@ interface RolesApiService {
     //rename role
     @PUT("/api/Roles/{RoleId}/Rename")
     suspend fun renameRole(
-        @Path("RoleId") RoleId: Int,
-        @Query("NewName") NewName : String,
+        @Path("RoleId") roleId: Int,
+        @Query("NewName") newName : String,
         @Header("Authorization") token : String
     ) : RenameRoleResponse
 
@@ -46,16 +46,15 @@ interface RolesApiService {
     suspend fun getPermissionsOfRole(
         @Header("Authorization") token : String,
     )
-    /// /\
 
 
     //get missing users in the role
     @GET("/api/Roles/{RoleId}/missing-users/{Page}")
     suspend fun getMissingUsersInRole(
         @Header("Authorization") token : String,
-        @Path("RoleID") RoleId: Int,
-        @Path("Page") Page : Int,
-        @Query("PageSize") PageSize : Int =10
+        @Path("RoleID") roleId: Int,
+        @Path("Page") page : Int,
+        @Query("PageSize") pageSize : Int =10
 
     ) : GetMissingUsersInRoleResponse
 
@@ -64,8 +63,8 @@ interface RolesApiService {
     @GET("/api/Employees/{EmployeeId}/delete/{RoleId}")
     suspend fun deleteEmployeeInRole(
         @Header("Authorization") token : String,
-        @Path("EmployeeId ") EmployeeId : Int,
-        @Path("RoleId ") RoleId : Int
+        @Path("EmployeeId ") employeeId : Int,
+        @Path("RoleId ") roleId : Int
     ) : DeleteEmployeeInRoleResponse
 
 

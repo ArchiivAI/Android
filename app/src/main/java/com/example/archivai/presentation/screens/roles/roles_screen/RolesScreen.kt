@@ -1,5 +1,6 @@
 package com.example.archivai.presentation.screens.roles.roles_screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +22,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,13 +38,16 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
+import com.example.archivai.presentation.screens.roles.components.RenameRoleDialog
 import com.example.archivai.presentation.screens.roles.components.RoleCard
+import com.example.archivai.presentation.screens.roles.components.RolesBottomSheet
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 
 @Composable
 fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsState()
+    var newRoleName by remember { mutableStateOf("") }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -131,14 +138,49 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                             contentPadding = PaddingValues(bottom = 30.dp)
                         ) {
                             items(state.roles) { role ->
-                                RoleCard(role.id, role.name)
+                                RoleCard(role.id, role.name, 
+                                    onMoreOptionsClick =
+                                        {
+                                            viewModel.selectedRole(role)
+                                            viewModel.showSettingsBottomSheet()}
+                                    )
                             }
 
 
                         }
                     }
+
+
                 }
+                
             }
+            if (state.showSettingsBottomSheet){
+                RolesBottomSheet(
+                    onDismiss = {viewModel.hideSettingsBottomSheet()},
+                    onRename = {viewModel.hideSettingsBottomSheet()
+                               viewModel.showRoleRenameDialog() },
+                    onDelete = {}
+                )
+            }
+            if(state.showRenameRoleDialog){
+                RenameRoleDialog(
+                    initialName = state.selectedRole!!.name,
+                    newRoleName = newRoleName,
+                    onRoleNameChange = { newRoleName = it },
+                    onDismiss = {
+                        viewModel.hideRoleRenameDialog()
+                        newRoleName = ""
+                    },
+                    onConfirm = {
+                        viewModel.renameRole(state.selectedRole!!.id, newRoleName)
+                        Log.d("screen", newRoleName)
+                        newRoleName = ""
+                        navController.navigate(Screens.Roles)
+                    }
+
+                )
+            }
+            
         }
     }
 }

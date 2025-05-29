@@ -8,6 +8,8 @@ interface RoleRepository {
 
     suspend fun deleteRole(roleId: Int): Result<Unit>
 
+    suspend fun renameRole(roleId: Int , newName: String) : Result<Unit>
+
     suspend fun createRole(roleName: String): Result<Unit>
 
     suspend fun getEmployeesInRole(roleId: Int): Result<List<Employee>>

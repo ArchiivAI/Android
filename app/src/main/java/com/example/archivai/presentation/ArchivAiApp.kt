@@ -122,11 +122,12 @@ fun ArchivAiApp() {
                 }
             }
         }
-    ) {
+    ) { paddingValues ->
 
         Box(
             Modifier.fillMaxSize()
                 .background(Color.White)
+                .padding(paddingValues)
                // .padding(horizontal = 10.dp, vertical = 30.dp)
         ) {
 

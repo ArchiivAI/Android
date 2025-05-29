@@ -3,7 +3,8 @@
 
     <style name="Theme.ArchivAI" parent="android:Theme.Material.Light.NoActionBar" />
     <style name="Theme.MyApp.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenBackground">@color/AppColor</item>
+        <item name="android:windowBackground">@color/AppColor</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/archive_ai_logo</item> <!-- Use your PNG here -->
         <item name="windowSplashScreenAnimationDuration">1000</item> <!-- Animation duration in ms -->
 

@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.example.archivai.presentation.theme.AppColor
 
 @Composable
-fun RoleCard(id : Int , name : String) {
+fun RoleCard(id : Int , name : String,onMoreOptionsClick: () -> Unit) {
     Card(
         modifier = Modifier
             .padding(8.dp)
@@ -72,7 +72,7 @@ fun RoleCard(id : Int , name : String) {
                 }
             }
 
-            IconButton(onClick = { /* TODO: Add menu logic */ }) {
+            IconButton(onClick = { onMoreOptionsClick() }) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,
                     contentDescription = "More Options",
@@ -87,6 +87,9 @@ fun RoleCard(id : Int , name : String) {
 @Composable
 fun RoleCardPreview() {
     MaterialTheme {
-        RoleCard(name = "HR",id = 225)
+        RoleCard(
+            name = "HR", id = 225,
+            onMoreOptionsClick = TODO(),
+        )
     }
 }

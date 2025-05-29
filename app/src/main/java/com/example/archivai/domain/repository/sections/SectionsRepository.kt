@@ -6,7 +6,6 @@ import com.example.archivai.data.source.remote.responseModels.sections.CreateSec
 import com.example.archivai.data.source.remote.responseModels.sections.DeleteSectionResponseModel
 import com.example.archivai.data.source.remote.responseModels.sections.GetSectionDetailsResponseModel
 import com.example.archivai.data.source.remote.responseModels.sections.RenameSectionResponseModel
-import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Role
 import com.example.archivai.domain.entities.Section
 

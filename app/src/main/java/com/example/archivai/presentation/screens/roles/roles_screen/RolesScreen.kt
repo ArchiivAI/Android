@@ -35,7 +35,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.roles.components.RoleCard
-import com.example.archivai.presentation.screens.sections.components.SectionCard
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 
@@ -98,7 +97,7 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = "Error loading sections",
+                                text = "Error loading roles",
                                 fontSize = 16.sp,
                                 color = Color.Red,
                                 textAlign = TextAlign.Center
@@ -117,7 +116,7 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                     state.roles.isEmpty() -> {
                         // Empty state
                         Text(
-                            text = "No sections available",
+                            text = "No roles available",
                             fontSize = 16.sp,
                             color = Color.Gray,
                             textAlign = TextAlign.Center,

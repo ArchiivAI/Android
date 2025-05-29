@@ -7,7 +7,7 @@ interface EmployeesRepository {
 
     suspend fun deleteEmployee(employeeId: Int): Result<Unit>
 
-    suspend fun getEmployees(): Result<List<Employee>>
+    suspend fun getEmployees(): List<Employee>
 
     suspend fun addEmployee(firstName: String , lastName : String, email: String , roles : List<Role>): Result<Unit>
 

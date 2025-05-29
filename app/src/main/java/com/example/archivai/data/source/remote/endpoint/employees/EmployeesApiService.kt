@@ -4,6 +4,7 @@ import com.example.archivai.data.source.remote.requestModels.employees.AddEmploy
 import com.example.archivai.data.source.remote.responseModels.employees.DeleteEmployeeResponse
 import com.example.archivai.data.source.remote.responseModels.employees.GetEmployeesResponse
 import com.example.archivai.data.source.remote.requestModels.employees.RenameEmployeeRequest
+import com.example.archivai.data.source.remote.responseModels.employees.EmployeeResponseModel
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -18,18 +19,16 @@ interface EmployeesApiService {
 
 
     //get Employees
-    @Headers("accept: */*")
     @GET("/api/Employees")
     suspend fun getEmployees(
         @Header("Authorization") token : String,
         @Query("page")page : Int =1,
         @Query("pageSize") pageSize : Int =10
 
-    ) : GetEmployeesResponse
+    ) : List<EmployeeResponseModel>
 
 
     // get roles of an employee
-    @Headers("accept: */*")
     @GET("/api/Employees/{userId}/roles/{page}")
     suspend fun getRolesOfEmployee(
 
@@ -38,7 +37,6 @@ interface EmployeesApiService {
 
 
     //delete employee
-    @Headers("accept: */*")
     @DELETE("/api/Employees/{userId}")
     suspend fun deleteEmployee(
         @Header("Authorization") token : String,
@@ -48,7 +46,6 @@ interface EmployeesApiService {
 
 
     //add Employee
-    @Headers("accept: */*" , "Content-Type: application/json")
     @POST("/api/Employees")
     suspend fun addEmployee(
         @Header("Authorization") token : String,
@@ -56,8 +53,6 @@ interface EmployeesApiService {
     )
 
     //rename employee
-
-    @Headers("accept: */*" , "Content-Type: application/json")
     @PUT("/api/Employees")
     suspend fun renameEmployee(
         @Header("Authorization") token : String,

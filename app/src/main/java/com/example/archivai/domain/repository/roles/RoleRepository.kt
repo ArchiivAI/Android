@@ -4,7 +4,7 @@ import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Role
 
 interface RoleRepository {
-    suspend fun getRoles(): Result<List<Role>>
+    suspend fun getRoles(): List<Role>
 
     suspend fun deleteRole(roleId: Int): Result<Unit>
 

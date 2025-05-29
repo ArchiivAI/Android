@@ -5,6 +5,7 @@ import com.example.archivai.data.source.remote.responseModels.roles.DeleteRoleRe
 import com.example.archivai.data.source.remote.responseModels.roles.GetMissingUsersInRoleResponse
 import com.example.archivai.data.source.remote.responseModels.roles.GetRolesResponse
 import com.example.archivai.data.source.remote.responseModels.roles.RenameRoleResponse
+import com.example.archivai.data.source.remote.responseModels.roles.RoleModelResponse
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
@@ -17,15 +18,13 @@ interface RolesApiService {
 
 
     //get roles
-    @Headers("accept: */*")
     @GET("/api/Roles")
     suspend fun getRoles(
         @Header("Authorization") token : String,
-    ) : GetRolesResponse
+    ) : List<RoleModelResponse>
 
 
     //delete role
-    @Headers("accept: */*")
     @DELETE("/api/Roles/{roleId}")
     suspend fun deleteRole(
         @Path("roleId") roleId : Int,
@@ -34,10 +33,8 @@ interface RolesApiService {
 
 
     //rename role
-    @Headers("accept: */*" , "Content-Type: application/json")
     @PUT("/api/Roles/{RoleId}/Rename")
     suspend fun renameRole(
-
         @Path("RoleId") RoleId: Int,
         @Query("NewName") NewName : String,
         @Header("Authorization") token : String
@@ -45,7 +42,6 @@ interface RolesApiService {
 
 
     //get permissions of the role
-    @Headers("accept: */*")
     @GET("/permissions/{RoleId}/{Page}")
     suspend fun getPermissionsOfRole(
         @Header("Authorization") token : String,
@@ -54,7 +50,6 @@ interface RolesApiService {
 
 
     //get missing users in the role
-    @Headers("accept: */*")
     @GET("/api/Roles/{RoleId}/missing-users/{Page}")
     suspend fun getMissingUsersInRole(
         @Header("Authorization") token : String,
@@ -66,7 +61,6 @@ interface RolesApiService {
 
 
     //delete employee in Role
-    @Headers("accept: */*")
     @GET("/api/Employees/{EmployeeId}/delete/{RoleId}")
     suspend fun deleteEmployeeInRole(
         @Header("Authorization") token : String,

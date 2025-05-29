@@ -51,7 +51,7 @@ fun RoleCard(id : Int , name : String) {
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
-                    text = "HR Specialist",
+                    text = name,
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = AppColor // Navy Blue
                 )

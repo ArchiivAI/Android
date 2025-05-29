@@ -5,9 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.NavController
+import com.example.archivai.domain.models.auth.LoginResponse
 import com.example.archivai.presentation.theme.ArchivAITheme
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     lateinit var navController: NavController
 
@@ -17,6 +20,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ArchivAITheme {
                 ArchivAiApp()
+
             }
         }
     }

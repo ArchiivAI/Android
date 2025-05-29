@@ -3,7 +3,7 @@ package com.example.archivai.domain.entities
 data class Section(
     val id: Int,
     val name: String,
-    val size: Long,
+    val size: Int,
     val lastModified: String,
     val numberOfFolders: Int? = null,
     val numberOfEmployees: Int? = null,

@@ -21,17 +21,15 @@ interface SectionsApiService {
 
 
     //get sections
-    @Headers("accept: */*")
     @GET("/api/Sections/paged/{Page}")
     suspend fun getSections(
         @Header("Authorization") token : String,
-        @Path("page") page:Int,
-        @Query("pageSize") pageSize : Int =10
+        @Path("Page") page:Int =1,
+        @Query("pageSize") pageSize : Int =15
     ) : List<SectionResponseModel>
 
 
     //rename Section
-    @Headers("accept: */*")
     @PUT("/api/Sections/{sectionId}/rename")
     suspend fun renameSection(
         @Header("Authorization") token : String,
@@ -42,7 +40,6 @@ interface SectionsApiService {
 
 
     //get Section details
-    @Headers("accept: */*")
     @GET("/api/Sections/{sectionId}")
     suspend fun getSectionDetails(
         @Header("Authorization") token : String,
@@ -52,7 +49,6 @@ interface SectionsApiService {
 
 
     //create section
-    @Headers("accept: */*","Content-Type: application/json")
     @POST("/api/Sections")
     suspend fun createSection(
         @Header("Authorization") token : String,
@@ -61,21 +57,11 @@ interface SectionsApiService {
 
 
     //delete section
-    @Headers("accept: */*")
     @DELETE("/api/Sections/{sectionId}")
     suspend fun deleteSections(
         @Header("Authorization") token : String,
         @Path("sectionId") sectionId: Int
     ) : DeleteSectionResponseModel
-
-
-
-
-
-
-
-
-
 
 
 }

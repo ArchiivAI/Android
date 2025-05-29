@@ -7,7 +7,7 @@ fun SectionResponseModel.toDomain(): Section {
     return Section(
         id = id,
         name = name,
-        size = size.toLong(),
+        size = size,
         lastModified = lastModified,
         numberOfFolders = numberOfFolders,
         numberOfEmployees = numberOfEmployees

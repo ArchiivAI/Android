@@ -1,6 +1,8 @@
 package com.example.archivai.data.di.auth
 
+import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.auth.AuthApiService
+import com.example.archivai.data.utils.SharedPrefsHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,25 +18,31 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkhttp() : OkHttpClient {
+    fun provideOkhttp(): OkHttpClient {
+
         return OkHttpClient.Builder()
-            .addInterceptor {chain ->
-            val request = chain.request().newBuilder()
-                .addHeader("Authorization", "Bearer <your-token>")
-                .addHeader("Content-Type", "application/json")
-                .addHeader("accept","*/*")
-                .build()
-            chain.proceed(request)
+            .addInterceptor { chain ->
+                val token = SharedPrefsHelper.getToken()
+                val request = chain.request().newBuilder()
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("accept", "*/*")
+
+                if (!token.isNullOrBlank()) {
+                    request.addHeader("Authorization", "Bearer $token")
+                }
+
+
+                chain.proceed(request.build())
 
 
 
-        }.build()
+            }.build()
 
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient) : Retrofit =Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl("https://archivai-backend.azurewebsites.net")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -43,11 +51,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun
-            provideAuthApiService(retrofit: Retrofit) : AuthApiService =
+            provideAuthApiService(retrofit: Retrofit): AuthApiService =
         retrofit.create(AuthApiService::class.java)
-
-
-
-
 
 }

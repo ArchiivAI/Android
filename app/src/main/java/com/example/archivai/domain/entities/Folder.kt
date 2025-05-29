@@ -7,6 +7,7 @@ data class Folder(
     val numberOfEmployees: Int,
     val numberOfFiles: Int,
     val numberOfFolders: Int,
+    val files : List<File>? = null,
     val sectionName: Any,
     val size: Int
 )

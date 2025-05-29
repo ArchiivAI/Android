@@ -19,7 +19,7 @@ import com.example.archivai.R
 
 
 @Composable
-fun CustomFloatingActionButton(onClick: @Composable () -> Unit, modifier: Modifier = Modifier) {
+fun CustomFloatingActionButton(onClick:() -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(60.dp)
@@ -33,7 +33,7 @@ fun CustomFloatingActionButton(onClick: @Composable () -> Unit, modifier: Modifi
                     )
                 )
             )
-            .clickable { onClick },
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
 
     ) {

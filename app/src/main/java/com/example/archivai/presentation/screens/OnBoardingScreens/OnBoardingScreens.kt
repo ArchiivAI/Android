@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.archivai.R
+import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.presentation.navigation.Screens
 import kotlinx.coroutines.launch
 import com.example.archivai.presentation.theme.rubik_regular
@@ -37,6 +39,7 @@ import com.example.archivai.presentation.theme.play_fair_font
 fun OnBoardingScreens(navController: NavController) {
     val pagerState = rememberPagerState(pageCount = { 3 }) // 3 pages
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         // Background
@@ -108,7 +111,10 @@ fun OnBoardingScreens(navController: NavController) {
             Button(
                 onClick = {
                     if (pagerState.currentPage == 2) {
-                        navController.navigate(Screens.Login) // Navigate to login after last page
+                        SharedPrefsHelper.setFirstTimeCompleted()
+                        navController.navigate(Screens.Login){
+                            popUpTo(Screens.OnBoarding){inclusive = true}
+                        } // Navigate to login after last page
                     } else {
                         scope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)

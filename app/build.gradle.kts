@@ -105,6 +105,9 @@ dependencies {
     //pager
     implementation ("androidx.compose.foundation:foundation:1.5.0")
 
+    //shared preferences
+    implementation ("androidx.security:security-crypto:1.0.0")
+
 
 }
 kapt {

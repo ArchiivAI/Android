@@ -23,57 +23,42 @@ interface FoldersApiService {
 
 
     // get folders details in section
-    @Headers("accept: */*")
     @GET("/api/Sections/folders/{sectionId}/{page}")
     suspend fun getFolderInSection(
-        @Header("Authorization") token : String,
     ) : GetFolderDetailsInSectionResponseModel
 
 
 
     //get all Folders
-    @Headers("accept: */*")
     @GET("/api/Folders")
-    suspend fun getAllFolders(
-        @Header("Authorization") token : String,
-
-        ) : GetAllFoldersResponseModel
+    suspend fun getAllFolders() : GetAllFoldersResponseModel
 
 
     // delete folder
-    @Headers("accept: */*")
+
     @DELETE("/api/Folders/{folderId}")
     suspend fun deleteFolder(
-        @Header("Authorization") token : String,
         @Path("folderId") folderId : Int
-
-
 
     ): DeleteFolderResponseModel
 
 
     //create folder in Section
-    @Headers("accept: */*" , "Content-Type: application/json")
     @POST("/api/Folders")
     suspend fun createFolder(
         @Body request: CreateFolderRequestModel,
-        @Header("Authorization") token : String,
     ) : CreateFolderResponseModel
 
 
     //create Folder in Folder
-    @Headers("accept: */*" , "Content-Type: application/json")
     @POST("/api/Folders/SubFolder")
     suspend fun createSubFolder(
         @Body request: CreateSubFolderRequestModel,
-        @Header("Authorization") token : String,
     ) : CreateSubFolderResponseModel
 
     //rename Folder
-    @Headers("accept: */*" , "Content-Type: application/json")
     @PUT("/api/Folders/{folderId}/rename")
     suspend fun renameFolder(
-        @Header("Authorization") token : String,
         @Path("folderId") folderId : Int,
         @Body renameFolderRequestModel: RenameFolderRequestModel
     ) : RenameFolderResponseModel

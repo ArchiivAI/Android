@@ -9,8 +9,10 @@ import com.example.archivai.presentation.screens.folders.FoldersScreen
 
 fun NavGraphBuilder.newPasswordScreenRoute(navController: NavController){
 
-    composable <Screens.NewPassword> {
-        NewPasswordScreen(navController)
+    composable <Screens.NewPassword> { backStackEntry ->
+        val email = backStackEntry.arguments?.getString("email") ?: ""
+        val otp = backStackEntry.arguments?.getString("otp") ?: ""
+        NewPasswordScreen(navController, email,otp)
     }
 
 }

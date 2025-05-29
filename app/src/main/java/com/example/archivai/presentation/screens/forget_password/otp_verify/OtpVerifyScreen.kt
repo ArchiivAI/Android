@@ -2,6 +2,7 @@ package com.example.archivai.presentation.screens.forget_password.otp_verify
 
 
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -29,9 +31,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.login_screen.composables.ImageContainer
 import com.example.archivai.presentation.screens.login_screen.composables.RectangleButton
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer10
@@ -43,8 +47,26 @@ import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_medium
 
 @Composable
-fun OtpVerifyScreen(navController: NavController) {
+fun OtpVerifyScreen(navController: NavController , email : String , viewModel: OtpVerifyViewModel = hiltViewModel()) {
     val otpValues = remember { mutableStateOf(List(5) { "" }) }
+    val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+    val otpCode = otpValues.value.joinToString(separator = "")
+
+    LaunchedEffect(state) {
+        when (state) {
+            is OtpVerifyUiState.Success -> {
+                navController.navigate(Screens.NewPassword(email,otpCode))
+                Toast.makeText(context, (state as OtpVerifyUiState.Success).message, Toast.LENGTH_SHORT).show()
+            }
+            is OtpVerifyUiState.Error -> {
+                Toast.makeText(context, (state as OtpVerifyUiState.Error).message, Toast.LENGTH_SHORT).show()
+            }
+            else -> Unit
+        }
+    }
+
+
 
     Column(
         modifier = Modifier
@@ -61,7 +83,7 @@ fun OtpVerifyScreen(navController: NavController) {
                 painterResource(R.drawable.arrow_icon),
                 contentDescription = "back icon",
                 modifier = Modifier
-                    .clickable {}
+                    .clickable {navController.popBackStack()}
                     .align(Alignment.CenterVertically)
                     .padding(horizontal = 6.dp)
                     .size(20.dp)
@@ -101,8 +123,7 @@ fun OtpVerifyScreen(navController: NavController) {
         Spacer32()
 
         RectangleButton("Send") {
-            val otpCode = otpValues.value.joinToString(separator = "")
-            println("OTP entered: $otpCode")
+            viewModel.verifyOtp(otpCode,email)
 
         }
     }
@@ -161,8 +182,4 @@ fun OtpInputField(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun OtpScreenPreview(modifier: Modifier = Modifier) {
-    OtpVerifyScreen(navController = rememberNavController())
-}
+

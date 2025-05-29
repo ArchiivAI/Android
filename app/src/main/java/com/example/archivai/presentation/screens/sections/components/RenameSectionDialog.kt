@@ -39,10 +39,10 @@ import com.example.archivai.presentation.theme.rubik_semibold
 fun RenameSectionDialog(
     initialName: String,
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String) -> Unit,
+    newSectionName: String,
+    onSectionNameChange: (String) -> Unit
 ) {
-    val sectionName = remember { mutableStateOf(initialName) }
-
     AlertDialog(
         onDismissRequest = { onDismiss() },
         shape = RoundedCornerShape(16.dp),
@@ -79,8 +79,8 @@ fun RenameSectionDialog(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 BasicTextField(
-                    value = sectionName.value,
-                    onValueChange = { sectionName.value = it },
+                    value = newSectionName,
+                    onValueChange = { onSectionNameChange(it) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -90,7 +90,7 @@ fun RenameSectionDialog(
                         color = Color.Black
                     ),
                     decorationBox = { innerTextField ->
-                        if (sectionName.value.isEmpty()) {
+                        if (newSectionName.isEmpty()) {
                             Text(
                                 text = "Untitled Section", // Updated hint
                                 fontSize = 16.sp,
@@ -126,7 +126,7 @@ fun RenameSectionDialog(
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { onConfirm(sectionName.value) },
+                    onClick = { onConfirm(newSectionName) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -148,5 +148,5 @@ fun RenameSectionDialog(
 @Preview(showBackground = true)
 @Composable
 fun RenameSectionDialogPreview(modifier: Modifier = Modifier) {
-    RenameSectionDialog("", {}, {})
+    RenameSectionDialog("", {}, {},"",{})
 }

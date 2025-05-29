@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import com.example.archivai.R
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,7 +30,7 @@ import com.example.archivai.presentation.theme.rubik_bold
 import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
-fun SectionCard(sectionName : String,noOfFolders : Int , onMoreOptionsClick : () -> Unit) {
+fun SectionCard(sectionName: String, noOfFolders: Int?, onMoreOptionsClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,7 +62,9 @@ fun SectionCard(sectionName : String,noOfFolders : Int , onMoreOptionsClick : ()
                     fontSize = 16.sp,
                     fontFamily = rubik_bold,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1E3A8A) // Dark blue color
+                    color = Color(0xFF1E3A8A) ,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis // Add ellipsis when text overflows
                 )
             }
             Row(
@@ -76,13 +79,14 @@ fun SectionCard(sectionName : String,noOfFolders : Int , onMoreOptionsClick : ()
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 // More Options Icon (Three dots)
-                    Icon(
-                        painter = painterResource(R.drawable.more_options_icon),
-                        contentDescription = "More Options",
-                        modifier = Modifier.size(20.dp).
-                        clickable { onMoreOptionsClick() },
-                        tint = Color.Black
-                    )
+                Icon(
+                    painter = painterResource(R.drawable.more_options_icon),
+                    contentDescription = "More Options",
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { onMoreOptionsClick() },
+                    tint = Color.Black
+                )
 
             }
         }
@@ -91,9 +95,8 @@ fun SectionCard(sectionName : String,noOfFolders : Int , onMoreOptionsClick : ()
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
 fun SectionCardPreview(modifier: Modifier = Modifier) {
-    SectionCard("Calma", 21 ,{})
+    SectionCard("Calma", 21, {})
 }

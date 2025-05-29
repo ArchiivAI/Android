@@ -1,5 +1,6 @@
 package com.example.archivai.presentation.screens.sections.components
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -26,6 +27,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,9 +40,10 @@ import com.example.archivai.presentation.theme.rubik_semibold
 @Composable
 fun CreateSectionDialog(
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String) -> Unit,
+    sectionName: String,
+    onSectionNameChange: (String) -> Unit
 ) {
-    val sectionName = remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
@@ -78,8 +81,8 @@ fun CreateSectionDialog(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 BasicTextField(
-                    value = sectionName.value,
-                    onValueChange = { sectionName.value = it },
+                    value = sectionName,
+                    onValueChange = { onSectionNameChange(it)},
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -89,7 +92,7 @@ fun CreateSectionDialog(
                         color = Color.Black
                     ),
                     decorationBox = { innerTextField ->
-                        if (sectionName.value.isEmpty()) {
+                        if (sectionName.isEmpty()) {
                             Text(
                                 text = "Untitled Section",
                                 fontSize = 16.sp,
@@ -127,7 +130,9 @@ fun CreateSectionDialog(
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { onConfirm(sectionName.value) },
+                    onClick = {
+                        onConfirm(sectionName)
+                    },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -150,6 +155,6 @@ fun CreateSectionDialog(
 @Preview(showBackground = true)
 @Composable
 fun CreateSectionDialogPreview(modifier: Modifier = Modifier) {
-    CreateSectionDialog({}, {})
+    CreateSectionDialog({}, {}, "",{})
 }
 

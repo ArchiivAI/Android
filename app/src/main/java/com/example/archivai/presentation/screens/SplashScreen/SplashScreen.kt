@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.presentation.MainActivity
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.theme.play_fair_font
@@ -35,14 +36,27 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(navController: NavController) {
-    val context = LocalContext.current
-    LaunchedEffect(key1 = true) {
-        delay(2000)
-        navController.navigate(Screens.OnBoarding){
-            popUpTo(Screens.Splash){inclusive =true}
+
+
+    LaunchedEffect(Unit) {
+        delay(1000) // Simulate splash delay
+        val isFirstTime = SharedPrefsHelper.isFirstTime()
+        val isLoggedIn = SharedPrefsHelper.isLoggedIn()
+
+        val destination = when {
+            isFirstTime -> Screens.OnBoarding
+            isLoggedIn -> Screens.Home
+            else -> Screens.Login
         }
 
+        navController.navigate(destination) {
+            popUpTo(Screens.Splash) { inclusive = true }
+        }
     }
+
+
+
+
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -56,10 +70,12 @@ fun SplashScreen(navController: NavController) {
 
 
         Box(
-            modifier = Modifier.fillMaxSize().background(
-                color = Color(0xFF132863)
-                    .copy(alpha = 0.82F)
-            ), contentAlignment = Alignment.Center
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    color = Color(0xFF132863)
+                        .copy(alpha = 0.82F)
+                ), contentAlignment = Alignment.Center
         ) {
 
             Column(
@@ -79,14 +95,14 @@ fun SplashScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(32.dp))
 
 
-
             }
         }
     }
 }
+
 @Preview
 @Composable
-fun SplashScreenPreview (modifier: Modifier = Modifier) {
+fun SplashScreenPreview(modifier: Modifier = Modifier) {
 
     SplashScreen(rememberNavController())
 }

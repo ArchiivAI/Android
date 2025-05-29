@@ -3,54 +3,57 @@ package com.example.archivai.presentation.navigation
 import kotlinx.serialization.Serializable
 
 @Serializable
-sealed class Screens{
+sealed class Screens {
 
     @Serializable
-    data object Home: Screens()
+    data object Home : Screens()
 
     @Serializable
-    data object Login: Screens()
+    data object Login : Screens()
 
     @Serializable
-    data object Splash: Screens()
+    data object Splash : Screens()
 
     @Serializable
-    data object OnBoarding: Screens()
+    data object OnBoarding : Screens()
 
     @Serializable
-    data object ForgetPassword: Screens()
+    data object ForgetPassword : Screens()
 
     @Serializable
-    data object NewPassword: Screens()
+    data class NewPassword(val email : String,val  otp : String) : Screens()
 
     @Serializable
-    data object ActivityLog: Screens()
+    data object ActivityLog : Screens()
 
     @Serializable
-    data object ContactUs: Screens()
+    data object ContactUs : Screens()
 
     @Serializable
-    data object Employees: Screens()
+    data class OtpVerify(val email : String) : Screens()
 
     @Serializable
-    data object AddNewEmployee: Screens()
+    data object Employees : Screens()
+
+    @Serializable
+    data object AddNewEmployee : Screens()
 
     @Serializable
     data class Folders(
         val id: String
-    ): Screens()
+    ) : Screens()
 
     @Serializable
-    data object Profile: Screens()
+    data object Profile : Screens()
 
     @Serializable
-    data object Roles: Screens()
+    data object Roles : Screens()
 
     @Serializable
-    data object AddNewRole: Screens()
+    data object AddNewRole : Screens()
 
     @Serializable
-    data object Sections: Screens()
+    data object Sections : Screens()
 
     @Serializable
     data object SuccessfulPassword : Screens()

@@ -22,19 +22,35 @@ import com.example.archivai.presentation.theme.play_fair_font
 fun EmailContainer(modifier: Modifier = Modifier) {
 
 
-OutlinedTextField(
-value = "",
-onValueChange = {},
-label = { Text(text = "Email" , color = Color(0xFF132863), fontFamily = play_fair_font, fontWeight = FontWeight.Normal) },
-leadingIcon = { Icon(imageVector = Icons.Default.Email,contentDescription = null, tint = Color(0XFF132863)) },
-modifier = Modifier
-    .fillMaxWidth()
-    .padding(start = 16.dp, end = 16.dp),colors = TextFieldDefaults.outlinedTextFieldColors(
-focusedBorderColor = Color(0xFF132863),
-unfocusedBorderColor = Color(0xFF132863))
+    OutlinedTextField(
+        value = "",
+        onValueChange = {},
+        label = {
+            Text(
+                text = "Email",
+                color = Color(0xFF132863),
+                fontFamily = play_fair_font,
+                fontWeight = FontWeight.Normal
+            )
+        },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = null,
+                tint = Color(0XFF132863)
+            )
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 16.dp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color(0xFF132863),
+            unfocusedBorderColor = Color(0xFF132863)
+        )
 
 
-)}
+    )
+}
 
 @Preview(showBackground = true)
 @Composable

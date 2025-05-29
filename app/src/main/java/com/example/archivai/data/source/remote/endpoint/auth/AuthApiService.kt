@@ -11,30 +11,31 @@ import com.example.archivai.data.source.remote.responseModels.auth.SendChangePas
 import retrofit2.http.Body
 import retrofit2.http.Headers
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface AuthApiService {
 
 
-    @Headers("Content-Type: application/json","accept: */*")
+
     @POST("/api/Auth/login")
     suspend fun login(@Body loginRequestModel: LoginRequestModel) : LoginResponseModel
 
-    @Headers("Content-Type: application/json","accept: */*")
+
     @POST("/api/Auth/verify-otp")
     suspend fun verifyOtp(
         @Body otpVerifyRequestModel: OtpVerifyRequestModel
     ) : OtpVerifyResponseModel
 
-    @Headers("Content-Type: application/json","accept: */*")
     @POST("/api/Auth/send-change-Password-mail")
     suspend fun sendChangePasswordEmail(@Body sendChangePasswordMailRequestModel: SendChangePasswordMailRequestModel) : SendChangePasswordMailResponseModel
 
-
-    @Headers("Content-Type: application/json","accept: */*")
     @POST("/api/Auth/change-password")
     suspend fun changePassword(@Body changePasswordRequestModel: ChangePasswordRequestModel) : ChangePasswordResponseModel
 
-
+    @POST("/api/Emails/contact-us/{UserEmail}")
+    suspend fun contactUs(
+        @Path ("UserEmail") userEmail: String
+    ) : Result<Unit>
 
 
 

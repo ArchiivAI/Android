@@ -12,6 +12,7 @@ import com.example.archivai.presentation.screens.employees.employeesScreen.emplo
 import com.example.archivai.presentation.screens.folders.foldersScreenRoute
 import com.example.archivai.presentation.screens.forget_password.forget_password.forgetPasswordScreenRoute
 import com.example.archivai.presentation.screens.forget_password.new_password.newPasswordScreenRoute
+import com.example.archivai.presentation.screens.forget_password.otp_verify.otpVerifyScreenRoute
 import com.example.archivai.presentation.screens.forget_password.successful_password_change.successfulPasswordScreenRoute
 import com.example.archivai.presentation.screens.home.homeScreenRoute
 import com.example.archivai.presentation.screens.login_screen.loginScreenRoute
@@ -40,6 +41,8 @@ fun ArchivaiNavGraph(navController: NavHostController) {
         rolesScreenRoute(navController)
         sectionsScreenRoute(navController)
         splashScreenRoute(navController)
+        otpVerifyScreenRoute(navController)
+
 
 
 

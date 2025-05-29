@@ -7,9 +7,9 @@ import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.activity_log.ActivityLogScreen
 import com.example.archivai.presentation.screens.folders.FoldersScreen
 
-fun NavGraphBuilder.forgetPasswordScreenRoute(navController: NavController){
+fun NavGraphBuilder.forgetPasswordScreenRoute(navController: NavController) {
 
-    composable <Screens.ForgetPassword> {
+    composable<Screens.ForgetPassword> {
         ForgetPasswordScreen(navController)
     }
 

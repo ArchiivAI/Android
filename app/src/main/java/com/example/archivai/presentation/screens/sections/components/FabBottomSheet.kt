@@ -48,7 +48,7 @@ fun FabBottomSheet(
                 iconRes = R.drawable.add_with_ai_icon,
                 text = "Add File With AI",
                 textColor = AppColor,
-                onClick = onAddFileWithAIClick
+                onClick = {onAddFileWithAIClick()}
             )
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -57,7 +57,7 @@ fun FabBottomSheet(
                 iconRes = R.drawable.section_icon,
                 text = "Create Section",
                 textColor = AppColor,
-                onClick = onCreateSectionClick
+                onClick = {onCreateSectionClick()}
             )
             Spacer(modifier = Modifier.height(16.dp))
         }

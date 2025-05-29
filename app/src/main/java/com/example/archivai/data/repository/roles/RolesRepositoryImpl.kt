@@ -18,7 +18,18 @@ class RolesRepositoryImpl @Inject constructor(val rolesApiService: RolesApiServi
     }
 
     override suspend fun deleteRole(roleId: Int): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val response = rolesApiService.deleteRole(roleId,token)
+            return if (response.message.contains("deleted successfully")){
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to delete role"))
+            }
+        }catch (e: Exception){
+            Log.e("RolesRepository", "Error deleting role: ${e.message}")
+            return Result.failure(e)
+        }
+
     }
 
     override suspend fun renameRole(

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.archivai.domain.entities.Role
 import com.example.archivai.domain.entities.Section
+import com.example.archivai.domain.usecases.roles.DeleteRoleUseCase
 import com.example.archivai.domain.usecases.roles.GetRolesUseCase
 import com.example.archivai.domain.usecases.roles.RenameRoleUseCase
 import com.example.archivai.presentation.screens.sections.SectionsUiState
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class RolesViewModel @Inject constructor (
     val getRolesUseCase: GetRolesUseCase,
-    val renameRoleUseCase : RenameRoleUseCase
+    val renameRoleUseCase : RenameRoleUseCase,
+    val deleteRoleUseCase: DeleteRoleUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(RolesUiState())
     val uiState = _uiState.asStateFlow()
@@ -64,6 +66,27 @@ class RolesViewModel @Inject constructor (
         }
 
     }
+
+    fun deleteRole(roleId: Int){
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                deleteRoleUseCase.invoke(roleId)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    selectedRole = null,
+                    showDeleteRoleDialog = false
+                )
+                getRoles()
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Failed to delete role", e)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "An unexpected error occurred"
+                )
+            }
+        }
+    }
     fun selectedRole(role: Role) {
         _uiState.value = _uiState.value.copy(selectedRole = role)
     }
@@ -81,6 +104,14 @@ class RolesViewModel @Inject constructor (
 
     fun hideRoleRenameDialog() {
         _uiState.value = _uiState.value.copy(showRenameRoleDialog = false)
+    }
+    fun showDeleteRoleDialog() {
+        _uiState.value = _uiState.value.copy(showSettingsBottomSheet = false)
+        _uiState.value = _uiState.value.copy(showDeleteRoleDialog = true)
+    }
+
+    fun hideDeleteRoleDialog() {
+        _uiState.value = _uiState.value.copy(showDeleteRoleDialog = false)
     }
 
 

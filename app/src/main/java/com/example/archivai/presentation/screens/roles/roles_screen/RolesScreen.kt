@@ -38,9 +38,11 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
+import com.example.archivai.presentation.screens.roles.components.DeleteRoleDialog
 import com.example.archivai.presentation.screens.roles.components.RenameRoleDialog
 import com.example.archivai.presentation.screens.roles.components.RoleCard
 import com.example.archivai.presentation.screens.roles.components.RolesBottomSheet
+import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 
@@ -159,7 +161,7 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                     onDismiss = {viewModel.hideSettingsBottomSheet()},
                     onRename = {viewModel.hideSettingsBottomSheet()
                                viewModel.showRoleRenameDialog() },
-                    onDelete = {}
+                    onDelete = {viewModel.showDeleteRoleDialog()}
                 )
             }
             if(state.showRenameRoleDialog){
@@ -179,6 +181,20 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                     }
 
                 )
+            }
+            if (state.showDeleteRoleDialog) {
+                viewModel.hideSettingsBottomSheet()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f))
+                ) {
+                    DeleteRoleDialog(
+                        onDismiss = { viewModel.hideDeleteRoleDialog() },
+                        onConfirm = {viewModel.deleteRole(state.selectedRole!!.id)}
+                    )
+                }
+
             }
             
         }

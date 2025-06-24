@@ -73,9 +73,6 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
             }
 
         }
-
-
-
     }
 
     Box(

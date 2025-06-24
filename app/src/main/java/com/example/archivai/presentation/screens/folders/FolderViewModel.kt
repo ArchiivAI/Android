@@ -7,6 +7,7 @@ import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.usecases.folders.CreateFolderUseCase
 import com.example.archivai.domain.usecases.folders.DeleteFolderUseCase
 import com.example.archivai.domain.usecases.folders.GetFoldersInSectionUseCase
+import com.example.archivai.domain.usecases.folders.RenameFolderUseCase
 import com.example.archivai.presentation.screens.folder.FolderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class FolderViewModel @Inject constructor(
     val getFoldersInSectionUseCase: GetFoldersInSectionUseCase,
     val createFolderUseCase: CreateFolderUseCase,
-    val deleteFolderUseCase: DeleteFolderUseCase
+    val deleteFolderUseCase: DeleteFolderUseCase,
+    val renameFolderUseCase : RenameFolderUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FolderUiState())
     val uiState = _uiState.asStateFlow()
@@ -78,6 +80,32 @@ class FolderViewModel @Inject constructor(
 
     }
 
+    fun renameFolder(folderId: Int, name: String,sectionId: Int) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            renameFolderUseCase.invoke(name,folderId)
+                .onSuccess {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        isRenameFolderDialogVisible = false
+                    )
+                    getFolders(sectionId)
+                    _uiEvent.emit(FoldersUiEvent.ShowToast("Folder renamed successfully"))
+                }
+                .onFailure {
+                    _uiState.value = _uiState.value.copy(
+                        isLoading = false,
+                        error = "An unexpected error occurred"
+                    )
+                    _uiEvent.emit(FoldersUiEvent.ShowToast("Failed to Rename Folder"))
+                }
+
+
+        }
+
+    }
+
+
     fun deleteFolder(folderId: Int,sectionId: Int) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
@@ -133,6 +161,15 @@ class FolderViewModel @Inject constructor(
 
     fun hideDeleteFolderDialog() {
         _uiState.value = _uiState.value.copy(isDeleteFolderDialogVisible = false)
+    }
+
+fun showRenameFolderDialog() {
+        _uiState.value = _uiState.value.copy(isSettingsBottomSheetVisible = false)
+        _uiState.value = _uiState.value.copy(isRenameFolderDialogVisible = true)
+    }
+
+    fun hideRenameFolderDialog() {
+        _uiState.value = _uiState.value.copy(isRenameFolderDialogVisible = false)
     }
 
 

@@ -3,6 +3,7 @@ package com.example.archivai.data.repository.folders
 import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.folder.FoldersApiService
 import com.example.archivai.data.source.remote.requestModels.folders.CreateFolderRequestModel
+import com.example.archivai.data.source.remote.requestModels.folders.RenameFolderRequestModel
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Folder
@@ -51,7 +52,18 @@ class FoldersRepositoryImpl @Inject constructor(
         name: String,
         folderId: Int
     ): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val renameFolderRequestModel = RenameFolderRequestModel(name)
+            val response = apiService.renameFolder(token,folderId,renameFolderRequestModel)
+            return if (response.message.contains("Folder renamed successfully")){
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to rename folder"))
+            }
+        }catch (e: Exception){
+            Log.e("FoldersRepository", "Error renaming folder: ${e.message}")
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteFolder(folderId: Int): Result<Unit> {

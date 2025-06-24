@@ -27,6 +27,7 @@ import com.example.archivai.R
 import com.example.archivai.presentation.screens.folders.components.CreateFolderDialog
 import com.example.archivai.presentation.screens.folders.components.FolderCard
 import com.example.archivai.presentation.screens.folders.components.FolderSettingsBottomSheet
+import com.example.archivai.presentation.screens.folders.components.RenameFolderDialog
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.theme.AppColor
@@ -43,6 +44,7 @@ fun FoldersScreen(
 ) {
     val context = LocalContext.current
     var folderName by remember { mutableStateOf("") }
+    var newFolderName by remember { mutableStateOf("") }
 
     val state by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
@@ -163,7 +165,7 @@ fun FoldersScreen(
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            items(state.folders!!) { folder ->
+                            items(state.folders) { folder ->
                                 FolderCard(
                                     folder.name, folder.numberOfFolders,
                                     onMoreOptionsClick = {
@@ -195,6 +197,32 @@ fun FoldersScreen(
                 onAddFileWithAIClick = { },
                 onCreateFolderClick = { viewModel.showCreateFolderDialog() }
             )
+        }
+        if(state.isRenameFolderDialogVisible){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            ) {
+                RenameFolderDialog(
+                    initialName = state.selectedFolder!!.name,
+                    newFolderName = newFolderName,
+                    onFolderNameChange = { newFolderName = it },
+                    onDismiss = {
+                        viewModel.hideRenameFolderDialog()
+                        newFolderName = ""
+                    },
+                    onConfirm = {
+                        viewModel.renameFolder(state.selectedFolder!!.folderId, newFolderName,sectionId)
+                        Log.d("screen", newFolderName)
+                        newFolderName = ""
+                    }
+
+                )
+            }
+            
+            
+            
         }
 
 
@@ -239,7 +267,7 @@ fun FoldersScreen(
             FolderSettingsBottomSheet(
                 onDismiss = {viewModel.hideSettingsBottomSheet()},
                 onEditPermissions = {},
-                onRename = {},
+                onRename = {viewModel.showRenameFolderDialog()},
                 onDelete = { viewModel.showDeleteFolderDialog()},
                 onMove = {},
                 onMakeCopy = {},

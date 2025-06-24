@@ -20,8 +20,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,10 +36,10 @@ import com.example.archivai.presentation.theme.rubik_semibold
 fun RenameFolderDialog(
     initialName: String,
     onDismiss: () -> Unit,
-    onConfirm: (String) -> Unit
+    onConfirm: (String) -> Unit,
+    newFolderName: String,
+    onFolderNameChange: (String) -> Unit
 ) {
-    val folderName = remember { mutableStateOf(initialName) }
-
     AlertDialog(
         onDismissRequest = { onDismiss() },
         shape = RoundedCornerShape(16.dp),
@@ -78,8 +76,8 @@ fun RenameFolderDialog(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 BasicTextField(
-                    value = folderName.value,
-                    onValueChange = { folderName.value = it },
+                    value = newFolderName,
+                    onValueChange = { onFolderNameChange(it) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -89,9 +87,9 @@ fun RenameFolderDialog(
                         color = Color.Black
                     ),
                     decorationBox = { innerTextField ->
-                        if (folderName.value.isEmpty()) {
+                        if (newFolderName.isEmpty()) {
                             Text(
-                                text = "Untitled Folder", // Updated hint
+                                text = "Untitled Folder",
                                 fontSize = 16.sp,
                                 color = Color.Gray
                             )
@@ -125,7 +123,7 @@ fun RenameFolderDialog(
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { onConfirm(folderName.value) },
+                    onClick = { onConfirm(newFolderName) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -147,5 +145,5 @@ fun RenameFolderDialog(
 @Preview(showBackground = true)
 @Composable
 fun RenameFolderDialogPreview(modifier: Modifier = Modifier) {
-    RenameFolderDialog("", {}, {})
+    RenameFolderDialog("", {}, {},"",{})
 }

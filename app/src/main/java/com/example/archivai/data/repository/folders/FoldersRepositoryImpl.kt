@@ -3,7 +3,6 @@ package com.example.archivai.data.repository.folders
 import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.folder.FoldersApiService
 import com.example.archivai.data.source.remote.requestModels.folders.CreateFolderRequestModel
-import com.example.archivai.data.source.remote.requestModels.sections.CreateSectionRequestModel
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Folder
@@ -56,7 +55,17 @@ class FoldersRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteFolder(folderId: Int): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val response = apiService.deleteFolder(token,folderId)
+            return if (response.message.contains("Folder Deleted successfully")){
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to delete Folder"))
+            }
+        }catch (e: Exception){
+            Log.e("FoldersRepository", "Error deleting folder: ${e.message}")
+            return Result.failure(e)
+        }
     }
 
     override suspend fun getFolderRoles(folderId: Int): Result<List<Role>> {

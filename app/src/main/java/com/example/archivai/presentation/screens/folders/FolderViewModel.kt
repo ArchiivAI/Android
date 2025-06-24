@@ -3,10 +3,11 @@ package com.example.archivai.presentation.screens.folders
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.usecases.folders.CreateFolderUseCase
+import com.example.archivai.domain.usecases.folders.DeleteFolderUseCase
 import com.example.archivai.domain.usecases.folders.GetFoldersInSectionUseCase
 import com.example.archivai.presentation.screens.folder.FolderUiState
-import com.example.archivai.presentation.screens.sections.SectionsUiEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 @HiltViewModel
 class FolderViewModel @Inject constructor(
     val getFoldersInSectionUseCase: GetFoldersInSectionUseCase,
-    val createFolderUseCase: CreateFolderUseCase
+    val createFolderUseCase: CreateFolderUseCase,
+    val deleteFolderUseCase: DeleteFolderUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FolderUiState())
     val uiState = _uiState.asStateFlow()
@@ -76,8 +78,41 @@ class FolderViewModel @Inject constructor(
 
     }
 
+    fun deleteFolder(folderId: Int,sectionId: Int) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                deleteFolderUseCase.invoke(folderId)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    selectedFolder = null,
+                    isDeleteFolderDialogVisible = false
+                )
+                getFolders(sectionId)
+                _uiEvent.emit(FoldersUiEvent.ShowToast("Folder deleted successfully"))
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Failed to delete folder", e)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "An unexpected error occurred"
+                )
+                _uiEvent.emit(FoldersUiEvent.ShowToast("Failed to Delete Folder"))
+            }
+        }
 
 
+    }
+
+
+    fun selectFolder(folder: Folder) {
+        _uiState.value = _uiState.value.copy(selectedFolder = folder)
+    }
+    fun showSettingsBottomSheet() {
+        _uiState.value = _uiState.value.copy(isSettingsBottomSheetVisible = true)
+    }
+    fun hideSettingsBottomSheet() {
+        _uiState.value = _uiState.value.copy(isSettingsBottomSheetVisible = false)
+    }
     fun showFabBottomSheet() {
         _uiState.value = _uiState.value.copy(isFabBottomSheetVisible = true)
     }
@@ -90,6 +125,14 @@ class FolderViewModel @Inject constructor(
     }
     fun hideCreateFolderDialog() {
         _uiState.value = _uiState.value.copy(isCreateFolderDialogVisible = false)
+    }
+    fun showDeleteFolderDialog() {
+        _uiState.value = _uiState.value.copy(isSettingsBottomSheetVisible = false)
+        _uiState.value = _uiState.value.copy(isDeleteFolderDialogVisible = true)
+    }
+
+    fun hideDeleteFolderDialog() {
+        _uiState.value = _uiState.value.copy(isDeleteFolderDialogVisible = false)
     }
 
 

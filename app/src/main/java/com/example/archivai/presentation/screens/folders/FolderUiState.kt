@@ -9,4 +9,7 @@ data class FolderUiState (
     val folders : List<Folder>? =emptyList(),
     val isFabBottomSheetVisible : Boolean = false,
     val isCreateFolderDialogVisible : Boolean = false,
+    val isDeleteFolderDialogVisible : Boolean = false,
+    val isSettingsBottomSheetVisible : Boolean = false,
+    val selectedFolder : Folder? = null
 )

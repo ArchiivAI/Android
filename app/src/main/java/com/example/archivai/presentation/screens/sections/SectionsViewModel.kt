@@ -2,13 +2,9 @@ package com.example.archivai.presentation.screens.sections
 
 
 import android.util.Log
-import android.widget.Toast
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.archivai.domain.entities.Section
-import com.example.archivai.domain.repository.sections.SectionsRepository
 import com.example.archivai.domain.usecases.sections.CreateSectionUseCase
 import com.example.archivai.domain.usecases.sections.DeleteSectionUseCase
 import com.example.archivai.domain.usecases.sections.GetSectionsUseCase
@@ -41,7 +37,6 @@ class SectionsViewModel @Inject constructor(
     }
 
     private fun getSections() {
-
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             try {
@@ -59,8 +54,6 @@ class SectionsViewModel @Inject constructor(
 
 
         }
-
-
     }
 
     fun createSection(name: String) {
@@ -115,7 +108,6 @@ class SectionsViewModel @Inject constructor(
     }
 
      fun deleteSection(sectionId: Int) {
-
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             try {

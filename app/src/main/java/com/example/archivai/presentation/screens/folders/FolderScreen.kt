@@ -26,8 +26,9 @@ import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.screens.folders.components.CreateFolderDialog
 import com.example.archivai.presentation.screens.folders.components.FolderCard
-import com.example.archivai.presentation.screens.sections.SectionsUiEvents
+import com.example.archivai.presentation.screens.folders.components.FolderSettingsBottomSheet
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
+import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 import com.example.archivai.sections.presentation.components.FolderFabBottomSheet
@@ -51,7 +52,11 @@ fun FoldersScreen(
     LaunchedEffect(true) {
         viewModel.uiEvent.collectLatest { event ->
             when (event) {
-                is FoldersUiEvent.ShowToast -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                is FoldersUiEvent.ShowToast -> Toast.makeText(
+                    context,
+                    event.message,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -159,7 +164,14 @@ fun FoldersScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             items(state.folders!!) { folder ->
-                                FolderCard(folder.name, folder.numberOfFolders)
+                                FolderCard(
+                                    folder.name, folder.numberOfFolders,
+                                    onMoreOptionsClick = {
+                                        viewModel.selectFolder(folder)
+                                        viewModel.showSettingsBottomSheet()
+                                    }
+
+                                    )
                             }
                         }
                     }
@@ -167,7 +179,7 @@ fun FoldersScreen(
             }
         }
 
-        // FAB
+
         CustomFloatingActionButton(
             onClick = { viewModel.showFabBottomSheet() },
             modifier = Modifier
@@ -176,7 +188,6 @@ fun FoldersScreen(
                 .padding(bottom = 56.dp)
         )
 
-        // FAB Bottom Sheet
         if (state.isFabBottomSheetVisible) {
             FolderFabBottomSheet(
                 onDismiss = { viewModel.hideFabBottomSheet() },
@@ -186,7 +197,7 @@ fun FoldersScreen(
             )
         }
 
-        // Create Folder Dialog
+
         if (state.isCreateFolderDialogVisible) {
             Box(
                 modifier = Modifier
@@ -207,6 +218,37 @@ fun FoldersScreen(
                     }
                 )
             }
+        }
+        if (state.isDeleteFolderDialogVisible) {
+            viewModel.hideFabBottomSheet()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            ) {
+                DeleteSectionDialog(
+                    onDismiss = { viewModel.hideDeleteFolderDialog() },
+                    onConfirm = {
+                        viewModel.deleteFolder(state.selectedFolder!!.folderId,sectionId)
+                    }
+                )
+            }
+
+        }
+        if (state.isSettingsBottomSheetVisible){
+            FolderSettingsBottomSheet(
+                onDismiss = {viewModel.hideSettingsBottomSheet()},
+                onEditPermissions = {},
+                onRename = {},
+                onDelete = { viewModel.showDeleteFolderDialog()},
+                onMove = {},
+                onMakeCopy = {},
+                onViewPermittedPermissions = {}
+            )
+
+
+
+
         }
     }
 }

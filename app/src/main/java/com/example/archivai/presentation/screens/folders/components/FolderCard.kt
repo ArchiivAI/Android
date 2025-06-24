@@ -29,7 +29,11 @@ import com.example.archivai.presentation.theme.rubik_bold
 import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
-fun FolderCard(folderName : String,noOfFolders : Int) {
+fun FolderCard(
+    folderName: String,
+    noOfFolders: Int,
+    onMoreOptionsClick : () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,8 +83,9 @@ fun FolderCard(folderName : String,noOfFolders : Int) {
                 Icon(
                     painter = painterResource(R.drawable.more_options_icon),
                     contentDescription = "More Options",
-                    modifier = Modifier.size(20.dp).
-                    clickable {},
+                    modifier = Modifier
+                        .size(20.dp)
+                        .clickable { onMoreOptionsClick() },
                     tint = Color.Black
                 )
 
@@ -91,9 +96,8 @@ fun FolderCard(folderName : String,noOfFolders : Int) {
 }
 
 
-
 @Preview(showBackground = true)
 @Composable
-fun FolderCardPreview(modifier: Modifier = Modifier) {
-    FolderCard("Calma", 21)
+fun FolderCardPreview() {
+    FolderCard("Calma", 21,{})
 }

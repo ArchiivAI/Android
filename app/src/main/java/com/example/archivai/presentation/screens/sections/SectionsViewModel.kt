@@ -32,6 +32,9 @@ class SectionsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(SectionsUiState())
     val uiState = _uiState.asStateFlow()
 
+    private val _uiEvent = MutableSharedFlow<SectionsUiEvents>()
+    val uiEvent = _uiEvent.asSharedFlow()
+
 
     init {
         getSections()
@@ -51,6 +54,7 @@ class SectionsViewModel @Inject constructor(
                     isLoading = false,
                     error = e.message ?: "An unexpected error occurred"
                 )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to Get Section"))
             }
 
 
@@ -69,6 +73,7 @@ class SectionsViewModel @Inject constructor(
                         showCreateDialog = false
                     )
                     Log.d("vm", name)
+                    _uiEvent.emit(SectionsUiEvents.ShowToast("Section created successfully"))
                     getSections()
                 }
                 .onFailure {
@@ -76,6 +81,7 @@ class SectionsViewModel @Inject constructor(
                         isLoading = false,
                         error = "An unexpected error occurred"
                     )
+                    _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to Create Section"))
                 }
 
 
@@ -93,12 +99,14 @@ class SectionsViewModel @Inject constructor(
                         showRenameDialog = false
                     )
                     getSections()
+                    _uiEvent.emit(SectionsUiEvents.ShowToast("Section renamed successfully"))
                 }
                 .onFailure {
                     _uiState.value = _uiState.value.copy(
                         isLoading = false,
                         error = "An unexpected error occurred"
                     )
+                    _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to Rename Section"))
                 }
 
 
@@ -118,12 +126,14 @@ class SectionsViewModel @Inject constructor(
                     showDeleteDialog = false
                 )
                 getSections()
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Section deleted successfully"))
             } catch (e: Exception) {
                 Log.e("ViewModel", "Failed to delete section", e)
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     error = e.message ?: "An unexpected error occurred"
                 )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to Delete Section"))
             }
         }
 

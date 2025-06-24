@@ -30,11 +30,15 @@ import com.example.archivai.presentation.theme.rubik_bold
 import com.example.archivai.presentation.theme.rubik_regular
 
 @Composable
-fun SectionCard(sectionName: String, noOfFolders: Int?, onMoreOptionsClick: () -> Unit) {
+fun SectionCard(sectionName: String, noOfFolders: Int?, onMoreOptionsClick: () -> Unit , onCardClick : () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable{
+                onCardClick()
+            }
+        ,
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -98,5 +102,5 @@ fun SectionCard(sectionName: String, noOfFolders: Int?, onMoreOptionsClick: () -
 @Preview(showBackground = true)
 @Composable
 fun SectionCardPreview(modifier: Modifier = Modifier) {
-    SectionCard("Calma", 21, {})
+    SectionCard("Calma", 21, {},{})
 }

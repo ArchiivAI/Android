@@ -1,6 +1,7 @@
 package com.example.archivai.presentation.screens.sections
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +40,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.sections.components.CreateSectionDialog
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
@@ -47,6 +51,7 @@ import com.example.archivai.presentation.screens.sections.components.SectionCard
 import com.example.archivai.presentation.screens.sections.components.SettingsBottomSheet
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = hiltViewModel()) {
@@ -54,6 +59,24 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
     val state by viewModel.uiState.collectAsState()
     var sectionName by remember { mutableStateOf("") }
     var newSectionName by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when(event) {
+                is SectionsUiEvents.ShowToast ->
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+
+                SectionsUiEvents.NavigateToAddFilesWithAI -> TODO()
+                SectionsUiEvents.NavigateToCreateSection -> TODO()
+                SectionsUiEvents.NavigateToScan -> TODO()
+            }
+
+        }
+
+
+
+    }
 
     Box(
         modifier = Modifier
@@ -64,7 +87,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 48.dp)
+                .padding(vertical = 48.dp, horizontal = 24.dp)
         ) {
             // Header row
             Row(
@@ -148,7 +171,6 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                     }
 
                     else -> {
-                        // Success state with data
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
@@ -159,7 +181,15 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                                     onMoreOptionsClick = {
                                         viewModel.selectSection(section)
                                         viewModel.showSettingsBottomSheet()
-                                    }
+                                    },
+                                    onCardClick = {
+                                        navController.navigate(
+                                            Screens.Folders(
+                                                id = section.id,
+                                                name = section.name
+                                            )
+                                        )
+                                     }
                                 )
                             }
                         }

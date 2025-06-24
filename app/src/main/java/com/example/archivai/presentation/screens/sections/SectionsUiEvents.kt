@@ -6,7 +6,4 @@ sealed class SectionsUiEvents {
     object NavigateToAddFilesWithAI : SectionsUiEvents()
     object NavigateToCreateSection : SectionsUiEvents()
 
-
-
-
 }

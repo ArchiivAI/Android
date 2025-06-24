@@ -5,7 +5,7 @@ import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.entities.Role
 
 interface FoldersRepository {
-    suspend fun getFoldersInSection(sectionId: Int): Result<List<Folder>>
+    suspend fun getFoldersInSection(sectionId: Int): List<Folder>
 
     suspend fun createFolderInSection(sectionId: Int, folderName: String): Result<Unit>
 

@@ -108,6 +108,9 @@ dependencies {
     //shared preferences
     implementation ("androidx.security:security-crypto:1.0.0")
 
+    //Glide
+    implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
+
 
 }
 kapt {

@@ -18,57 +18,67 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.screens.folders.components.FolderCard
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
-
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 
-data class FolderItem(val name: String, val folderCount: Int)
-
-
-val sampleFolders = listOf(
-    FolderItem("calma",50),
-    FolderItem("calma",50),
-    FolderItem("calma",50),
-    FolderItem("calma",50),
-    FolderItem("calma",50),
-    FolderItem("calma",50)
-
-)
 
 @Composable
-fun FoldersScreen(navController: NavController) {
+fun FoldersScreen(
+    navController: NavController,
+    viewModel: FolderViewModel = hiltViewModel(),
+    sectionName : String,
+    sectionId : Int
+) {
+
+    val state by viewModel.uiState.collectAsState()
+    LaunchedEffect(Unit) {
+        viewModel.getFolders(sectionId)
+    }
+
+
 
     Box(modifier = Modifier.fillMaxSize()) {
-
-
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(top = 48.dp, start = 24.dp, end = 24.dp)
                 .padding(bottom = 72.dp)
         ) {
-            Row(modifier = Modifier.fillMaxWidth().height(32.dp)) {
-                Icon(painterResource(R.drawable.arrow_icon)
-                    , contentDescription = "back icon"
-                    , modifier = Modifier.clickable {}
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp)
+            ) {
+                Icon(
+                    painterResource(R.drawable.arrow_icon),
+                    contentDescription = "back icon",
+                    modifier = Modifier
+                        .clickable {
+                            navController.popBackStack()
+                        }
                         .align(Alignment.CenterVertically)
                         .padding(6.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
-                    text = "Folders",
+                    text = "$sectionName Folders",
                     fontFamily = rubik_semibold,
                     fontSize = 20.sp,
                     color = AppColor,
@@ -78,14 +88,18 @@ fun FoldersScreen(navController: NavController) {
                 Icon(
                     painterResource(R.drawable.search_icon),
                     contentDescription = "search icon",
-                    modifier = Modifier.size(32.dp).clickable {},
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {},
                     tint = AppColor
                 )
                 Spacer(modifier = Modifier.width(12.dp))
                 Icon(
                     painterResource(R.drawable.list_view_icon),
                     contentDescription = "search icon",
-                    modifier = Modifier.size(32.dp).clickable {},
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable {},
                     tint = AppColor
                 )
 
@@ -94,8 +108,8 @@ fun FoldersScreen(navController: NavController) {
                 modifier = Modifier.padding(top = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                items(sampleFolders) { folder ->
-                    FolderCard(folder.name, folder.folderCount)
+                items(state.folders!!) { folder ->
+                    FolderCard(folder.name, folder.numberOfFolders)
                 }
 
             }
@@ -113,18 +127,16 @@ fun FoldersScreen(navController: NavController) {
         )
 
 
-
-
-
     }
 
 
 }
 
 
-
-@Preview(showBackground = true )
+@Preview(showBackground = true)
 @Composable
-fun SectionScreenPreview() {
-    FoldersScreen( rememberNavController())
+fun FolderScreenPreview() {
+    FoldersScreen(
+        rememberNavController(), sectionName = "",  sectionId = 2
+    )
 }

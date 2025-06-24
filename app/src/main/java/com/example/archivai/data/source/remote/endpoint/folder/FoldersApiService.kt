@@ -6,26 +6,32 @@ import com.example.archivai.data.source.remote.requestModels.folders.CreateSubFo
 import com.example.archivai.data.source.remote.responseModels.folders.CreateSubFolderResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.DeleteFolderResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.GetAllFoldersResponseModel
-import com.example.archivai.data.source.remote.responseModels.folders.GetFolderDetailsInSectionResponseModel
+import com.example.archivai.data.source.remote.responseModels.folders.GetFoldersInSectionResponseModel
 import com.example.archivai.data.source.remote.requestModels.folders.RenameFolderRequestModel
 import com.example.archivai.data.source.remote.responseModels.folders.RenameFolderResponseModel
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FoldersApiService {
 
 
 
-    // get folders details in section
+    // get folders  in section
     @GET("/api/Sections/folders/{sectionId}/{page}")
-    suspend fun getFolderInSection(
-    ) : GetFolderDetailsInSectionResponseModel
+    suspend fun getFoldersInSection(
+        @Header("Authorization") token : String,
+        @Path("sectionId") sectionId: Int,
+        @Path("page") page: Int,
+        @Query("pageSize") pageSize : Int =10,
+        @Query("searchQuery") searchQuery: String? = null
+
+    ) : GetFoldersInSectionResponseModel
 
 
 

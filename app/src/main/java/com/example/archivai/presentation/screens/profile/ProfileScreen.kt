@@ -8,26 +8,35 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
+import com.example.archivai.presentation.screens.profile.components.LogOutDialog
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_medium
-import com.example.archivai.presentation.theme.rubik_regular
-import com.example.archivai.presentation.theme.rubik_semibold
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ProfileScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: ProfileViewModel = hiltViewModel()
 ) {
+    val state by viewModel.uiState.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -44,20 +53,23 @@ fun ProfileScreen(
                 .clip(CircleShape)
                 .background(Color.LightGray)
         ) {
-            Image(
-                painter = painterResource(id = android.R.drawable.ic_menu_camera),
-                contentDescription = "Camera Icon",
-                modifier = Modifier
-                    .size(24.dp)
-                    .align(Alignment.Center)
-            )
+            val safeImageUrl = state.imageUrl?.replace(" ", "%20") ?: R.drawable.image_placeholder
+            GlideImage(
+                model = safeImageUrl,
+                contentDescription = "Profile",
+                contentScale = ContentScale.Crop // Crop to fit
+            ) {
+                it.error(R.drawable.image_placeholder) // Fallback if URL fails
+                    .placeholder(R.drawable.image_placeholder) // Shown while loading
+                    .circleCrop() // Optional: Apply circular crop for profile picture
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         // User Name
         Text(
-            text = "Ahmed Ali",
+            text = state.userName,
             fontSize = 20.sp,
             color = Color.Black
         )
@@ -68,7 +80,7 @@ fun ProfileScreen(
         ProfileListItem(
             icon = R.drawable.pencil_edit,
             text = "Personal Info",
-            onClick = {  }
+            onClick = { }
         )
 
         Divider(color = Color.LightGray, thickness = 1.dp)
@@ -84,8 +96,42 @@ fun ProfileScreen(
         ProfileListItem(
             icon = R.drawable.log_out,
             text = "Log Out",
-            onClick = {  }
+            onClick = {
+                viewModel.showLogOutDialog()
+            }
         )
+        if (state.showLogOutDialog){
+            LogOutDialog(
+              onDismiss = {
+                  viewModel.hideLogOutDialog()
+              },
+                onConfirm = {
+                    viewModel.logOut {
+                        navController.navigate(Screens.Login) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+
+                        }
+                    }
+
+                }
+
+
+            )
+
+        }
+
+
+        if (state.isLoggingOut) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.White.copy(alpha = 0.5f)),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
+        }
     }
 }
 

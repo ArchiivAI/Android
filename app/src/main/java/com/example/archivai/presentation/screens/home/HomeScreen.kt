@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,41 +29,44 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.activity_log.components.ActivityLogCard
 import com.example.archivai.presentation.screens.home.components.HomeTopAppBar
-
 import com.example.archivai.presentation.screens.sections.components.SectionCard
 import com.example.archivai.presentation.theme.AppColor
 
 
 
-data class SectionEntry(val sectionName: String, val noOfFolders: Int)
-
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltViewModel()) {
+    val state by viewModel.uiState.collectAsState()
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5F5F5)) // Light gray background
+            .background(Color(0xFFF5F5F5))
     ) {
 
-        Column (
-            modifier = Modifier.fillMaxSize()
-                .padding(vertical = 24.dp, horizontal = 24.dp)
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(vertical = 24.dp, horizontal = 16.dp)
 
 
-        ){
-            HomeTopAppBar("Ahmed")
+        ) {
+            HomeTopAppBar(state.userName, imageUrl = state.imageUrl, onProfileClick = {
+                navController.navigate(
+                    Screens.Profile
+                )
+            })
 
 
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
             ) {
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -69,8 +74,8 @@ fun HomeScreen(navController: NavController) {
                 // Storage Usage Card
                 StorageUsageCard(
                     breakdown = StorageBreakdown(
-                        totalUsed = 120f,
-                        totalCapacity = 300f,
+                        totalUsed = state.storageUsed.toFloat(),
+                        totalCapacity = state.totalStorage.toFloat(),
                         wordPercentage = 0.3f,
                         imagePercentage = 0.2f,
                         excelPercentage = 0.1f,
@@ -126,7 +131,8 @@ fun HomeScreen(navController: NavController) {
                     Icon(
                         painterResource(R.drawable.list_view_icon),
                         contentDescription = "More",
-                        tint = AppColor
+                        tint = AppColor,
+                        modifier = Modifier.clickable{}
                     )
                 }
 
@@ -136,22 +142,12 @@ fun HomeScreen(navController: NavController) {
                 LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
-                    items(
-                        items = listOf(
-                            SectionEntry("Section Name", 20),
-                            SectionEntry("Section Name", 40),
-                            SectionEntry("Section Name", 60),
-                            SectionEntry("Section Name", 80),
-                            SectionEntry("Section Name", 100)
-                        )
-                    ) { section ->
+                    items(state.quickAccessSections!!) { section ->
                         SectionCard(
-                            sectionName = section.sectionName,
-                            noOfFolders = section.noOfFolders,
-                            onMoreOptionsClick = {
-
-                            }
-                        )
+                            sectionName = section.name,
+                            noOfFolders = null,
+                            onMoreOptionsClick = {}
+                        ) {}
                     }
                 }
             }

@@ -40,7 +40,8 @@ sealed class Screens {
 
     @Serializable
     data class Folders(
-        val id: String
+        val id: Int,
+        val name : String
     ) : Screens()
 
     @Serializable

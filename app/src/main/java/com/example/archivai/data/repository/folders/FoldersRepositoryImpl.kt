@@ -2,6 +2,8 @@ package com.example.archivai.data.repository.folders
 
 import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.folder.FoldersApiService
+import com.example.archivai.data.source.remote.requestModels.folders.CreateFolderRequestModel
+import com.example.archivai.data.source.remote.requestModels.sections.CreateSectionRequestModel
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Folder
@@ -29,7 +31,21 @@ class FoldersRepositoryImpl @Inject constructor(
         sectionId: Int,
         folderName: String
     ): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val createFolderRequestModel = CreateFolderRequestModel(
+                folderName = folderName,
+                sectionId = sectionId)
+            val response = apiService.createFolder(token,createFolderRequestModel)
+            Log.d("repo",folderName)
+            return if (response.message.contains("Folder created successfully")){
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to create folder"))
+            }
+        }catch (e: Exception){
+            Log.e("FoldersRepository", "Error creating folder: ${e.message}")
+            return Result.failure(e)
+        }
     }
 
     override suspend fun renameFolder(

@@ -1,30 +1,22 @@
 package com.example.archivai.presentation.screens.folders
 
-
+import android.util.Log
+import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,34 +24,49 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.screens.folders.components.CreateFolderDialog
 import com.example.archivai.presentation.screens.folders.components.FolderCard
+import com.example.archivai.presentation.screens.sections.SectionsUiEvents
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
-
+import com.example.archivai.sections.presentation.components.FolderFabBottomSheet
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun FoldersScreen(
     navController: NavController,
     viewModel: FolderViewModel = hiltViewModel(),
-    sectionName : String,
-    sectionId : Int
+    sectionName: String,
+    sectionId: Int
 ) {
+    val context = LocalContext.current
+    var folderName by remember { mutableStateOf("") }
 
     val state by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.getFolders(sectionId)
     }
 
+    LaunchedEffect(true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when (event) {
+                is FoldersUiEvent.ShowToast -> Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 48.dp, start = 24.dp, end = 24.dp)
-                .padding(bottom = 72.dp)
+                .padding(vertical = 48.dp, horizontal = 24.dp)
         ) {
+            // Header Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -69,14 +76,11 @@ fun FoldersScreen(
                     painterResource(R.drawable.arrow_icon),
                     contentDescription = "back icon",
                     modifier = Modifier
-                        .clickable {
-                            navController.popBackStack()
-                        }
-                        .align(Alignment.CenterVertically)
+                        .clickable { navController.popBackStack() }
                         .padding(6.dp)
+                        .align(Alignment.CenterVertically)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
-
                 Text(
                     text = "$sectionName Folders",
                     fontFamily = rubik_semibold,
@@ -84,7 +88,7 @@ fun FoldersScreen(
                     color = AppColor,
                     modifier = Modifier.align(Alignment.CenterVertically)
                 )
-                Spacer(modifier = Modifier.weight(1F))
+                Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     painterResource(R.drawable.search_icon),
                     contentDescription = "search icon",
@@ -96,47 +100,121 @@ fun FoldersScreen(
                 Spacer(modifier = Modifier.width(12.dp))
                 Icon(
                     painterResource(R.drawable.list_view_icon),
-                    contentDescription = "search icon",
+                    contentDescription = "list icon",
                     modifier = Modifier
                         .size(32.dp)
                         .clickable {},
                     tint = AppColor
                 )
-
             }
-            LazyColumn(
-                modifier = Modifier.padding(top = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+
+            // Content Area
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp)
             ) {
-                items(state.folders!!) { folder ->
-                    FolderCard(folder.name, folder.numberOfFolders)
+                when {
+                    state.isLoading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = AppColor
+                        )
+                    }
+
+                    state.error != null -> {
+                        Column(
+                            modifier = Modifier.align(Alignment.Center),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Error loading folders",
+                                fontSize = 16.sp,
+                                color = Color.Red,
+                                textAlign = TextAlign.Center
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = state.error!!,
+                                fontSize = 14.sp,
+                                color = Color.Gray,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(horizontal = 16.dp)
+                            )
+                        }
+                    }
+
+                    state.folders!!.isEmpty() -> {
+                        Text(
+                            text = "No folders available",
+                            fontSize = 16.sp,
+                            color = Color.Gray,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+
+                    else -> {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            items(state.folders!!) { folder ->
+                                FolderCard(folder.name, folder.numberOfFolders)
+                            }
+                        }
+                    }
                 }
-
             }
-
         }
-        CustomFloatingActionButton(
-            onClick = {
 
-            },
+        // FAB
+        CustomFloatingActionButton(
+            onClick = { viewModel.showFabBottomSheet() },
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
                 .padding(bottom = 56.dp)
-
         )
 
+        // FAB Bottom Sheet
+        if (state.isFabBottomSheetVisible) {
+            FolderFabBottomSheet(
+                onDismiss = { viewModel.hideFabBottomSheet() },
+                onUploadFileClick = { },
+                onAddFileWithAIClick = { },
+                onCreateFolderClick = { viewModel.showCreateFolderDialog() }
+            )
+        }
 
+        // Create Folder Dialog
+        if (state.isCreateFolderDialogVisible) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            ) {
+                CreateFolderDialog(
+                    folderName = folderName,
+                    onFolderNameChange = { folderName = it },
+                    onDismiss = {
+                        viewModel.hideCreateFolderDialog()
+                        folderName = ""
+                    },
+                    onConfirm = {
+                        viewModel.createFolder(folderName, sectionId)
+                        Log.d("screen", sectionName)
+                        folderName = ""
+                    }
+                )
+            }
+        }
     }
-
-
 }
-
 
 @Preview(showBackground = true)
 @Composable
 fun FolderScreenPreview() {
     FoldersScreen(
-        rememberNavController(), sectionName = "",  sectionId = 2
+        rememberNavController(), sectionName = "Demo", sectionId = 1
     )
 }

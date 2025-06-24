@@ -38,10 +38,11 @@ import com.example.archivai.presentation.theme.rubik_semibold
 
 @Composable
 fun CreateFolderDialog(
+    folderName: String,
+    onFolderNameChange: (String) -> Unit,
     onDismiss: () -> Unit,
     onConfirm: (String) -> Unit
 ) {
-    val folderName = remember { mutableStateOf("") }
 
     AlertDialog(
         onDismissRequest = { onDismiss() },
@@ -79,8 +80,8 @@ fun CreateFolderDialog(
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             ) {
                 BasicTextField(
-                    value = folderName.value,
-                    onValueChange = { folderName.value = it },
+                    value = folderName,
+                    onValueChange = { onFolderNameChange(it)},
                     modifier = Modifier
                         .fillMaxWidth()
                         .border(1.dp, Color.Gray, RoundedCornerShape(8.dp))
@@ -90,7 +91,7 @@ fun CreateFolderDialog(
                         color = Color.Black
                     ),
                     decorationBox = { innerTextField ->
-                        if (folderName.value.isEmpty()) {
+                        if (folderName.isEmpty()) {
                             Text(
                                 text = "Untitled Folder",
                                 fontSize = 16.sp,
@@ -128,7 +129,7 @@ fun CreateFolderDialog(
                 }
                 Spacer(modifier = Modifier.width(16.dp))
                 Button(
-                    onClick = { onConfirm(folderName.value) },
+                    onClick = { onConfirm(folderName) },
                     modifier = Modifier.weight(1f),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -151,6 +152,6 @@ fun CreateFolderDialog(
 @Preview(showBackground = true)
 @Composable
 fun CreateFolderDialogPreview(modifier: Modifier = Modifier) {
-    CreateFolderDialog({}, {})
+    CreateFolderDialog("",{}, {},{})
 }
 

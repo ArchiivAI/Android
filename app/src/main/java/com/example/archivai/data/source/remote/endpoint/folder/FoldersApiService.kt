@@ -37,13 +37,16 @@ interface FoldersApiService {
 
     //get all Folders
     @GET("/api/Folders")
-    suspend fun getAllFolders() : GetAllFoldersResponseModel
+    suspend fun getAllFolders(
+        @Header("Authorization") token : String,
+    ) : GetAllFoldersResponseModel
 
 
     // delete folder
 
     @DELETE("/api/Folders/{folderId}")
     suspend fun deleteFolder(
+        @Header("Authorization") token : String,
         @Path("folderId") folderId : Int
 
     ): DeleteFolderResponseModel
@@ -52,6 +55,7 @@ interface FoldersApiService {
     //create folder in Section
     @POST("/api/Folders")
     suspend fun createFolder(
+        @Header("Authorization") token : String,
         @Body request: CreateFolderRequestModel,
     ) : CreateFolderResponseModel
 
@@ -59,12 +63,14 @@ interface FoldersApiService {
     //create Folder in Folder
     @POST("/api/Folders/SubFolder")
     suspend fun createSubFolder(
+        @Header("Authorization") token : String,
         @Body request: CreateSubFolderRequestModel,
     ) : CreateSubFolderResponseModel
 
     //rename Folder
     @PUT("/api/Folders/{folderId}/rename")
     suspend fun renameFolder(
+        @Header("Authorization") token : String,
         @Path("folderId") folderId : Int,
         @Body renameFolderRequestModel: RenameFolderRequestModel
     ) : RenameFolderResponseModel

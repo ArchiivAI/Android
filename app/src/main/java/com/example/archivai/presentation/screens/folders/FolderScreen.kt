@@ -24,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.folders.components.CreateFolderDialog
 import com.example.archivai.presentation.screens.folders.components.FolderCard
 import com.example.archivai.presentation.screens.folders.components.FolderSettingsBottomSheet
@@ -38,9 +39,11 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun FoldersScreen(
     navController: NavController,
-    viewModel: FolderViewModel = hiltViewModel(),
+    sectionId: Int,
+    folderId: Int?,
     sectionName: String,
-    sectionId: Int
+    folderName: String?,
+    viewModel: FolderViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     var folderName by remember { mutableStateOf("") }
@@ -48,7 +51,7 @@ fun FoldersScreen(
 
     val state by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
-        viewModel.getFolders(sectionId)
+        viewModel.getFolders(sectionId, folderId)
     }
 
     LaunchedEffect(true) {
@@ -71,7 +74,7 @@ fun FoldersScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 48.dp, horizontal = 24.dp)
+                .padding(vertical = 16.dp, horizontal = 24.dp)
         ) {
             // Header Row
             Row(
@@ -89,7 +92,11 @@ fun FoldersScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = "$sectionName Folders",
+                    text = if (folderName.isEmpty()) {
+                        "$sectionName folders"
+                    } else {
+                        "$folderName  folders "
+                    },
                     fontFamily = rubik_semibold,
                     fontSize = 20.sp,
                     color = AppColor,
@@ -171,6 +178,16 @@ fun FoldersScreen(
                                     onMoreOptionsClick = {
                                         viewModel.selectFolder(folder)
                                         viewModel.showSettingsBottomSheet()
+                                    }, onCardClick = {
+                                        navController.navigate(
+                                            Screens.Folders(
+                                                sectionId = sectionId,
+                                                folderId = folder.folderId,
+                                                sectionName = sectionName,
+                                                folderName = folder.name
+                                            )
+                                        )
+
                                     }
 
                                     )
@@ -187,7 +204,6 @@ fun FoldersScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .padding(bottom = 56.dp)
         )
 
         if (state.isFabBottomSheetVisible) {
@@ -213,7 +229,7 @@ fun FoldersScreen(
                         newFolderName = ""
                     },
                     onConfirm = {
-                        viewModel.renameFolder(state.selectedFolder!!.folderId, newFolderName,sectionId)
+                        viewModel.renameFolder(state.selectedFolder!!.folderId, newFolderName,sectionId , folderId)
                         Log.d("screen", newFolderName)
                         newFolderName = ""
                     }
@@ -240,7 +256,7 @@ fun FoldersScreen(
                         folderName = ""
                     },
                     onConfirm = {
-                        viewModel.createFolder(folderName, sectionId)
+                        viewModel.createFolder(folderName, sectionId,folderId)
                         Log.d("screen", sectionName)
                         folderName = ""
                     }
@@ -257,7 +273,7 @@ fun FoldersScreen(
                 DeleteSectionDialog(
                     onDismiss = { viewModel.hideDeleteFolderDialog() },
                     onConfirm = {
-                        viewModel.deleteFolder(state.selectedFolder!!.folderId,sectionId)
+                        viewModel.deleteFolder(state.selectedFolder!!.folderId,sectionId,folderId)
                     }
                 )
             }
@@ -285,6 +301,6 @@ fun FoldersScreen(
 @Composable
 fun FolderScreenPreview() {
     FoldersScreen(
-        rememberNavController(), sectionName = "Demo", sectionId = 1
+        rememberNavController(), sectionName = "Demo", sectionId = 1, folderId = 6, folderName = "Demo Folder"
     )
 }

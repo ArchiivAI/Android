@@ -2,7 +2,7 @@ package com.example.archivai.data.source.remote.responseModels.folders
 
 import com.example.archivai.domain.entities.Folder
 
-class GetFoldersInSectionResponseModel : ArrayList<FolderDetailsResponseModel>() {
+class GetFoldersResponseModel : ArrayList<FolderDetailsResponseModel>() {
     fun toDomainList(): List<Folder> {
         return this.map { it.toDomain() }
     }

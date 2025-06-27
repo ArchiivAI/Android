@@ -6,7 +6,7 @@ import com.example.archivai.data.source.remote.requestModels.folders.CreateSubFo
 import com.example.archivai.data.source.remote.responseModels.folders.CreateSubFolderResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.DeleteFolderResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.GetAllFoldersResponseModel
-import com.example.archivai.data.source.remote.responseModels.folders.GetFoldersInSectionResponseModel
+import com.example.archivai.data.source.remote.responseModels.folders.GetFoldersResponseModel
 import com.example.archivai.data.source.remote.requestModels.folders.RenameFolderRequestModel
 import com.example.archivai.data.source.remote.responseModels.folders.RenameFolderResponseModel
 import retrofit2.http.Body
@@ -31,7 +31,7 @@ interface FoldersApiService {
         @Query("pageSize") pageSize : Int =10,
         @Query("searchQuery") searchQuery: String? = null
 
-    ) : GetFoldersInSectionResponseModel
+    ) : GetFoldersResponseModel
 
 
 
@@ -66,6 +66,15 @@ interface FoldersApiService {
         @Header("Authorization") token : String,
         @Body request: CreateSubFolderRequestModel,
     ) : CreateSubFolderResponseModel
+
+    //get subfolders
+    @GET("/api/Folders/{parentFolderId}/{page}")
+    suspend fun getSubFolders(
+        @Header("Authorization") token : String,
+        @Path("parentFolderId") folderId: Int,
+        @Path("page") page: Int,
+        @Query("pageSize") pageSize : Int =10
+    ) : GetFoldersResponseModel
 
     //rename Folder
     @PUT("/api/Folders/{folderId}/rename")

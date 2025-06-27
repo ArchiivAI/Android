@@ -45,7 +45,6 @@ import com.example.archivai.presentation.screens.sections.components.CreateSecti
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.screens.sections.components.FabBottomSheet
-import com.example.archivai.presentation.screens.sections.components.MainBottomBar
 import com.example.archivai.presentation.screens.sections.components.RenameSectionDialog
 import com.example.archivai.presentation.screens.sections.components.SectionCard
 import com.example.archivai.presentation.screens.sections.components.SettingsBottomSheet
@@ -182,8 +181,8 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                                     onCardClick = {
                                         navController.navigate(
                                             Screens.Folders(
-                                                id = section.id,
-                                                name = section.name
+                                                sectionId = section.id,
+                                                sectionName = section.name
                                             )
                                         )
                                      }

@@ -32,12 +32,14 @@ import com.example.archivai.presentation.theme.rubik_regular
 fun FolderCard(
     folderName: String,
     noOfFolders: Int,
-    onMoreOptionsClick : () -> Unit
+    onMoreOptionsClick : () -> Unit,
+    onCardClick : () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+        .clickable { onCardClick() },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -71,7 +73,7 @@ fun FolderCard(
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Folder Count
+
                 Text(
                     text = " $noOfFolders  Folders",
                     fontSize = 12.sp,
@@ -79,7 +81,7 @@ fun FolderCard(
                     fontFamily = rubik_regular
                 )
                 Spacer(modifier = Modifier.width(12.dp))
-                // More Options Icon (Three dots)
+
                 Icon(
                     painter = painterResource(R.drawable.more_options_icon),
                     contentDescription = "More Options",
@@ -99,5 +101,5 @@ fun FolderCard(
 @Preview(showBackground = true)
 @Composable
 fun FolderCardPreview() {
-    FolderCard("Calma", 21,{})
+    FolderCard("Calma", 21,{},{})
 }

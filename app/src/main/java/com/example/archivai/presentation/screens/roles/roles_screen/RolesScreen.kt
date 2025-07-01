@@ -45,8 +45,6 @@ import com.example.archivai.presentation.screens.roles.components.DeleteRoleDial
 import com.example.archivai.presentation.screens.roles.components.RenameRoleDialog
 import com.example.archivai.presentation.screens.roles.components.RoleCard
 import com.example.archivai.presentation.screens.roles.components.RolesBottomSheet
-import com.example.archivai.presentation.screens.sections.SectionsUiEvents
-import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
 import kotlinx.coroutines.flow.collectLatest
@@ -63,11 +61,7 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                 is RolesUiEvent.ShowToast ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
             }
-
         }
-
-
-
     }
 
     Box(modifier = Modifier.fillMaxSize()) {

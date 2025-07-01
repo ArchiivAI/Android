@@ -32,6 +32,7 @@ fun EmployeeCard(
     name: String,
     email: String,
     id: Int,
+    onSettingsClicked : () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -74,7 +75,7 @@ fun EmployeeCard(
                         fontFamily = rubik_regular
                     )
                   Icon(painterResource(R.drawable.more_options_icon),
-                      contentDescription = "more options icon",modifier = Modifier.clickable{})
+                      contentDescription = "more options icon",modifier = Modifier.clickable{ onSettingsClicked()})
                 }
 
                 Text(
@@ -121,6 +122,7 @@ fun EmployeeCardPreview() {
         name = "Ahmed Ali",
         email = "ahmedali11@archival.com",
         id = 202344798,
+        {},
         modifier = Modifier.padding(16.dp)
     )
 }

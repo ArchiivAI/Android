@@ -1,5 +1,6 @@
 package com.example.archivai.data.repository.employees
 
+import android.util.Log
 import androidx.compose.ui.semantics.Role
 import com.example.archivai.data.mappers.toDomainModel
 import com.example.archivai.data.source.remote.endpoint.employees.EmployeesApiService
@@ -12,7 +13,17 @@ class EmployeesRepositoryImpl @Inject constructor(
     val  employeesApiService: EmployeesApiService) : EmployeesRepository{
     val token =  "Bearer ${SharedPrefsHelper.getToken()}"
     override suspend fun deleteEmployee(employeeId: Int): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val response = employeesApiService.deleteEmployee(token, employeeId)
+            return if (response.message.contains("deleted successfully")){
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to delete employee"))
+            }
+        }catch (e: Exception){
+            Log.e("EmployeeRepository", "Error deleting employee: ${e.message}")
+            return Result.failure(e)
+        }
     }
 
     override suspend fun getEmployees(): List<Employee> {

@@ -17,7 +17,6 @@ import com.example.archivai.presentation.theme.AppColor
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EmployeeSettingsBottomSheet(
-    onRename : ()-> Unit,
     onDelete : () -> Unit,
     onDismiss : () -> Unit
 
@@ -33,13 +32,13 @@ fun EmployeeSettingsBottomSheet(
             shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
             containerColor = Color(0xFFF6F8FF)
         ) {
-            // Rename option
-            SettingsBottomSheetItem(
-                iconRes = R.drawable.rename_icon,
-                text = "Edit information",
-                textColor = AppColor,
-                onClick = onRename
-            )
+            // Promote to manager option
+//            SettingsBottomSheetItem(
+//                iconRes = R.drawable.rename_icon,
+//                text = "Promote to manager",
+//                textColor = AppColor,
+//                onClick = onRename
+//            )
             //delete option
             Spacer(modifier = Modifier.height(16.dp))
             SettingsBottomSheetItem(

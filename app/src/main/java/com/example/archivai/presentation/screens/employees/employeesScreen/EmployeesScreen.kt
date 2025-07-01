@@ -1,11 +1,12 @@
 package com.example.archivai.presentation.screens.employees.employeesScreen
 
 
+import EmployeeSettingsBottomSheet
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,11 +20,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,14 +37,27 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
+import com.example.archivai.presentation.screens.employees.components.DeleteEmployeeDialog
 import com.example.archivai.presentation.screens.employees.components.EmployeeCard
-import com.example.archivai.presentation.screens.roles.components.RoleCard
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel = hiltViewModel()) {
     val state by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collectLatest { event ->
+            when(event) {
+                is EmployeesUiEvent.ShowToast ->
+                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -128,11 +144,39 @@ fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel =
                         ) {
                             items(state.employees) { employee ->
                                 val name = employee.firstName + " " + employee.lastName
-                                EmployeeCard(name, employee.email, employee.id)
+                                EmployeeCard(name, employee.email, employee.id
+                                , onSettingsClicked = {
+                                    viewModel.showSettingsBottomSheet()
+                                        viewModel.selectEmployee(employee)
+                                    }
+                                )
                             }
 
 
                         }
+                        if (state.isSettingsBottomSheetVisible){
+                            EmployeeSettingsBottomSheet(
+                                onDelete = {
+                                    viewModel.showDeleteDialog()
+                                    viewModel.hideSettingsBottomSheet()
+                                },
+                                onDismiss = {
+                                    viewModel.hideSettingsBottomSheet()
+                                }
+                            )
+                        }
+                        if (state.isDeleteBottomSheetVisible){
+                            DeleteEmployeeDialog(
+                                onConfirm = {
+                                    viewModel.deleteEmployee(employeeId = state.selectedEmployee!!.id)
+                                    viewModel.hideDeleteDialog()
+                                },
+                                onDismiss = {
+                                    viewModel.hideDeleteDialog()
+                                }
+                            )
+                        }
+
                     }
                 }
             }

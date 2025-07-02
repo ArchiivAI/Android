@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.ui.semantics.Role
 import com.example.archivai.data.mappers.toDomainModel
 import com.example.archivai.data.source.remote.endpoint.employees.EmployeesApiService
+import com.example.archivai.data.source.remote.requestModels.employees.AddEmployeeRequestModel
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.repository.employees.EmployeesRepository
@@ -35,9 +36,30 @@ class EmployeesRepositoryImpl @Inject constructor(
         firstName: String,
         lastName: String,
         email: String,
-        roles: List<Role>
+        roleIds: List<Int>
     ): Result<Unit> {
-        TODO("Not yet implemented")
+        try {
+            val request = AddEmployeeRequestModel(
+                email = email,
+                firstName = firstName,
+                lastName = lastName,
+                roles = roleIds
+            )
+            employeesApiService.addEmployee(
+                token,
+               request
+            ).let { response ->
+                return if (response.message.contains("added successfully")) {
+                    Result.success(Unit)
+                } else {
+                    Result.failure(Exception("Failed to add employee"))
+                }
+            }
+
+        }catch (e: Exception){
+            Log.e("EmployeeRepository", "Error adding employee: ${e.message}")
+            return Result.failure(e)
+        }
     }
 
     override suspend fun updateEmployee(

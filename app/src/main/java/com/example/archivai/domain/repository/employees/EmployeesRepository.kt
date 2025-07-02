@@ -9,7 +9,7 @@ interface EmployeesRepository {
 
     suspend fun getEmployees(): List<Employee>
 
-    suspend fun addEmployee(firstName: String , lastName : String, email: String , roles : List<Role>): Result<Unit>
+    suspend fun addEmployee(firstName: String , lastName : String, email: String , roleIds : List<Int>): Result<Unit>
 
     suspend fun updateEmployee(
         employeeId: Int,

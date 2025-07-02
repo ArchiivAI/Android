@@ -62,7 +62,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is SectionsUiEvents.ShowToast ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
 
@@ -83,7 +83,8 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 48.dp, horizontal = 24.dp)
+                .padding(top = 36.dp)
+                .padding(horizontal = 8.dp)
         ) {
             // Header row
             Row(
@@ -185,7 +186,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                                                 sectionName = section.name
                                             )
                                         )
-                                     }
+                                    }
                                 )
                             }
                         }
@@ -280,7 +281,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
             ) {
                 DeleteSectionDialog(
                     onDismiss = { viewModel.hideDeleteDialog() },
-                    onConfirm = {viewModel.deleteSection(state.selectedSection!!.id)}
+                    onConfirm = { viewModel.deleteSection(state.selectedSection!!.id) }
                 )
             }
 

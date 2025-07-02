@@ -20,6 +20,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,7 +34,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
@@ -54,6 +58,21 @@ fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel =
                 is EmployeesUiEvent.ShowToast ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    DisposableEffect(navBackStackEntry) {
+        val lifecycle = navBackStackEntry?.lifecycle
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                viewModel.getEmployees()
+            }
+        }
+        lifecycle?.addObserver(observer)
+
+        onDispose {
+            lifecycle?.removeObserver(observer)
         }
     }
 

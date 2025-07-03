@@ -1,6 +1,5 @@
 package com.example.archivai.data.di.auth
 
-import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.auth.AuthApiService
 import com.example.archivai.data.utils.SharedPrefsHelper
 import dagger.Module
@@ -10,6 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -19,7 +19,6 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkhttp(): OkHttpClient {
-
         return OkHttpClient.Builder()
             .addInterceptor { chain ->
                 val token = SharedPrefsHelper.getToken()
@@ -30,28 +29,26 @@ object NetworkModule {
                 if (!token.isNullOrBlank()) {
                     request.addHeader("Authorization", "Bearer $token")
                 }
-
-
                 chain.proceed(request.build())
-
-
-
             }.build()
-
     }
 
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl("https://archivai-backend.azurewebsites.net")
         .addConverterFactory(GsonConverterFactory.create())
+        .client(
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .build()
+        )
         .build()
-
 
     @Provides
     @Singleton
     fun
             provideAuthApiService(retrofit: Retrofit): AuthApiService =
         retrofit.create(AuthApiService::class.java)
-
 }

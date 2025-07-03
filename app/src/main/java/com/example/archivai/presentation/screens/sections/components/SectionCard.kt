@@ -51,7 +51,8 @@ fun SectionCard(sectionName: String, noOfFolders: Int?, onMoreOptionsClick: () -
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1F)
             ) {
                 // Folder Icon
                 Image(

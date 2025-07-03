@@ -108,11 +108,13 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Activity Log Card
-                ActivityLogCard(
-                    name = "Ahmed ",
-                    body = "added File in Insider Insider Insider"
-                )
+                state.latestActivityLog?.let { log ->
+                    ActivityLogCard(
+                        userImage = log.userImage,
+                        body = log.message,
+                        date = log.date
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 

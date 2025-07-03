@@ -3,13 +3,11 @@ package com.example.archivai.presentation.screens.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.archivai.domain.usecases.activity_logs.GetLatestActivityLogUseCase
 import com.example.archivai.domain.usecases.home.GetDocsUseCase
 import com.example.archivai.domain.usecases.home.GetQuickAccessSectionsUseCase
 import com.example.archivai.domain.usecases.home.GetStorageUseCase
 import com.example.archivai.domain.usecases.home.GetUserDetails
-import com.example.archivai.domain.usecases.sections.GetSectionsUseCase
-import com.example.archivai.presentation.screens.roles.roles_screen.RolesUiState
-import com.example.archivai.presentation.screens.sections.SectionsUiEvents
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +20,8 @@ class HomeViewModel @Inject constructor(
     private val getDocsUseCase: GetDocsUseCase,
     private val getStorageUsedUseCase: GetStorageUseCase,
     private val getUserDetailsUseCase: GetUserDetails,
-    private val getQuickAccessSectionsUseCase: GetQuickAccessSectionsUseCase
+    private val getQuickAccessSectionsUseCase: GetQuickAccessSectionsUseCase,
+    private val getLatestActivityLogUseCase: GetLatestActivityLogUseCase
 ) : ViewModel(){
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
@@ -34,6 +33,7 @@ class HomeViewModel @Inject constructor(
         getUserName()
         getUserPic()
         getQuickAccessSections()
+        getLatestActivityLog()
     }
     fun getQuickAccessSections(){
         viewModelScope.launch {
@@ -57,6 +57,25 @@ class HomeViewModel @Inject constructor(
         }
 
 
+    }
+
+    fun getLatestActivityLog(){
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val latestLog = getLatestActivityLogUseCase.invoke()
+                Log.d("ViewModel", "Latest activity log fetched: $latestLog")
+                _uiState.value = _uiState.value.copy(isLoading = false,
+                    latestActivityLog = latestLog
+                )
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Failed to fetch latest activity log", e)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "An unexpected error occurred"
+                )
+            }
+        }
     }
 
     fun getDocs(){

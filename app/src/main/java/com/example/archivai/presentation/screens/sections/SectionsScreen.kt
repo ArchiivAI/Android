@@ -174,7 +174,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                             items(state.sections) { section ->
                                 SectionCard(
                                     section.name,
-                                    section.foldersCount,
+                                    section.numberOfFolders,
                                     onMoreOptionsClick = {
                                         viewModel.selectSection(section)
                                         viewModel.showSettingsBottomSheet()

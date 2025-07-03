@@ -1,7 +1,7 @@
 package com.example.archivai.presentation.screens.home
 
+import com.example.archivai.domain.entities.ActivityLog
 import com.example.archivai.domain.entities.QuickAccessSection
-import com.example.archivai.domain.entities.Section
 
 data class HomeUiState (
     val isLoading : Boolean = false,
@@ -14,5 +14,6 @@ data class HomeUiState (
     val excelPercentage: Float= 0f,
     val pdfPercentage: Float= 0f,
     val imageUrl : String? = null,
-    val quickAccessSections : List<QuickAccessSection>? = emptyList()
+    val quickAccessSections : List<QuickAccessSection>? = emptyList(),
+    val latestActivityLog : ActivityLog? = null,
 )

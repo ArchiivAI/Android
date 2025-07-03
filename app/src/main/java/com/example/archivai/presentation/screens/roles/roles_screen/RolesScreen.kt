@@ -153,7 +153,8 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
                             contentPadding = PaddingValues(bottom = 30.dp)
                         ) {
                             items(state.roles) { role ->
-                                RoleCard(role.id, role.name, 
+                                RoleCard(role.id, role.name,
+                                    onCardClick = {navController.navigate(Screens.RoleProfile)},
                                     onMoreOptionsClick =
                                         {
                                             viewModel.selectedRole(role)

@@ -21,6 +21,12 @@ sealed class Screens {
     data object ForgetPassword : Screens()
 
     @Serializable
+    data object RoleProfile : Screens()
+
+    @Serializable
+    data object EmployeeProfile : Screens()
+
+    @Serializable
     data class NewPassword(val email : String,val  otp : String) : Screens()
 
     @Serializable

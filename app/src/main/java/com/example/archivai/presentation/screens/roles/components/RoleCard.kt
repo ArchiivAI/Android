@@ -1,6 +1,7 @@
 package com.example.archivai.presentation.screens.roles.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -32,11 +33,13 @@ import androidx.compose.ui.unit.dp
 import com.example.archivai.presentation.theme.AppColor
 
 @Composable
-fun RoleCard(id : Int , name : String,onMoreOptionsClick: () -> Unit) {
+fun RoleCard(id : Int , name : String,onMoreOptionsClick: () -> Unit , onCardClick : () -> Unit ) {
     Card(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onCardClick() }
+        ,
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -89,7 +92,8 @@ fun RoleCardPreview() {
     MaterialTheme {
         RoleCard(
             name = "HR", id = 225,
-            onMoreOptionsClick = TODO(),
+            onMoreOptionsClick = {  },
+            onCardClick = { /* Handle card click */ }
         )
     }
 }

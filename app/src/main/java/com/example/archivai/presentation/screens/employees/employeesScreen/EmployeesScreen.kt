@@ -163,7 +163,9 @@ fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel =
                         ) {
                             items(state.employees) { employee ->
                                 val name = employee.firstName + " " + employee.lastName
-                                EmployeeCard(name, employee.email, employee.id
+                                EmployeeCard(name, employee.email, employee.id,
+                                    employee.imageUrl.toString(),
+                                    onCardClicked = {navController.navigate(Screens.EmployeeProfile)}
                                 , onSettingsClicked = {
                                     viewModel.showSettingsBottomSheet()
                                         viewModel.selectEmployee(employee)

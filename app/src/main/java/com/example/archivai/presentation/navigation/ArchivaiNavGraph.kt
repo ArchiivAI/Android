@@ -8,6 +8,7 @@ import com.example.archivai.presentation.screens.SplashScreen.splashScreenRoute
 import com.example.archivai.presentation.screens.activity_log.activityLogScreenRoute
 import com.example.archivai.presentation.screens.contact_us.contactUsScreenRoute
 import com.example.archivai.presentation.screens.employees.add_new_employee.addNewEmployeeScreenRoute
+import com.example.archivai.presentation.screens.employees.employee_profile.employeeProfileScreenRoute
 import com.example.archivai.presentation.screens.employees.employeesScreen.employeesScreenRoute
 import com.example.archivai.presentation.screens.folders.foldersScreenRoute
 import com.example.archivai.presentation.screens.forget_password.forget_password.forgetPasswordScreenRoute
@@ -18,6 +19,7 @@ import com.example.archivai.presentation.screens.home.homeScreenRoute
 import com.example.archivai.presentation.screens.login_screen.loginScreenRoute
 import com.example.archivai.presentation.screens.profile.profileScreenRoute
 import com.example.archivai.presentation.screens.roles.add_new_role.addNewRolesScreenRoute
+import com.example.archivai.presentation.screens.roles.role_profile.roleProfileScreenRoute
 import com.example.archivai.presentation.screens.roles.roles_screen.rolesScreenRoute
 import com.example.archivai.presentation.screens.sections.sectionsScreenRoute
 
@@ -42,6 +44,8 @@ fun ArchivaiNavGraph(navController: NavHostController) {
         sectionsScreenRoute(navController)
         splashScreenRoute(navController)
         otpVerifyScreenRoute(navController)
+        roleProfileScreenRoute(navController)
+        employeeProfileScreenRoute(navController)
 
 
 

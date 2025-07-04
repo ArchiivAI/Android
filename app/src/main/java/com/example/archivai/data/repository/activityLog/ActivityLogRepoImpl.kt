@@ -5,7 +5,7 @@ import com.example.archivai.data.source.remote.endpoint.activity_logs.ActivityLo
 import com.example.archivai.data.source.remote.responseModels.activity_logs.toDomain
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.ActivityLog
-import com.example.archivai.domain.repository.ActivityLogRepository
+import com.example.archivai.domain.repository.activity_log.ActivityLogRepository
 
 class ActivityLogRepoImpl(
     private val activityLogApiService: ActivityLogsApiService, ) : ActivityLogRepository {

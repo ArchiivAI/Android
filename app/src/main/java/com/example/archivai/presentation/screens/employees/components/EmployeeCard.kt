@@ -66,7 +66,7 @@ fun EmployeeCard(
         ) {
             Log.d("EmployeeCard", "Image URL: $image")
             AsyncImage(
-                model = image .ifEmpty { R.drawable.image_placeholder },
+                model = image.replace(" ", "%20"),
                 contentDescription = "Profile Picture",
                 modifier = Modifier
                     .size(48.dp)

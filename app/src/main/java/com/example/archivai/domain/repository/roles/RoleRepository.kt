@@ -10,7 +10,7 @@ interface RoleRepository {
 
     suspend fun renameRole(roleId: Int , newName: String) : Result<Unit>
 
-    suspend fun createRole(roleName: String): Result<Unit>
+    suspend fun createRole(roleName: String,employeeIds : List<Int>): Result<Unit>
 
     suspend fun getEmployeesInRole(roleId: Int): Result<List<Employee>>
 

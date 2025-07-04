@@ -2,7 +2,7 @@ package com.example.archivai.data.di.activity_log
 
 import com.example.archivai.data.repository.activityLog.ActivityLogRepoImpl
 import com.example.archivai.data.source.remote.endpoint.activity_logs.ActivityLogsApiService
-import com.example.archivai.domain.repository.ActivityLogRepository
+import com.example.archivai.domain.repository.activity_log.ActivityLogRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

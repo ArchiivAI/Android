@@ -1,0 +1,56 @@
+package com.example.archivai.presentation.screens.roles.components
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.archivai.domain.entities.Employee
+import com.example.archivai.presentation.theme.AppColor
+
+@Composable
+fun EmployeeChip(
+    employee: Employee,
+    onRemove: () -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .clip(RoundedCornerShape(16.dp))
+            .background(AppColor.copy(alpha = 0.1f))
+    ) {
+        Row(
+            modifier = Modifier.padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "${employee.firstName} ${employee.lastName}",
+                fontSize = 14.sp,
+                color = Color.Black
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Icon(
+                imageVector = Icons.Default.Close,
+                contentDescription = "Remove employee",
+                modifier = Modifier
+                    .size(16.dp)
+                    .clickable { onRemove() },
+                tint = Color.Black
+            )
+        }
+    }
+}

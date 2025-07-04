@@ -1,4 +1,4 @@
-package com.example.archivai.domain.repository
+package com.example.archivai.domain.repository.activity_log
 
 import com.example.archivai.domain.entities.ActivityLog
 

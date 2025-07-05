@@ -1,4 +1,11 @@
 package com.example.archivai.domain.usecases.sections
 
-class GetSectionRolePermissionUseCase {
+import com.example.archivai.domain.repository.sections.SectionsRepository
+import javax.inject.Inject
+
+class GetSectionRolePermissionUseCase @Inject constructor(
+    private val sectionRepository: SectionsRepository
+) {
+    suspend operator fun invoke(sectionId: Int, roleId: Int) =
+        sectionRepository.getRolePermissionsInSection(sectionId, roleId)
 }

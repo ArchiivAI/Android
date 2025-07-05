@@ -4,11 +4,9 @@ import android.util.Log
 import com.example.archivai.data.mappers.toDomain
 import com.example.archivai.data.source.remote.requestModels.sections.CreateSectionRequestModel
 import com.example.archivai.data.source.remote.requestModels.sections.RenameRequestModel
-import com.example.archivai.data.source.remote.responseModels.sections.CreateSectionResponseModel
-import com.example.archivai.data.source.remote.responseModels.sections.DeleteSectionResponseModel
-import com.example.archivai.data.source.remote.responseModels.sections.GetSectionDetailsResponseModel
-import com.example.archivai.data.source.remote.responseModels.sections.RenameSectionResponseModel
 import com.example.archivai.data.source.remote.endpoint.sections.SectionsApiService
+import com.example.archivai.data.source.remote.requestModels.sections.SectionPermissionsDto
+import com.example.archivai.data.source.remote.requestModels.sections.UpdateSectionPermissionsRequestModel
 import com.example.archivai.data.utils.SharedPrefsHelper
 import com.example.archivai.domain.entities.Section
 import com.example.archivai.domain.repository.sections.SectionsRepository
@@ -70,11 +68,85 @@ class SectionsRepositoryImpl @Inject constructor(private val apiService: Section
         }
     }
 
-    override suspend fun updateRoleInSectionPermissions(
+    override suspend fun getRolePermissionsInSection(
+        sectionId: Int,
+        roleId: Int
+    ): List<Int> {
+        try {
+            val response =  apiService.getSectionPermissionsByRole(token, roleId, sectionId)
+            Log.d("rolePermissions"," $response")
+           return response
+        } catch (e: Exception) {
+            Log.e("SectionsRepository", "Error fetching role permissions in section: ${e.message}")
+            return emptyList()
+        }
+    }
+
+    override suspend fun updateRoleSectionPermissions(
         roleId: Int,
         sectionId: Int,
-        permissions: List<String>
-    ): Boolean {
-        TODO("Not yet implemented")
+        sectionActions: List<Int>
+    ): Result<Unit> {
+        return try {
+            val request = UpdateSectionPermissionsRequestModel(
+                entityId = sectionId,
+                roleId = roleId,
+                sectionPermissionsDto = SectionPermissionsDto(
+                    sectionActions = sectionActions
+                ))
+            Log.d("SectionRepositoryImpl", "Request to update role permissions: $request")
+
+            val response = apiService.updateSectionPermissionsByRole(token, request)
+            if (response.message.contains("Permissions updated successfully")) {
+                Log.d("SectionsRepository", "Role permissions updated successfully in section $sectionId for role $roleId")
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to update role permissions"))
+            }
+        } catch (e: Exception) {
+            Log.e("SectionsRepository", "Error updating role permissions in section: ${e.message}")
+            Result.failure(e)
+        }
     }
+
+    override suspend fun getUserSectionPermissions(
+        userId: Int,
+        sectionId: Int
+    ): List<Int> {
+        return try {
+            val response = apiService.getSectionPermissionsByUser(token, userId, sectionId)
+            response
+        } catch (e: Exception) {
+            Log.e("SectionsRepository", "Error fetching user $userId permissions in section $sectionId: ${e.message}")
+            emptyList()
+        }
+
+    }
+
+    override suspend fun updateUserSectionPermissions(
+        userId: Int,
+        sectionId: Int,
+        sectionActions: List<Int>
+    ): Result<Unit> {
+        return try {
+            val request = UpdateSectionPermissionsRequestModel(
+                entityId = sectionId,
+                userId = userId,
+                sectionPermissionsDto = SectionPermissionsDto(
+                    sectionActions = sectionActions
+                ))
+            Log.d("SectionRepositoryImpl", "Request to update user permissions: $request")
+            val response = apiService.updateSectionPermissionsByUser(token, request)
+            if (response.message.contains("Permissions updated successfully")) {
+                Result.success(Unit)
+            } else {
+                Result.failure(Exception("Failed to update role permissions"))
+            }
+        } catch (e: Exception) {
+            Log.e("SectionsRepository", "Error updating user $userId permissions in section $sectionId: ${e.message}")
+            Log.d("body","error body: ${e.localizedMessage}")
+            Result.failure(e)
+        }
+    }
+
 }

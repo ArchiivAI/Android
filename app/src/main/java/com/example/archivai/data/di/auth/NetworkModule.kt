@@ -33,6 +33,7 @@ object NetworkModule {
             }.build()
     }
 
+
     @Provides
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit.Builder()

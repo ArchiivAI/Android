@@ -47,6 +47,7 @@ import com.example.archivai.presentation.screens.sections.components.DeleteSecti
 import com.example.archivai.presentation.screens.sections.components.FabBottomSheet
 import com.example.archivai.presentation.screens.sections.components.RenameSectionDialog
 import com.example.archivai.presentation.screens.sections.components.SectionCard
+import com.example.archivai.presentation.screens.sections.components.SectionPermissionDialog
 import com.example.archivai.presentation.screens.sections.components.SettingsBottomSheet
 import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.rubik_semibold
@@ -218,12 +219,24 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
         if (state.showSettingsBottomSheet) {
             SettingsBottomSheet(
                 onDismiss = { viewModel.hideSettingsBottomSheet() },
-                onEditPermissions = { /* handle with selectedSection */ },
+                onEditPermissions = {viewModel.hideSettingsBottomSheet()
+                    viewModel.showPermissionSettingsDialog() },
                 onRename = { viewModel.showRenameDialog() },
                 onDelete = { viewModel.showDeleteDialog() },
                 onViewPermittedPermissions = { /* handle with selectedSection */ }
             )
         }
+        if (state.showEditPermissionsDialog){
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.5f))
+            ) {
+            SectionPermissionDialog(
+                onDismissRequest = { viewModel.hidePermissionSettingsDialog() },
+                viewModel = viewModel
+            )
+        }}
 
         if (state.showRenameDialog) {
             viewModel.hideSettingsBottomSheet()

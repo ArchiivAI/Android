@@ -111,6 +111,10 @@ dependencies {
     //Glide
     implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
 
+    // okhttp interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+
 
 }
 kapt {

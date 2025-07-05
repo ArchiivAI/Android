@@ -5,10 +5,16 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.archivai.domain.entities.Section
+import com.example.archivai.domain.usecases.employees.GetEmployeesUseCase
+import com.example.archivai.domain.usecases.roles.GetRolesUseCase
 import com.example.archivai.domain.usecases.sections.CreateSectionUseCase
 import com.example.archivai.domain.usecases.sections.DeleteSectionUseCase
+import com.example.archivai.domain.usecases.sections.GetSectionEmployeePermissionsUseCase
+import com.example.archivai.domain.usecases.sections.GetSectionRolePermissionUseCase
 import com.example.archivai.domain.usecases.sections.GetSectionsUseCase
 import com.example.archivai.domain.usecases.sections.RenameSectionUseCase
+import com.example.archivai.domain.usecases.sections.UpdateSectionEmployeePermissionsUseCase
+import com.example.archivai.domain.usecases.sections.UpdateSectionRolePermissionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +29,13 @@ class SectionsViewModel @Inject constructor(
     val getSectionsUseCase: GetSectionsUseCase,
     val createSectionUseCase: CreateSectionUseCase,
     val deleteSectionUseCase: DeleteSectionUseCase,
-    val renameSectionUseCase: RenameSectionUseCase
+    val renameSectionUseCase: RenameSectionUseCase,
+    val getEmployeesUseCase: GetEmployeesUseCase,
+    val getRolesUseCase: GetRolesUseCase,
+    val getSectionEmployeePermissionsUseCase: GetSectionEmployeePermissionsUseCase,
+    val getSectionRolePermissionsUseCase: GetSectionRolePermissionUseCase,
+    val updateSectionEmployeePermissionsUseCase: UpdateSectionEmployeePermissionsUseCase,
+    val updateSectionRolePermissionsUseCase: UpdateSectionRolePermissionsUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SectionsUiState())
     val uiState = _uiState.asStateFlow()
@@ -107,7 +119,7 @@ class SectionsViewModel @Inject constructor(
 
     }
 
-     fun deleteSection(sectionId: Int) {
+    fun deleteSection(sectionId: Int) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
             try {
@@ -131,6 +143,114 @@ class SectionsViewModel @Inject constructor(
 
 
     }
+    fun getEmployees() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val employees = getEmployeesUseCase()
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    employees = employees
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Failed to load employees"
+                )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to load employees"))
+            }
+        }
+    }
+
+    fun getRoles() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val roles = getRolesUseCase()
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    roles = roles
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Failed to load roles"
+                )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to load roles"))
+            }
+        }
+    }
+
+    // Combined function to get both employees and roles
+    fun getEmployeesAndRoles() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val employees = getEmployeesUseCase()
+                val roles = getRolesUseCase()
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    employees = employees,
+                    roles = roles
+                )
+            } catch (e: Exception) {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "Failed to load data"
+                )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to load employees and roles"))
+            }
+        }
+    }
+
+    // Update existing functions to handle permission updates
+    fun updateEmployeePermissions(
+        sectionId: Int,
+        employeeId: Int,
+        permissions: List<Int>
+    ) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            updateSectionEmployeePermissionsUseCase(
+                sectionId = sectionId,
+                employeeId = employeeId,
+                actions = permissions
+            ).onSuccess {
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Permissions updated successfully"))
+            }.onFailure {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = it.message ?: "Failed to update permissions"
+                )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to update permissions"))
+            }
+        }
+    }
+
+    fun updateRolePermissions(
+        sectionId: Int,
+        roleId: Int,
+        permissions: List<Int>
+    ) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            updateSectionRolePermissionsUseCase(
+                sectionId = sectionId,
+                roleId = roleId,
+                actions = permissions
+            ).onSuccess {
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Permissions updated successfully"))
+            }.onFailure {
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = it.message ?: "Failed to update permissions"
+                )
+                _uiEvent.emit(SectionsUiEvents.ShowToast("Failed to update permissions"))
+            }
+        }
+    }
 
 
     fun selectSection(section: Section) {
@@ -143,6 +263,14 @@ class SectionsViewModel @Inject constructor(
 
     fun hideSettingsBottomSheet() {
         _uiState.value = _uiState.value.copy(showSettingsBottomSheet = false)
+    }
+
+    fun showPermissionSettingsDialog() {
+        _uiState.value = _uiState.value.copy(showEditPermissionsDialog = true)
+    }
+
+    fun hidePermissionSettingsDialog() {
+        _uiState.value = _uiState.value.copy(showEditPermissionsDialog = false)
     }
 
     fun showFabBottomSheet() {

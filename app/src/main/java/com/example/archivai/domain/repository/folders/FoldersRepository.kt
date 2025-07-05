@@ -1,6 +1,7 @@
 package com.example.archivai.domain.repository.folders
 
 import com.example.archivai.domain.entities.Employee
+import com.example.archivai.domain.entities.File
 import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.entities.Role
 
@@ -15,6 +16,8 @@ interface FoldersRepository {
     ): Result<Unit>
 
     suspend fun createFolderInSection(sectionId: Int, folderName: String): Result<Unit>
+
+    suspend fun getFilesInFolder(folderId: Int): List<File>
 
     suspend fun renameFolder(name : String , folderId : Int): Result<Unit>
 

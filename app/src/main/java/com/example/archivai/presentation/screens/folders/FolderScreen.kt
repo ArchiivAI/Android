@@ -1,5 +1,6 @@
 package com.example.archivai.presentation.screens.folders
 
+import android.R.attr.fontFamily
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -24,11 +25,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
+import com.example.archivai.domain.models.files.FileType
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.folders.components.CreateFolderDialog
+import com.example.archivai.presentation.screens.folders.components.FileCard
 import com.example.archivai.presentation.screens.folders.components.FolderCard
 import com.example.archivai.presentation.screens.folders.components.FolderSettingsBottomSheet
 import com.example.archivai.presentation.screens.folders.components.RenameFolderDialog
+import com.example.archivai.presentation.screens.folders.utils.FileOpener
 import com.example.archivai.presentation.screens.sections.components.CustomFloatingActionButton
 import com.example.archivai.presentation.screens.sections.components.DeleteSectionDialog
 import com.example.archivai.presentation.theme.AppColor
@@ -46,12 +50,16 @@ fun FoldersScreen(
     viewModel: FolderViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val fileOpener = remember { FileOpener(context) }
     var folderName by remember { mutableStateOf("") }
     var newFolderName by remember { mutableStateOf("") }
 
     val state by viewModel.uiState.collectAsState()
     LaunchedEffect(Unit) {
         viewModel.getFolders(sectionId, folderId)
+        folderId?.let {
+            viewModel.getFiles(it)
+        }
     }
 
     LaunchedEffect(true) {
@@ -122,7 +130,6 @@ fun FoldersScreen(
                 )
             }
 
-            // Content Area
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -158,9 +165,9 @@ fun FoldersScreen(
                         }
                     }
 
-                    state.folders!!.isEmpty() -> {
+                    state.folders!!.isEmpty() && state.files.isEmpty() -> {
                         Text(
-                            text = "No folders available",
+                            text = "No folders or files available",
                             fontSize = 16.sp,
                             color = Color.Gray,
                             textAlign = TextAlign.Center,
@@ -172,13 +179,25 @@ fun FoldersScreen(
                         LazyColumn(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
+                            item {
+                                Text(
+                                    text = "Folders",
+                                    fontFamily = rubik_semibold,
+                                    fontSize = 18.sp,
+                                    color = AppColor,
+                                    modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
+                                )
+                            }
+
                             items(state.folders) { folder ->
                                 FolderCard(
-                                    folder.name, folder.numberOfFolders,
+                                    folder.name,
+                                    folder.numberOfFolders,
                                     onMoreOptionsClick = {
                                         viewModel.selectFolder(folder)
                                         viewModel.showSettingsBottomSheet()
-                                    }, onCardClick = {
+                                    },
+                                    onCardClick = {
                                         navController.navigate(
                                             Screens.Folders(
                                                 sectionId = sectionId,
@@ -187,10 +206,40 @@ fun FoldersScreen(
                                                 folderName = folder.name
                                             )
                                         )
-
                                     }
+                                )
+                            }
 
+                            // Only show Files section if there are files
+                            if (state.files.isNotEmpty()) {
+                                item {
+                                    Text(
+                                        text = "Files",
+                                        fontFamily = rubik_semibold,
+                                        fontSize = 18.sp,
+                                        color = AppColor,
+                                        modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
                                     )
+                                }
+
+                                items(state.files) { file ->
+                                    FileCard(
+                                        file.name,
+                                        file.type,
+                                        onMoreOptionsClick = { /* Handle options click */ },
+                                        onCardClick = {
+                                            val mimeType = when (file.type) {
+                                                FileType.Pdf -> "application/pdf"
+                                                FileType.Image -> "image/*"
+                                                FileType.Excel -> "application/vnd.ms-excel"
+                                                FileType.Csv -> "text/csv"
+                                                FileType.Word -> "application/msword"
+                                                else -> null
+                                            }
+                                            fileOpener.openFile(file.path, mimeType)
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
@@ -214,7 +263,7 @@ fun FoldersScreen(
                 onCreateFolderClick = { viewModel.showCreateFolderDialog() }
             )
         }
-        if(state.isRenameFolderDialogVisible){
+        if (state.isRenameFolderDialogVisible) {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -229,16 +278,20 @@ fun FoldersScreen(
                         newFolderName = ""
                     },
                     onConfirm = {
-                        viewModel.renameFolder(state.selectedFolder!!.folderId, newFolderName,sectionId , folderId)
+                        viewModel.renameFolder(
+                            state.selectedFolder!!.folderId,
+                            newFolderName,
+                            sectionId,
+                            folderId
+                        )
                         Log.d("screen", newFolderName)
                         newFolderName = ""
                     }
 
                 )
             }
-            
-            
-            
+
+
         }
 
 
@@ -256,7 +309,7 @@ fun FoldersScreen(
                         folderName = ""
                     },
                     onConfirm = {
-                        viewModel.createFolder(folderName, sectionId,folderId)
+                        viewModel.createFolder(folderName, sectionId, folderId)
                         Log.d("screen", sectionName)
                         folderName = ""
                     }
@@ -273,24 +326,22 @@ fun FoldersScreen(
                 DeleteSectionDialog(
                     onDismiss = { viewModel.hideDeleteFolderDialog() },
                     onConfirm = {
-                        viewModel.deleteFolder(state.selectedFolder!!.folderId,sectionId,folderId)
+                        viewModel.deleteFolder(state.selectedFolder!!.folderId, sectionId, folderId)
                     }
                 )
             }
 
         }
-        if (state.isSettingsBottomSheetVisible){
+        if (state.isSettingsBottomSheetVisible) {
             FolderSettingsBottomSheet(
-                onDismiss = {viewModel.hideSettingsBottomSheet()},
+                onDismiss = { viewModel.hideSettingsBottomSheet() },
                 onEditPermissions = {},
-                onRename = {viewModel.showRenameFolderDialog()},
-                onDelete = { viewModel.showDeleteFolderDialog()},
+                onRename = { viewModel.showRenameFolderDialog() },
+                onDelete = { viewModel.showDeleteFolderDialog() },
                 onMove = {},
                 onMakeCopy = {},
                 onViewPermittedPermissions = {}
             )
-
-
 
 
         }
@@ -301,6 +352,10 @@ fun FoldersScreen(
 @Composable
 fun FolderScreenPreview() {
     FoldersScreen(
-        rememberNavController(), sectionName = "Demo", sectionId = 1, folderId = 6, folderName = "Demo Folder"
+        rememberNavController(),
+        sectionName = "Demo",
+        sectionId = 1,
+        folderId = 6,
+        folderName = "Demo Folder"
     )
 }

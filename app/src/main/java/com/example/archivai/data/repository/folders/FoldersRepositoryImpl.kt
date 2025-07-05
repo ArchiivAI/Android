@@ -10,6 +10,8 @@ import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.entities.Role
 import com.example.archivai.domain.repository.folders.FoldersRepository
+import com.example.archivai.data.source.remote.responseModels.folders.GetFilesResponseModel
+import com.example.archivai.domain.entities.File
 import javax.inject.Inject
 
 class FoldersRepositoryImpl @Inject constructor(
@@ -43,6 +45,23 @@ class FoldersRepositoryImpl @Inject constructor(
             "FoldersRepositoryImpl",
             "Fetched folders: ${apiService.getFoldersInSection(token, folderId, 1)}"
         )
+    }
+
+    override suspend fun getFilesInFolder(folderId: Int): List<File> {
+        Log.d("FilesRepo", " ENTERED getFilesInFolder for folderId=$folderId") // Add this first
+
+        return try {
+            Log.d("FilesRepo", " Using token: ${token.take(5)}...")
+            val response = apiService.getFiles(token, folderId, page = 1)
+            Log.d("FilesRepo", " Raw API response: $response")
+
+            val files = response.toDomainList()
+            Log.d("FilesRepo", " Fetched ${files.size} files")
+            files
+        } catch (e: Exception) {
+            Log.e("FilesRepo", " Error fetching files", e)
+            emptyList()
+        }
     }
 
     override suspend fun createSubFolderInFolder(
@@ -88,6 +107,7 @@ class FoldersRepositoryImpl @Inject constructor(
             return Result.failure(e)
         }
     }
+
 
     override suspend fun renameFolder(
         name: String,

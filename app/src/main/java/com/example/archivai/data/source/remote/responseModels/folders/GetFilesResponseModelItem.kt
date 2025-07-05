@@ -1,21 +1,20 @@
-package com.example.archivai.domain.entities
+package com.example.archivai.data.source.remote.responseModels.folders
 
-import com.example.archivai.domain.models.files.FileType
-
-data class File(
+data class GetFilesResponseModelItem(
     val createdBy: Int,
     val currentVersion: Int,
     val folderId: Int,
     val id: Int,
     val lastModifiedDate: String,
     val locked: Boolean,
-    val lockedBy: Any? = null,
+    val lockedBy: Any,
+    val metadata: Metadata,
     val name: String,
     val ocrText: List<Any>,
     val path: String,
     val relativePath: String,
     val size: Int,
-    val type: FileType,
+    val type: Int,
     val uploadDate: String,
     val versions: List<Any>
 )

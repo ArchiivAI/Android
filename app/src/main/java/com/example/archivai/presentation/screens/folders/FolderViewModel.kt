@@ -7,6 +7,7 @@ import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.usecases.folders.CreateFolderUseCase
 import com.example.archivai.domain.usecases.folders.CreateSubFolderUseCase
 import com.example.archivai.domain.usecases.folders.DeleteFolderUseCase
+import com.example.archivai.domain.usecases.folders.GetFilesUseCase
 import com.example.archivai.domain.usecases.folders.GetFolderInFolderUseCase
 import com.example.archivai.domain.usecases.folders.GetFoldersInSectionUseCase
 import com.example.archivai.domain.usecases.folders.RenameFolderUseCase
@@ -26,7 +27,8 @@ class FolderViewModel @Inject constructor(
     private val createFolderUseCase: CreateFolderUseCase,
     private val deleteFolderUseCase: DeleteFolderUseCase,
     private val renameFolderUseCase: RenameFolderUseCase,
-    private val createSubFolderUseCase: CreateSubFolderUseCase
+    private val createSubFolderUseCase: CreateSubFolderUseCase,
+    private val getFilesUseCase: GetFilesUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FolderUiState())
@@ -59,13 +61,33 @@ class FolderViewModel @Inject constructor(
         }
     }
 
+    fun getFiles(folderId: Int) {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            try {
+                val files = getFilesUseCase(folderId)
+                Log.d("ViewModel", "Fetched files: $files for folderId=$folderId")
+                _uiState.value = _uiState.value.copy(isLoading = false, files = files)
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Failed to fetch files", e)
+                _uiState.value = _uiState.value.copy(
+                    isLoading = false,
+                    error = e.message ?: "An unexpected error occurred"
+                )
+            }
+        }
+
+    }
+
+
     fun createFolder(folderName: String, sectionId: Int, folderId: Int?) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
 
             val result = if (folderId == null) {
                 createFolderUseCase(folderName, sectionId)
-            } else { createSubFolderUseCase(folderName, folderId)
+            } else {
+                createSubFolderUseCase(folderName, folderId)
             }
 
             result.onSuccess {

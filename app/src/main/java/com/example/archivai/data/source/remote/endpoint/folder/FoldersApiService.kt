@@ -8,6 +8,7 @@ import com.example.archivai.data.source.remote.responseModels.folders.DeleteFold
 import com.example.archivai.data.source.remote.responseModels.folders.GetAllFoldersResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.GetFoldersResponseModel
 import com.example.archivai.data.source.remote.requestModels.folders.RenameFolderRequestModel
+import com.example.archivai.data.source.remote.responseModels.folders.GetFilesResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.RenameFolderResponseModel
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -66,6 +67,16 @@ interface FoldersApiService {
         @Header("Authorization") token : String,
         @Body request: CreateSubFolderRequestModel,
     ) : CreateSubFolderResponseModel
+
+    //get files in a folder
+    @GET("/api/Files/folder/{folderId}")
+    suspend fun getFiles(
+        @Header("Authorization") token : String,
+        @Path("folderId") folderId: Int,
+        @Query("page") page: Int = 1,
+        @Query("pageSize") pageSize : Int =10,
+        @Query("searchQuery") searchQuery: String? = null
+    ) : GetFilesResponseModel
 
     //get subfolders
     @GET("/api/Folders/{parentFolderId}/{page}")

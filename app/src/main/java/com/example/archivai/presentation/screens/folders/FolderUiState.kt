@@ -1,5 +1,6 @@
 package com.example.archivai.presentation.screens.folder
 
+import com.example.archivai.domain.entities.File
 import com.example.archivai.domain.entities.Folder
 
 
@@ -12,5 +13,6 @@ data class FolderUiState (
     val isDeleteFolderDialogVisible : Boolean = false,
     val isSettingsBottomSheetVisible : Boolean = false,
     val isRenameFolderDialogVisible : Boolean = false,
-    val selectedFolder : Folder? = null
+    val selectedFolder : Folder? = null,
+    val files : List<File> = emptyList()
 )

@@ -10,12 +10,17 @@ import com.example.archivai.data.source.remote.responseModels.folders.GetFolders
 import com.example.archivai.data.source.remote.requestModels.folders.RenameFolderRequestModel
 import com.example.archivai.data.source.remote.responseModels.folders.GetFilesResponseModel
 import com.example.archivai.data.source.remote.responseModels.folders.RenameFolderResponseModel
+import com.example.archivai.data.source.remote.responseModels.folders.UploadFileResponseModel
+import okhttp3.MultipartBody
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -77,6 +82,14 @@ interface FoldersApiService {
         @Query("pageSize") pageSize : Int =10,
         @Query("searchQuery") searchQuery: String? = null
     ) : GetFilesResponseModel
+
+    @Multipart
+    @POST("/api/files/upload/{folderId}")
+    suspend fun uploadFile(
+        @Header("Authorization") token : String,
+        @Path("folderId") folderId: Int,
+        @Part file: MultipartBody.Part
+    ): Response<UploadFileResponseModel>
 
     //get subfolders
     @GET("/api/Folders/{parentFolderId}/{page}")

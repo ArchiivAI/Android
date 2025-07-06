@@ -10,9 +10,12 @@ import com.example.archivai.domain.entities.Employee
 import com.example.archivai.domain.entities.Folder
 import com.example.archivai.domain.entities.Role
 import com.example.archivai.domain.repository.folders.FoldersRepository
-import com.example.archivai.data.source.remote.responseModels.folders.GetFilesResponseModel
 import com.example.archivai.domain.entities.File
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import javax.inject.Inject
+import kotlin.io.extension
 
 class FoldersRepositoryImpl @Inject constructor(
     private val apiService: FoldersApiService
@@ -63,6 +66,56 @@ class FoldersRepositoryImpl @Inject constructor(
             emptyList()
         }
     }
+
+    override suspend fun uploadFile(folderId: Int, file: java.io.File): Result<Unit> {
+        return try {
+            // Detect MIME type
+            val mimeType = file.getMimeType()
+            val requestBody = file.asRequestBody(mimeType.toMediaTypeOrNull())
+
+            // Create multipart part
+            val filePart = MultipartBody.Part.createFormData(
+                name = "formFiles", // <-- change to "file" if backend expects that
+                filename = file.name,
+                body = requestBody
+            )
+
+            Log.d("UploadFile", "Uploading file: ${file.name} with MIME type: $mimeType to folder ID: $folderId")
+
+            // Call the API
+            val response = apiService.uploadFile(token,folderId, filePart)
+
+            // Handle the result
+            if (response.isSuccessful) {
+                Log.d("UploadFile", "Upload successful for ${file.name}")
+                Result.success(Unit)
+            } else {
+                val code = response.code()
+                val message = response.message()
+                val errorBody = response.errorBody()?.string()
+
+                Log.e("UploadFile", "Upload failed - Code: $code, Message: $message, ErrorBody: $errorBody")
+
+                Result.failure(Exception("Upload failed - Code: $code, Message: $message"))
+            }
+        } catch (e: Exception) {
+            Log.e("UploadFile", "Exception during upload: ${e.message}", e)
+            Result.failure(e)
+        }
+    }
+
+    private fun java.io.File.getMimeType(): String {
+        return when (extension.lowercase()) {
+            "jpg", "jpeg" -> "image/jpeg"
+            "png" -> "image/png"
+            "pdf" -> "application/pdf"
+            "doc", "docx" -> "application/msword"
+            "xls", "xlsx" -> "application/vnd.ms-excel"
+            "csv" -> "text/csv"
+            else -> "application/octet-stream"
+        }
+    }
+
 
     override suspend fun createSubFolderInFolder(
         folderId: Int,

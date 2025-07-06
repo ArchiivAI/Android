@@ -19,6 +19,9 @@ interface FoldersRepository {
 
     suspend fun getFilesInFolder(folderId: Int): List<File>
 
+    suspend fun uploadFile(folderId: Int, file: java.io.File): Result<Unit>
+
+
     suspend fun renameFolder(name : String , folderId : Int): Result<Unit>
 
     suspend fun deleteFolder(folderId: Int): Result<Unit>
@@ -26,5 +29,7 @@ interface FoldersRepository {
     suspend fun getFolderRoles(folderId: Int): Result<List<Role>>
 
     suspend fun getFolderEmployees(folderId: Int): Result<List<Employee>>
+
+
 
 }

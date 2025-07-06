@@ -11,6 +11,7 @@ import com.example.archivai.domain.usecases.folders.GetFilesUseCase
 import com.example.archivai.domain.usecases.folders.GetFolderInFolderUseCase
 import com.example.archivai.domain.usecases.folders.GetFoldersInSectionUseCase
 import com.example.archivai.domain.usecases.folders.RenameFolderUseCase
+import com.example.archivai.domain.usecases.folders.UploadFileUseCase
 import com.example.archivai.presentation.screens.folder.FolderUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -28,7 +30,8 @@ class FolderViewModel @Inject constructor(
     private val deleteFolderUseCase: DeleteFolderUseCase,
     private val renameFolderUseCase: RenameFolderUseCase,
     private val createSubFolderUseCase: CreateSubFolderUseCase,
-    private val getFilesUseCase: GetFilesUseCase
+    private val getFilesUseCase: GetFilesUseCase,
+    private val uploadFileUseCase: UploadFileUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(FolderUiState())
@@ -56,6 +59,82 @@ class FolderViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     error = e.message ?: "An unexpected error occurred"
+                )
+            }
+        }
+    }
+
+    fun uploadFiles(folderId: Int?) {
+        Log.d("FolderViewModel", "uploadFiles called with folderId: $folderId")
+
+        if (folderId == null) {
+            Log.e("FolderViewModel", "folderId is null, cannot upload files")
+            viewModelScope.launch {
+                _uiEvent.emit(FoldersUiEvent.ShowToast("Error: No folder selected"))
+            }
+            return
+        }
+
+        viewModelScope.launch {
+            Log.d("FolderViewModel", "Starting upload process...")
+            _uiState.value = _uiState.value.copy(isUploading = true)
+
+            try {
+                val filesToUpload = if (_uiState.value.capturedImage != null) {
+                    Log.d("FolderViewModel", "Uploading captured image: ${_uiState.value.capturedImage?.name}")
+                    listOf(_uiState.value.capturedImage!!)
+                } else {
+                    Log.d("FolderViewModel", "Uploading selected files: ${_uiState.value.selectedFiles.size} files")
+                    _uiState.value.selectedFiles
+                }
+
+                if (filesToUpload.isEmpty()) {
+                    Log.w("FolderViewModel", "No files to upload")
+                    _uiEvent.emit(FoldersUiEvent.ShowToast("No files selected"))
+                    return@launch
+                }
+
+                var uploadedCount = 0
+                var failedCount = 0
+
+                filesToUpload.forEach { file ->
+                    Log.d("FolderViewModel", "Uploading file: ${file.name}, size: ${file.length()} bytes")
+
+                    val result = uploadFileUseCase(folderId, file)
+                    result.onSuccess {
+                        uploadedCount++
+                        Log.d("FolderViewModel", "Successfully uploaded: ${file.name}")
+                    }.onFailure { exception ->
+                        failedCount++
+                        Log.e("FolderViewModel", "Failed to upload: ${file.name}", exception)
+                    }
+                }
+
+                // Show result toast
+                val message = when {
+                    failedCount == 0 -> "Successfully uploaded $uploadedCount file(s)"
+                    uploadedCount == 0 -> "Failed to upload all files"
+                    else -> "Uploaded $uploadedCount file(s), $failedCount failed"
+                }
+
+                Log.d("FolderViewModel", "Upload completed: $message")
+                _uiEvent.emit(FoldersUiEvent.ShowToast(message))
+
+                // Refresh files list if any uploads succeeded
+                if (uploadedCount > 0) {
+                    Log.d("FolderViewModel", "Refreshing files list...")
+                    getFiles(folderId)
+                }
+
+            } catch (e: Exception) {
+                Log.e("FolderViewModel", "Upload error", e)
+                _uiEvent.emit(FoldersUiEvent.ShowToast("Upload error: ${e.message}"))
+            } finally {
+                Log.d("FolderViewModel", "Cleaning up upload state...")
+                _uiState.value = _uiState.value.copy(
+                    isUploading = false,
+                    selectedFiles = emptyList(),
+                    capturedImage = null
                 )
             }
         }
@@ -153,6 +232,30 @@ class FolderViewModel @Inject constructor(
         }
     }
 
+    fun addSelectedFiles(files: List<File>) {
+        _uiState.value = _uiState.value.copy(
+            selectedFiles = files
+        )
+    }
+
+    fun setCapturedImage(file: File) {
+        _uiState.value = _uiState.value.copy(
+            capturedImage = file
+        )
+    }
+
+    fun clearSelectedFiles() {
+        _uiState.value = _uiState.value.copy(
+            selectedFiles = emptyList()
+        )
+    }
+
+    fun removeSelectedFile(file: File) {
+        _uiState.value = _uiState.value.copy(
+            selectedFiles = _uiState.value.selectedFiles.filter { it != file }
+        )
+    }
+
     fun selectFolder(folder: Folder) {
         _uiState.value = _uiState.value.copy(selectedFolder = folder)
     }
@@ -172,6 +275,31 @@ class FolderViewModel @Inject constructor(
     fun hideFabBottomSheet() {
         _uiState.value = _uiState.value.copy(isFabBottomSheetVisible = false)
     }
+
+    fun showFileOptionsBottomSheet() {
+        _uiState.value = _uiState.value.copy(isFileOptionsBottomSheetVisible = true)
+    }
+
+    fun hideFileOptionsBottomSheet() {
+        _uiState.value = _uiState.value.copy(isFileOptionsBottomSheetVisible = false)
+    }
+
+    fun showUploadConfirmationBottomSheet() {
+        _uiState.value = _uiState.value.copy(isUploadConfirmationBottomSheetVisible = true)
+    }
+
+    fun hideUploadConfirmationBottomSheet() {
+        _uiState.value = _uiState.value.copy(isUploadConfirmationBottomSheetVisible = false)
+    }
+
+    fun enablePhotoMode() {
+        _uiState.value = _uiState.value.copy(isPhotoMode = true)
+    }
+
+    fun disablePhotoMode() {
+        _uiState.value = _uiState.value.copy(isPhotoMode = false)
+    }
+
 
     fun showCreateFolderDialog() {
         _uiState.value = _uiState.value.copy(

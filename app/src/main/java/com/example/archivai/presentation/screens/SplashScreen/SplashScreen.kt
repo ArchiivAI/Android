@@ -1,6 +1,5 @@
 package com.example.archivai.presentation.screens.SplashScreen
 
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,9 +26,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.data.utils.SharedPrefsHelper
-import com.example.archivai.presentation.MainActivity
 import com.example.archivai.presentation.navigation.Screens
-import com.example.archivai.presentation.theme.play_fair_font
+import com.example.archivai.presentation.theme.rubik_semibold
 import kotlinx.coroutines.delay
 
 
@@ -90,7 +87,7 @@ fun SplashScreen(navController: NavController) {
                 Text(
                     text = "Welcome to ArchivAI !",
                     fontSize = 24.sp, color = Color.White,
-                    fontFamily = play_fair_font, fontStyle = FontStyle.Normal
+                    fontFamily = rubik_semibold, fontStyle = FontStyle.Normal
                 )
                 Spacer(modifier = Modifier.height(32.dp))
 

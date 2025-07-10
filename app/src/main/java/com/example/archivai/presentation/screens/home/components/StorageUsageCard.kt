@@ -17,12 +17,12 @@ import com.example.archivai.presentation.theme.rubik_bold
 import com.example.archivai.presentation.theme.rubik_regular
 
 data class StorageBreakdown(
-    val totalUsed: Float, // e.g., 120 GB
-    val totalCapacity: Float, // e.g., 300 GB
-    val wordPercentage: Float, // Percentage of total used (e.g., 30%)
-    val imagePercentage: Float, // e.g., 20%
-    val excelPercentage: Float, // e.g., 10%
-    val pdfPercentage: Float // e.g., 40%
+    val totalUsed: Float,
+    val totalCapacity: Float,
+    val wordPercentage: Float,
+    val imagePercentage: Float,
+    val excelPercentage: Float,
+    val pdfPercentage: Float
 )
 
 @Composable
@@ -57,28 +57,28 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Segmented bar for breakdown
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(8.dp)
                 .clip(RoundedCornerShape(4.dp))
         ) {
-            // Word segment (green)
+
             Box(
                 modifier = Modifier
                     .weight(breakdown.wordPercentage)
                     .fillMaxHeight()
                     .background(Color(0xFF4CAF50))
             )
-            // Image segment (purple)
+
             Box(
                 modifier = Modifier
                     .weight(breakdown.imagePercentage)
                     .fillMaxHeight()
                     .background(Color(0xFFAB47BC))
             )
-            // Excel segment (cyan)
+
             Box(
                 modifier = Modifier
                     .weight(breakdown.excelPercentage)
@@ -113,7 +113,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                 Text(text = "Word", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
-            // Image
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
@@ -125,7 +125,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                 Text(text = "Image", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
-            // Excel
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
@@ -137,7 +137,7 @@ fun StorageUsageCard(breakdown: StorageBreakdown) {
                 Text(text = "Excel", fontSize = 12.sp, color = Color.White,fontFamily = rubik_regular)
             }
 
-            // PDF
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier

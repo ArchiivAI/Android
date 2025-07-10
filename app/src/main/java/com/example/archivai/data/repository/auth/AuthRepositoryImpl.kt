@@ -1,17 +1,14 @@
 package com.example.archivai.data.repository.auth
 
-import android.content.Context
-import androidx.compose.foundation.layout.Row
-import androidx.compose.ui.platform.LocalContext
+import android.util.Log
 import com.example.archivai.data.source.remote.endpoint.auth.AuthApiService
-import com.example.archivai.domain.repository.auth.AuthRepository
 import com.example.archivai.data.source.remote.requestModels.auth.ChangePasswordRequestModel
 import com.example.archivai.data.source.remote.requestModels.auth.LoginRequestModel
 import com.example.archivai.data.source.remote.requestModels.auth.OtpVerifyRequestModel
 import com.example.archivai.data.source.remote.requestModels.auth.SendChangePasswordMailRequestModel
 import com.example.archivai.data.source.remote.responseModels.auth.LoginResponseModel
 import com.example.archivai.data.utils.SharedPrefsHelper
-import dagger.hilt.android.qualifiers.ApplicationContext
+import com.example.archivai.domain.repository.auth.AuthRepository
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
@@ -58,7 +55,8 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun changePassword(newPassword: String, email : String, otp: String): Result<Unit> {
         return try {
-            val changePasswordRequestModel = ChangePasswordRequestModel(newPassword, email, otp)
+            val changePasswordRequestModel = ChangePasswordRequestModel(email, otp, newPassword)
+            Log.d("AuthRepositoryImpl", "Changing $newPassword for email: $email with OTP: $otp")
             val response = authApiService.changePassword(changePasswordRequestModel)
             if (response.message.contains("Password changed successfully")){
                 Result.success(Unit)

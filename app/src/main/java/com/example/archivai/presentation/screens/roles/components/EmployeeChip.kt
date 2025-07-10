@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +16,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.archivai.R
 import com.example.archivai.domain.entities.Employee
 import com.example.archivai.presentation.theme.AppColor
 
@@ -31,7 +31,7 @@ fun EmployeeChip(
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(AppColor.copy(alpha = 0.1f))
+            .background(AppColor)
     ) {
         Row(
             modifier = Modifier.padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
@@ -40,17 +40,24 @@ fun EmployeeChip(
             Text(
                 text = "${employee.firstName} ${employee.lastName}",
                 fontSize = 14.sp,
-                color = Color.Black
+                color = Color.White
             )
             Spacer(modifier = Modifier.width(4.dp))
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = "Remove employee",
+            Box(
                 modifier = Modifier
-                    .size(16.dp)
+                    .size(20.dp)
+                    .clip(RoundedCornerShape(50))
+                    .background(Color.White)
                     .clickable { onRemove() },
-                tint = Color.Black
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_close),
+                    contentDescription = "Remove role",
+                    tint = AppColor,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
         }
     }
 }

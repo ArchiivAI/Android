@@ -23,16 +23,12 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,17 +44,15 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.archivai.R
-import com.example.archivai.data.source.remote.responseModels.auth.LoginResponseModel
 import com.example.archivai.data.utils.SharedPrefsHelper
-import com.example.archivai.data.utils.SharedPrefsHelper.KEY_TOKEN
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.login_screen.composables.ImageContainer
-import com.example.archivai.presentation.screens.login_screen.composables.RectangleButton
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer10
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer16
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer24
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer32
 import com.example.archivai.presentation.screens.login_screen.composables.TopText
+import com.example.archivai.presentation.theme.AppColor
 import com.example.archivai.presentation.theme.play_fair_font
 import com.example.archivai.presentation.theme.rubik_semibold
 
@@ -80,10 +74,10 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
+        Spacer32()
         TopText("Welcome To ArchivAI")
         Spacer32()
         ImageContainer(R.drawable.archive_ai_logo)
@@ -111,7 +105,16 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
                 .padding(start = 16.dp, end = 16.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF132863),
-                unfocusedBorderColor = Color(0xFF132863)
+                unfocusedBorderColor = Color(0xFF132863),
+                cursorColor = Color(0xFF132863),
+                focusedTextColor = Color(0xFF132863),
+                unfocusedTextColor = Color(0xFF132863),
+                focusedLeadingIconColor = Color(0xFF132863),
+                unfocusedLeadingIconColor = Color(0xFF132863),
+                focusedTrailingIconColor = Color(0xFF132863),
+                unfocusedTrailingIconColor = Color(0xFF132863),
+                focusedLabelColor = Color(0xFF132863),
+                unfocusedLabelColor = Color(0xFF132863)
             )
 
 
@@ -140,13 +143,23 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
                 .padding(start = 16.dp, end = 16.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF132863),
-                unfocusedBorderColor = Color(0xFF132863)
+                unfocusedBorderColor = Color(0xFF132863),
+                cursorColor = Color(0xFF132863),
+                focusedTextColor = Color(0xFF132863),
+                unfocusedTextColor = Color(0xFF132863),
+                focusedLeadingIconColor = Color(0xFF132863),
+                unfocusedLeadingIconColor = Color(0xFF132863),
+                focusedTrailingIconColor = Color(0xFF132863),
+                unfocusedTrailingIconColor = Color(0xFF132863),
+                focusedLabelColor = Color(0xFF132863),
+                unfocusedLabelColor = Color(0xFF132863)
             ),
             trailingIcon = {
                 IconButton(onClick = { viewModel.onPasswordVisibilityChanged() }) {
                     Icon(
                         imageVector = if (uiState.passwordVisible)
                             Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
+                        tint = AppColor,
                         contentDescription = null
                     )
                 }
@@ -203,7 +216,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
             if (uiState.isLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = Color.White,
                 )
             } else {
                 Text(
@@ -227,8 +240,9 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel = hiltVi
                 TextButton(onClick = { navController.navigate(Screens.ContactUs) }) {
                     Text(
                         text = "Contact us",
-                        fontSize = 16.sp,
+                        fontSize = 20.sp,
                         textDecoration = TextDecoration.Underline,
+                        fontFamily = play_fair_font,
                         color = Color(0XFF132863)
                     )
 

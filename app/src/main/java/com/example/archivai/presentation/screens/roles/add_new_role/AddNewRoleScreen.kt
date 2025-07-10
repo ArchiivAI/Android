@@ -27,6 +27,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MenuItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -79,7 +80,7 @@ fun AddNewRoleScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 48.dp, start = 24.dp, end = 24.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 24.dp)
                 .padding(bottom = 72.dp)
         ) {
             Row(
@@ -109,8 +110,7 @@ fun AddNewRoleScreen(
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // Role Name Field
@@ -123,20 +123,31 @@ fun AddNewRoleScreen(
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    BasicTextField(
-                        value = state.name,
-                        onValueChange = { viewModel.updateName(it) },
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.White, shape = RoundedCornerShape(8.dp))
                             .border(1.dp, AppColor, RoundedCornerShape(8.dp))
-                            .padding(12.dp),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        ),
-                        singleLine = true
-                    )
+                            .padding(horizontal = 12.dp, vertical = 14.dp)
+                    ) {
+                        if (state.name.isEmpty()) {
+                            Text(
+                                text = "Enter role name",
+                                color = Color.Gray,
+                                fontSize = 16.sp
+                            )
+                        }
+                        BasicTextField(
+                            value = state.name,
+                            onValueChange = { viewModel.updateName(it) },
+                            modifier = Modifier.fillMaxWidth(),
+                            textStyle = TextStyle(
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            ),
+                            singleLine = true
+                        )
+                    }
                 }
 
                 // Employee Selection
@@ -208,6 +219,14 @@ fun AddNewRoleScreen(
                                 state.availableEmployees.forEach { employee ->
                                     DropdownMenuItem(
                                         text = { Text("${employee.firstName} ${employee.lastName}") },
+                                        colors = MenuItemColors(
+                                            textColor = AppColor,
+                                            disabledTextColor = Color.Black,
+                                            leadingIconColor = AppColor,
+                                            trailingIconColor = AppColor,
+                                            disabledLeadingIconColor = AppColor,
+                                            disabledTrailingIconColor = AppColor
+                                        ),
                                         onClick = {
                                             viewModel.selectEmployee(employee)
                                         }
@@ -220,7 +239,6 @@ fun AddNewRoleScreen(
 
                 Spacer16()
 
-                // Create Role Button
                 Button(
                     onClick = { viewModel.addRole() },
                     modifier = Modifier
@@ -229,7 +247,9 @@ fun AddNewRoleScreen(
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = AppColor,
-                        contentColor = Color.White
+                        contentColor = Color.White,
+                        disabledContainerColor = Color(0xFFE0E0E0),
+                        disabledContentColor = Color.DarkGray
                     ),
                     enabled = state.name.isNotBlank() && state.selectedEmployees.isNotEmpty()
                 ) {

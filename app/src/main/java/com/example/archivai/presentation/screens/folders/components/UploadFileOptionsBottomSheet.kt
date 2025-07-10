@@ -1,92 +1,83 @@
 package com.example.archivai.presentation.screens.folders.components
 
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil3.compose.rememberAsyncImagePainter
 import com.example.archivai.R
+import com.example.archivai.presentation.theme.AppColor
+import com.example.archivai.presentation.theme.rubik_medium
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UploadFileOptionsBottomSheet(
     onDismissRequest: () -> Unit,
     onThisDeviceClick: () -> Unit,
     onTakePhotoClick: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+    ModalBottomSheet(
+        onDismissRequest = { onDismissRequest()},
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        containerColor = Color(0xFFF6F8FF)
     ) {
-        Text(
-            text = "Upload Options",
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Button(
-            onClick = { onTakePhotoClick() }, // Only call onTakePhotoClick
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Icon(
-                painter = painterResource(id = R.drawable.take_photo),
-                contentDescription = "Take photo"
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Take Photo")
-        }
-
-        // From Device Button - REMOVE onDismissRequest from here
-        Button(
-            onClick = { onThisDeviceClick() }, // Only call onThisDeviceClick
-            modifier = Modifier.fillMaxWidth(),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-                contentColor = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.this_device),
-                contentDescription = "From device"
-            )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("From Device")
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        // Cancel Button
-        OutlinedButton(
-            onClick = onDismissRequest,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Cancel")
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = rememberAsyncImagePainter(R.drawable.this_device),
+                    contentDescription = "this device",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clickable { onThisDeviceClick() }
+                )
+                Spacer(modifier = Modifier.size(6.dp))
+                Text(
+                    text = "This Device",
+                    fontFamily = rubik_medium,
+                    fontSize = 14.sp, color = AppColor
+                )
+            }
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Image(
+                    painter = painterResource(R.drawable.take_photo),
+                    contentDescription = "take photo",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clickable { onTakePhotoClick() }
+                )
+                Spacer(modifier = Modifier.size(6.dp))
+                Text(
+                    text = "Take Photo",
+                    fontFamily = rubik_medium,
+                    fontSize = 14.sp, color = AppColor
+                )
+            }
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 private fun UploadFileOptionsBottomSheetPreview() {
     UploadFileOptionsBottomSheet(
-        onDismissRequest = { },
+        onDismissRequest = {},
         onThisDeviceClick = {},
         onTakePhotoClick = {}
     )
 }
-
-
-
-
-
-

@@ -84,14 +84,15 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 36.dp)
-                .padding(horizontal = 8.dp)
+                .padding(top = 24.dp)
+                .padding(horizontal = 16.dp)
         ) {
-            // Header row
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(32.dp)
+                    .padding(horizontal = 4.dp)
             ) {
                 Text(
                     text = "Sections",
@@ -143,7 +144,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
                             Text(
                                 text = "Error loading sections",
                                 fontSize = 16.sp,
-                                color = Color.Red,
+                                color = AppColor,
                                 textAlign = TextAlign.Center
                             )
                             Spacer(modifier = Modifier.height(8.dp))
@@ -203,7 +204,7 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .padding(bottom = 56.dp)
+                .padding(bottom = 40.dp)
         )
 
         if (state.showFabBottomSheet) {
@@ -234,7 +235,8 @@ fun SectionsScreen(navController: NavController, viewModel: SectionsViewModel = 
             ) {
             SectionPermissionDialog(
                 onDismissRequest = { viewModel.hidePermissionSettingsDialog() },
-                viewModel = viewModel
+                viewModel = viewModel,
+                sectionName = state.selectedSection?.name ?: "",
             )
         }}
 

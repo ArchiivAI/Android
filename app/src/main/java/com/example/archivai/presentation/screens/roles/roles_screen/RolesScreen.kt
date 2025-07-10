@@ -87,15 +87,13 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 24.dp, horizontal = 24.dp)
-
-
+                .padding(top = 24.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(32.dp)
-                    .padding(6.dp)
+                    .padding(horizontal = 24.dp)
             ) {
                 Text(
                     text = "Roles",
@@ -120,7 +118,6 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 16.dp)
             ) {
                 when {
                     state.isLoading -> {
@@ -167,9 +164,11 @@ fun RolesScreen(navController: NavController, viewModel: RolesViewModel = hiltVi
 
                     else -> {
                         LazyColumn(
-                            modifier = Modifier.padding(vertical = 16.dp),
+                            modifier = Modifier.padding(vertical = 16.dp)
+                                .padding(horizontal = 24.dp)
+                            ,
                             verticalArrangement = Arrangement.spacedBy(4.dp),
-                            contentPadding = PaddingValues(bottom = 30.dp)
+                            contentPadding = PaddingValues(bottom = 10.dp)
                         ) {
                             items(state.roles) { role ->
                                 RoleCard(role.id, role.name,

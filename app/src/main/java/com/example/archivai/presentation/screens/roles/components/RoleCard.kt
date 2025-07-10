@@ -27,9 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.archivai.R
+import com.example.archivai.presentation.screens.login_screen.composables.Spacer10
 import com.example.archivai.presentation.theme.AppColor
 
 @Composable
@@ -50,6 +53,13 @@ fun RoleCard(id : Int , name : String,onMoreOptionsClick: () -> Unit , onCardCli
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            Icon(
+                painter = painterResource(id = R.drawable.roles_nav_unselected),
+                contentDescription = "Role Icon",
+                modifier = Modifier.size(24.dp),
+                tint = AppColor
+            )
+            Spacer10()
             Column(
                 modifier = Modifier.weight(1f)
             ) {
@@ -58,7 +68,7 @@ fun RoleCard(id : Int , name : String,onMoreOptionsClick: () -> Unit , onCardCli
                     style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                     color = AppColor // Navy Blue
                 )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(2.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = "ID : $id",

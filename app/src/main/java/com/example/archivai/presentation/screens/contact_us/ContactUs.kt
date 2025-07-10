@@ -2,7 +2,6 @@ package com.example.archivai.presentation.screens.contact_us
 
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,14 +30,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.archivai.R
 import com.example.archivai.presentation.screens.login_screen.composables.ImageContainer
 import com.example.archivai.presentation.screens.login_screen.composables.RectangleButton
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer10
-import com.example.archivai.presentation.screens.login_screen.composables.Spacer16
+import com.example.archivai.presentation.screens.login_screen.composables.Spacer24
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer32
+import com.example.archivai.presentation.screens.login_screen.composables.Spacer50
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer64
 import com.example.archivai.presentation.screens.login_screen.composables.TopText
 import com.example.archivai.presentation.theme.play_fair_font
@@ -66,15 +65,15 @@ fun ContactUsScreen(navController: NavController , viewModel: ContactUsViewModel
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
 
     ){
+        Spacer32()
         TopText("Contact With ArchivAI")
         Spacer64()
-        ImageContainer(R.drawable.chatgpt_robot_holding_loupe)
-        Spacer32()
         Spacer10()
+        ImageContainer(R.drawable.chatbot_in_smartphone)
+        Spacer50()
         OutlinedTextField(
             value = email,
             onValueChange = {email = it},
@@ -99,14 +98,21 @@ fun ContactUsScreen(navController: NavController , viewModel: ContactUsViewModel
                 .padding(start = 16.dp, end = 16.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF132863),
-                unfocusedBorderColor = Color(0xFF132863)
+                unfocusedBorderColor = Color(0xFF132863),
+                cursorColor = Color(0xFF132863),
+                focusedTextColor = Color(0xFF132863),
+                unfocusedTextColor = Color(0xFF132863),
+                focusedLeadingIconColor = Color(0xFF132863),
+                unfocusedLeadingIconColor = Color(0xFF132863),
+                focusedTrailingIconColor = Color(0xFF132863),
+                unfocusedTrailingIconColor = Color(0xFF132863),
+                focusedLabelColor = Color(0xFF132863),
+                unfocusedLabelColor = Color(0xFF132863)
             )
 
 
         )
-        Spacer16()
-
-        Spacer64()
+        Spacer24()
         RectangleButton("Send") { viewModel.sendContactEmail(email) }
 
 

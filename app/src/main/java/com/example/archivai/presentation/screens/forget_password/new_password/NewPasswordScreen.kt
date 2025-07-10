@@ -2,7 +2,6 @@ package com.example.archivai.presentation.screens.forget_password.new_password
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -42,25 +40,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
-import com.example.archivai.presentation.screens.forget_password.otp_verify.OtpVerifyUiState
 import com.example.archivai.presentation.screens.login_screen.composables.ImageContainer
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer16
 import com.example.archivai.presentation.screens.login_screen.composables.Spacer50
 import com.example.archivai.presentation.screens.login_screen.composables.TopText
 import com.example.archivai.presentation.theme.AppColor
-
-import com.example.archivai.presentation.theme.play_fair_font
 import com.example.archivai.presentation.theme.rubik_medium
 import com.example.archivai.presentation.theme.rubik_regular
-import com.example.archivai.presentation.theme.rubik_semibold
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -139,13 +131,23 @@ fun NewPasswordScreen(navController: NavController, email : String, otp : String
                 .padding(start = 16.dp, end = 16.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF132863),
-                unfocusedBorderColor = Color(0xFF132863)
+                unfocusedBorderColor = Color(0xFF132863),
+                cursorColor = Color(0xFF132863),
+                focusedTextColor = Color(0xFF132863),
+                unfocusedTextColor = Color(0xFF132863),
+                focusedLeadingIconColor = Color(0xFF132863),
+                unfocusedLeadingIconColor = Color(0xFF132863),
+                focusedTrailingIconColor = Color(0xFF132863),
+                unfocusedTrailingIconColor = Color(0xFF132863),
+                focusedLabelColor = Color(0xFF132863),
+                unfocusedLabelColor = Color(0xFF132863)
             ),
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         imageVector = if (passwordVisible)
                             Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
+                        tint = AppColor,
                         contentDescription = null
                     )
                 }
@@ -176,13 +178,23 @@ fun NewPasswordScreen(navController: NavController, email : String, otp : String
                 .padding(start = 16.dp, end = 16.dp),
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color(0xFF132863),
-                unfocusedBorderColor = Color(0xFF132863)
+                unfocusedBorderColor = Color(0xFF132863),
+                cursorColor = Color(0xFF132863),
+                focusedTextColor = Color(0xFF132863),
+                unfocusedTextColor = Color(0xFF132863),
+                focusedLeadingIconColor = Color(0xFF132863),
+                unfocusedLeadingIconColor = Color(0xFF132863),
+                focusedTrailingIconColor = Color(0xFF132863),
+                unfocusedTrailingIconColor = Color(0xFF132863),
+                focusedLabelColor = Color(0xFF132863),
+                unfocusedLabelColor = Color(0xFF132863)
             ),
             trailingIcon = {
                 IconButton(onClick = { passwordVisible = !passwordVisible }) {
                     Icon(
                         imageVector = if (passwordVisible)
                             Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff,
+                        tint = AppColor,
                         contentDescription = null
                     )
                 }
@@ -205,7 +217,7 @@ fun NewPasswordScreen(navController: NavController, email : String, otp : String
             if ( state is NewPasswordUiState.Loading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
-                    color = MaterialTheme.colorScheme.onPrimary
+                    color = Color.White
                 )
             } else {
                 Text(

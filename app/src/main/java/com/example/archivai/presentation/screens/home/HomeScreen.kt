@@ -36,9 +36,8 @@ import com.example.archivai.R
 import com.example.archivai.presentation.navigation.Screens
 import com.example.archivai.presentation.screens.activity_log.components.ActivityLogCard
 import com.example.archivai.presentation.screens.home.components.HomeTopAppBar
-import com.example.archivai.presentation.screens.sections.components.SectionCard
+import com.example.archivai.presentation.screens.home.components.QuickAccessSectionCard
 import com.example.archivai.presentation.theme.AppColor
-
 
 
 @Composable
@@ -53,7 +52,8 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 24.dp, horizontal = 16.dp)
+                .padding(top = 16.dp)
+                .padding(horizontal = 16.dp)
 
 
         ) {
@@ -71,7 +71,6 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Storage Usage Card
                 StorageUsageCard(
                     breakdown = StorageBreakdown(
                         totalUsed = state.storageUsed.toFloat(),
@@ -145,11 +144,18 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = hiltView
                     verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     items(state.quickAccessSections!!) { section ->
-                        SectionCard(
+                        QuickAccessSectionCard(
                             sectionName = section.name,
-                            noOfFolders = null,
-                            onMoreOptionsClick = {}
-                        ) {}
+                            onCardClick = {
+                                navController.navigate(
+                                    Screens.Folders(
+                                        sectionId = section.entityId,
+                                        sectionName = section.name
+                                    )
+                                )
+                            }
+
+                        )
                     }
                 }
             }

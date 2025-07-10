@@ -67,12 +67,11 @@ fun AddNewEmployeeScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collectLatest { event ->
-            when(event) {
+            when (event) {
                 is AddNewEmployeeUiEvent.ShowToast ->
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
-                is AddNewEmployeeUiEvent.NavigateBack -> {
-                    navController.popBackStack()
-                }
+
+                is AddNewEmployeeUiEvent.NavigateBack -> navController.popBackStack()
             }
         }
     }
@@ -111,91 +110,54 @@ fun AddNewEmployeeScreen(
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+                    .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+
                 Column {
                     Text(
-                        text = "Employee First Name",
+                        "Employee First Name",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = rubik_medium,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    BasicTextField(
-                        value = state.firstName,
-                        onValueChange = { viewModel.updateFirstName(it) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White, shape = RoundedCornerShape(8.dp))
-                            .border(1.dp, AppColor, RoundedCornerShape(8.dp))
-                            .padding(12.dp),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        ),
-                        singleLine = true
+                    buildHintTextField(
+                        state.firstName,
+                        "Enter first name",
+                        viewModel::updateFirstName
                     )
                 }
 
-                // Last Name Field
                 Column {
                     Text(
-                        text = "Employee Last Name",
+                        "Employee Last Name",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = rubik_medium,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    BasicTextField(
-                        value = state.lastName,
-                        onValueChange = { viewModel.updateLastName(it) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White, shape = RoundedCornerShape(8.dp))
-                            .border(1.dp, AppColor, RoundedCornerShape(8.dp))
-                            .padding(12.dp),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        ),
-                        singleLine = true
-                    )
+                    buildHintTextField(state.lastName, "Enter last name", viewModel::updateLastName)
                 }
 
-                // Email Field
                 Column {
                     Text(
-                        text = "Employee Email",
+                        "Employee Email",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = rubik_medium,
                         color = Color.Black
                     )
                     Spacer(modifier = Modifier.height(8.dp))
-                    BasicTextField(
-                        value = state.email,
-                        onValueChange = { viewModel.updateEmail(it) },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.White, shape = RoundedCornerShape(8.dp))
-                            .border(1.dp, AppColor, RoundedCornerShape(8.dp))
-                            .padding(12.dp),
-                        textStyle = TextStyle(
-                            fontSize = 16.sp,
-                            color = Color.Black
-                        ),
-                        singleLine = true
-                    )
+                    buildHintTextField(state.email, "Enter email", viewModel::updateEmail)
                 }
 
                 // Role Selection
                 Column {
                     Text(
-                        text = "Employee Role",
+                        "Employee Role",
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = rubik_medium,
@@ -203,7 +165,6 @@ fun AddNewEmployeeScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    // Selected roles chips
                     if (state.selectedRoles.isNotEmpty()) {
                         FlowRow(
                             modifier = Modifier.fillMaxWidth(),
@@ -211,16 +172,12 @@ fun AddNewEmployeeScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             state.selectedRoles.forEach { role ->
-                                RoleChip(
-                                    role = role,
-                                    onRemove = { viewModel.removeRole(role) }
-                                )
+                                RoleChip(role = role, onRemove = { viewModel.removeRole(role) })
                             }
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
 
-                    // Role dropdown
                     Box(modifier = Modifier.fillMaxWidth()) {
                         Column {
                             Box(
@@ -237,8 +194,7 @@ fun AddNewEmployeeScreen(
                                     horizontalArrangement = Arrangement.SpaceBetween
                                 ) {
                                     Text(
-                                        text = if (state.availableRoles.isEmpty()) "No roles available"
-                                        else "Select roles",
+                                        text = if (state.availableRoles.isEmpty()) "No roles available" else "Select roles",
                                         fontSize = 16.sp,
                                         color = if (state.availableRoles.isEmpty()) Color.Gray else Color.Black
                                     )
@@ -250,7 +206,6 @@ fun AddNewEmployeeScreen(
                                 }
                             }
 
-                            // Dropdown menu
                             DropdownMenu(
                                 expanded = state.isDropdownExpanded,
                                 onDismissRequest = { viewModel.toggleDropdown() },
@@ -260,7 +215,9 @@ fun AddNewEmployeeScreen(
                             ) {
                                 state.availableRoles.forEach { role ->
                                     DropdownMenuItem(
-                                        text = { Text(role.name) },
+                                        text = {
+                                            Text(role.name, color = Color.Black, fontSize = 16.sp)
+                                        },
                                         onClick = {
                                             viewModel.selectRole(role)
                                         }
@@ -273,7 +230,6 @@ fun AddNewEmployeeScreen(
 
                 Spacer16()
 
-                // Add Employee Button
                 Button(
                     onClick = { viewModel.addEmployee() },
                     modifier = Modifier
@@ -282,7 +238,9 @@ fun AddNewEmployeeScreen(
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = AppColor,
-                        contentColor = Color.White
+                        contentColor = Color.White,
+                        disabledContainerColor = Color(0xFFE0E0E0),
+                        disabledContentColor = Color.DarkGray
                     ),
                     enabled = state.firstName.isNotBlank() &&
                             state.lastName.isNotBlank() &&
@@ -290,8 +248,10 @@ fun AddNewEmployeeScreen(
                             state.selectedRoles.isNotEmpty()
                 ) {
                     if (state.isLoading) {
-                        CircularProgressIndicator(color = Color.White,
-                            modifier = Modifier.size(24.dp))
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(24.dp)
+                        )
                     } else {
                         Text(
                             text = "Add Employee",
@@ -306,10 +266,33 @@ fun AddNewEmployeeScreen(
     }
 }
 
+@Composable
+fun buildHintTextField(
+    value: String,
+    hint: String,
+    onValueChange: (String) -> Unit
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White, shape = RoundedCornerShape(8.dp))
+            .border(1.dp, AppColor, RoundedCornerShape(8.dp))
+            .padding(horizontal = 12.dp, vertical = 14.dp)
+    ) {
+        if (value.isEmpty()) {
+            Text(text = hint, color = Color.Gray, fontSize = 16.sp)
+        }
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            modifier = Modifier.fillMaxWidth(),
+            textStyle = TextStyle(fontSize = 16.sp, color = Color.Black),
+            singleLine = true
+        )
+    }
+}
 
-@Preview(
-    showBackground = true
-)
+@Preview(showBackground = true)
 @Composable
 private fun AddNewEmployeeScreenPreview() {
     AddNewEmployeeScreen(rememberNavController())

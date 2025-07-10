@@ -81,13 +81,13 @@ fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel =
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(vertical = 24.dp, horizontal = 24.dp)
+                .padding(top = 24.dp, bottom = 5.dp)
+                .padding(horizontal = 24.dp)
 
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(32.dp)
                     .padding(6.dp)
             ) {
                 Text(
@@ -111,7 +111,7 @@ fun EmployeeScreen(navController: NavController, viewModel: EmployeesViewModel =
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 16.dp)
+                    .padding(top = 12.dp)
             ) {
                 when {
                     state.isLoading -> {

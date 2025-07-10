@@ -49,6 +49,7 @@ import com.example.archivai.presentation.screens.folders.components.FolderSettin
 import com.example.archivai.presentation.screens.folders.components.RenameFolderDialog
 import com.example.archivai.presentation.screens.folders.components.UploadFileConfirmationBottomSheet
 import com.example.archivai.presentation.screens.folders.components.UploadFileOptionsBottomSheet
+import com.example.archivai.presentation.screens.folders.components.UploadTrackingBottomSheet
 import com.example.archivai.presentation.screens.folders.utils.FileOpener
 import com.example.archivai.presentation.screens.folders.utils.rememberCameraCapture
 import com.example.archivai.presentation.screens.folders.utils.rememberFilePicker
@@ -70,7 +71,8 @@ fun FoldersScreen(
 ) {
     val context = LocalContext.current
     val fileOpener = remember { FileOpener(context) }
-    var folderName by remember { mutableStateOf("") }
+    //var folderName by remember { mutableStateOf("") }
+    var folderInputName by remember { mutableStateOf("") }
     var newFolderName by remember { mutableStateOf("") }
 
     val state by viewModel.uiState.collectAsState()
@@ -119,11 +121,7 @@ fun FoldersScreen(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = if (folderName.isEmpty()) {
-                        "$sectionName folders"
-                    } else {
-                        "$folderName  folders "
-                    },
+                    text = folderName?.takeIf { it.isNotEmpty() } ?: sectionName,
                     fontFamily = rubik_semibold,
                     fontSize = 20.sp,
                     color = AppColor,
@@ -195,38 +193,43 @@ fun FoldersScreen(
                     }
 
                     else -> {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            item {
-                                Text(
-                                    text = "Folders",
-                                    fontFamily = rubik_semibold,
-                                    fontSize = 18.sp,
-                                    color = AppColor,
-                                    modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
-                                )
-                            }
 
-                            items(state.folders) { folder ->
-                                FolderCard(
-                                    folder.name,
-                                    folder.numberOfFolders,
-                                    onMoreOptionsClick = {
-                                        viewModel.selectFolder(folder)
-                                        viewModel.showSettingsBottomSheet()
-                                    },
-                                    onCardClick = {
-                                        navController.navigate(
-                                            Screens.Folders(
-                                                sectionId = sectionId,
-                                                folderId = folder.folderId,
-                                                sectionName = sectionName,
-                                                folderName = folder.name
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+
+                            if (state.folders.isNotEmpty()) {
+                                item {
+                                    Text(
+                                        text = "Folders",
+                                        fontFamily = rubik_semibold,
+                                        fontSize = 18.sp,
+                                        color = AppColor,
+                                        modifier = Modifier.padding(bottom = 8.dp, top = 8.dp),
+                                    )
+                                }
+
+                                items(state.folders) { folder ->
+                                    FolderCard(
+                                        folder.name,
+                                        folder.numberOfFolders,
+                                        onMoreOptionsClick = {
+                                            viewModel.selectFolder(folder)
+                                            viewModel.showSettingsBottomSheet()
+                                        },
+                                        onCardClick = {
+                                            navController.navigate(
+                                                Screens.Folders(
+                                                    sectionId = sectionId,
+                                                    folderId = folder.folderId,
+                                                    sectionName = sectionName,
+                                                    folderName = folder.name
+                                                )
                                             )
-                                        )
-                                    }
-                                )
+                                        }
+                                    )
+                                }
                             }
 
                             // Only show Files section if there are files
@@ -272,6 +275,7 @@ fun FoldersScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
+                .padding(bottom = 40.dp)
         )
 
         if (state.isFabBottomSheetVisible) {
@@ -324,16 +328,16 @@ fun FoldersScreen(
                     .background(Color.Black.copy(alpha = 0.5f))
             ) {
                 CreateFolderDialog(
-                    folderName = folderName,
-                    onFolderNameChange = { folderName = it },
+                    folderName = folderInputName,
+                    onFolderNameChange = { folderInputName = it },
                     onDismiss = {
                         viewModel.hideCreateFolderDialog()
-                        folderName = ""
+                        folderInputName = ""
                     },
                     onConfirm = {
-                        viewModel.createFolder(folderName, sectionId, folderId)
+                        viewModel.createFolder(folderInputName, sectionId, folderId)
                         Log.d("screen", sectionName)
-                        folderName = ""
+                        folderInputName = ""
                     }
                 )
             }
@@ -416,6 +420,12 @@ fun FoldersScreen(
                     folderId = folderId // Pass the folderId from the screen parameter
                 )
             }
+        }
+        if (state.isUploadTrackingBottomSheetVisible) {
+            UploadTrackingBottomSheet(
+                viewModel = viewModel,
+                onDismissRequest = { viewModel.hideUploadTrackingSheet() }
+            )
         }
 
     }
